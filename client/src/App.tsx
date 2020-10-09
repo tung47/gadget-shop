@@ -12,7 +12,6 @@ function App() {
       <main className="py-3">
         <Container>
           <HomeScreen />
-          <h1>Wellcome to GadgetShop</h1>
         </Container>
       </main>
       <Footer />
