@@ -7,7 +7,7 @@ import Footer from './components/Footer'
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Header />
