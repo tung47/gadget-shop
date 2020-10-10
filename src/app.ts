@@ -14,11 +14,26 @@ import { MONGODB_URI, SESSION_SECRET } from './util/secrets'
 
 import movieRouter from './routers/movie'
 
+import products from './data/products'
+
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 
 const app = express()
 const mongoUrl = MONGODB_URI
+
+app.get('/', (req, res) => {
+  res.send('API is running')
+})
+
+app.get('/api/products', (req, res) => {
+  res.json(products)
+})
+
+app.get('/api/products/:id', (req, res) => {
+  const product = products.find((p: any) => p._id === req.params.id)
+  res.json(product)
+})
 
 mongoose.Promise = bluebird
 mongoose
@@ -38,7 +53,7 @@ mongoose
   })
 
 // Express configuration
-app.set('port', process.env.PORT || 3000)
+app.set('port', process.env.PORT || 5000)
 
 // Use common 3rd-party middlewares
 app.use(compression())

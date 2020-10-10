@@ -1,3 +1,5 @@
+import Product from "./components/Product"
+
 export type ProductProps = any
 
 export type RatingProps = {
