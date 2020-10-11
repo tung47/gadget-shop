@@ -13,27 +13,13 @@ import bluebird from 'bluebird'
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets'
 
 import movieRouter from './routers/movie'
-
-import products from './data/products'
+import productRouter from './routers/product'
 
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 
 const app = express()
 const mongoUrl = MONGODB_URI
-
-app.get('/', (req, res) => {
-  res.send('API is running')
-})
-
-app.get('/api/products', (req, res) => {
-  res.json(products)
-})
-
-app.get('/api/products/:id', (req, res) => {
-  const product = products.find((p: any) => p._id === req.params.id)
-  res.json(product)
-})
 
 mongoose.Promise = bluebird
 mongoose
@@ -64,6 +50,8 @@ app.use(lusca.xssProtection(true))
 
 // Use movie router
 app.use('/api/v1/movies', movieRouter)
+// Use product router
+app.use('/api/v1/products', productRouter)
 
 // Custom API error handler
 app.use(apiErrorHandler)
