@@ -19,7 +19,7 @@ const ProductScreen = ({ match }: ProductScreenProps) => {
     }
 
     fetchProduct()
-  }, [])
+  }, [match])
   
   return (
     <>
