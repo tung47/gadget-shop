@@ -4,6 +4,8 @@ import { Row, Col } from 'react-bootstrap'
 
 import { ProductProps, AppState } from '../../types'
 import Product from '../../components/Product'
+import Message from '../../components/Message'
+import Loader from '../../components/Loader'
 import { listProducts } from '../../redux/actions/product'
 
 const HomeScreen = () => {
@@ -20,9 +22,9 @@ const HomeScreen = () => {
     <>
       <h1>Lastest Products</h1>
       {loading ? (
-        <h2>Loading...</h2>
+        <Loader />
       ) : error ? (
-        <h3>{error}</h3>
+        <Message variant='danger'>{error}</Message>
       ) : (
         <Row>
           {products.map((product: ProductProps) => (

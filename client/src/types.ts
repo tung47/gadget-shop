@@ -41,6 +41,11 @@ export type RatingProps = {
   color: string
 }
 
+export type MessageProps = {
+  variant: string
+  children: string
+}
+
 // Product List Types
 export type ProductListRequestAction = {
   type: typeof PRODUCT_LIST_REQUEST
