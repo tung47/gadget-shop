@@ -44,15 +44,12 @@ export type RatingProps = {
 // Product List Types
 export type ProductListRequestAction = {
   type: typeof PRODUCT_LIST_REQUEST
-  payload: {
-    products: ProductProps[]
-  }
 }
 
 export type ProductListSuccessAction = {
   type: typeof PRODUCT_LIST_SUCCESS
   payload: {
-    products: ProductProps[]
+    products: ProductsProps
   }
 }
 
@@ -74,7 +71,7 @@ export type AsyncAction<ReturnType = void> = ThunkAction<
 >
 
 // STATE TYPES
-export type ProductState = {
+export type ProductsState = {
   products: ProductsProps
   loading: boolean
   error: string | null
@@ -85,6 +82,6 @@ export type CartState = {
 }
 
 export type AppState = {
-  products: ProductState
+  productList: ProductsState
   cart: CartState
 }
