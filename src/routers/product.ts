@@ -5,7 +5,7 @@ import Product from '../models/Product'
 
 const router = express.Router()
 
-// Every path we define here will get /api/v1/movies prefix
+// Every path we define here will get /api/v1/products prefix
 
 // @desc Fetch all products
 // @route GET /api/v1/products
@@ -28,7 +28,8 @@ router.get(
     if (product) {
       res.json(product)
     } else {
-      res.status(404).json({ message: 'Product not found' })
+      res.status(404)
+      throw new Error('Product not found')
     }
   })
 )

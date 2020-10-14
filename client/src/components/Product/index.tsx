@@ -5,7 +5,7 @@ import { Card } from 'react-bootstrap'
 import { ProductProps } from '../../types'
 import Rating from '../Rating'
 
-const Product = ({ product }: ProductProps) => {
+const Product = ( product: ProductProps) => {
   return (
     <Card className="my-3 p-3 rounded">
       <Link to={`/product/${product._id}`}>

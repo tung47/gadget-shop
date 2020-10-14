@@ -6,18 +6,14 @@ import axios from 'axios'
 import { ProductScreenProps, ProductProps } from '../../types'
 import Rating from '../../components/Rating'
 
-export type product = any
-
 const ProductScreen = ({ match }: ProductScreenProps) => {
-  const [product, setProduct] = useState<ProductProps>({})
-
+  const [product, setProduct] = useState<any>({})
+  
   useEffect(() => {
     const fetchProduct = async () => {
       const {data}= await axios.get(`/api/products/${match.params.id}`)
-
       setProduct(data)
     }
-
     fetchProduct()
   }, [match])
   
