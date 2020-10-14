@@ -1,10 +1,9 @@
+import { ProductState, ProductActions } from '../../types'
 import {
-  ProductState,
-  ProductActions,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
-} from '../../types'
+} from '../../constants/product'
 
 const initialState: ProductState = {
   products: [],

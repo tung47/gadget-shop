@@ -1,7 +1,11 @@
-// Action types
-export const PRODUCT_LIST_REQUEST = 'PRODUCT_LIST_REQUEST'
-export const PRODUCT_LIST_SUCCESS = 'PRODUCT_LIST_SUCCESS'
-export const PRODUCT_LIST_FAIL = 'PRODUCT_LIST_FAIL'
+import { ThunkAction } from 'redux-thunk'
+import { Action } from 'redux'
+
+import {
+  PRODUCT_LIST_REQUEST,
+  PRODUCT_LIST_SUCCESS,
+  PRODUCT_LIST_FAIL,
+} from './constants/product'
 
 export type ReviewDocument = {
   name: string
@@ -24,6 +28,18 @@ export type ProductProps = {
   countInStock: number
 }
 
+export type ProductScreenProps = {
+  match: any
+  product: ProductProps
+}
+
+export type RatingProps = {
+  value: number
+  text: string
+  color: string
+}
+
+// Product List Types
 export type ProductListRequestAction = {
   type: typeof PRODUCT_LIST_REQUEST
   payload: {
@@ -48,16 +64,12 @@ export type ProductActions =
   | ProductListSuccessAction
   | ProductListFailAction
 
-export type ProductScreenProps = {
-  match: any
-  product: ProductProps
-}
-
-export type RatingProps = {
-  value: number
-  text: string
-  color: string
-}
+export type AsyncAction<ReturnType = void> = ThunkAction<
+  ReturnType,
+  AppState,
+  unknown,
+  Action<string>
+>
 
 // STATE TYPES
 export type ProductState = {
