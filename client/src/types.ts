@@ -1,12 +1,6 @@
 import { ThunkAction } from 'redux-thunk'
 import { Action } from 'redux'
 
-import {
-  PRODUCT_LIST_REQUEST,
-  PRODUCT_LIST_SUCCESS,
-  PRODUCT_LIST_FAIL,
-} from './constants/product'
-
 export type ReviewDocument = {
   name: string
   rating: number
@@ -32,7 +26,7 @@ export type ProductsProps = ProductProps[]
 
 export type ProductScreenProps = {
   match: any
-  product: ProductProps
+  product: ProductsProps
 }
 
 export type RatingProps = {
@@ -46,7 +40,11 @@ export type MessageProps = {
   children: string
 }
 
-// Product List Types
+// Product Actions Types
+export const PRODUCT_LIST_REQUEST = 'PRODUCT_LIST_REQUEST'
+export const PRODUCT_LIST_SUCCESS = 'PRODUCT_LIST_SUCCESS'
+export const PRODUCT_LIST_FAIL = 'PRODUCT_LIST_FAIL'
+
 export type ProductListRequestAction = {
   type: typeof PRODUCT_LIST_REQUEST
 }
@@ -63,10 +61,37 @@ export type ProductListFailAction = {
   error: string
 }
 
-export type ProductActions =
+export const PRODUCT_DETAILS_REQUEST = 'PRODUCT_DETAILS_REQUEST'
+export const PRODUCT_DETAILS_SUCCESS = 'PRODUCT_DETAILS_SUCCESS'
+export const PRODUCT_DETAILS_FAIL = 'PRODUCT_DETAILS_FAIL'
+
+export type ProductDetailsRequestAction = {
+  type: typeof PRODUCT_DETAILS_REQUEST
+}
+
+export type ProductDetailsSuccessAction = {
+  type: typeof PRODUCT_DETAILS_SUCCESS
+  payload: {
+    product: ProductsProps
+  }
+}
+
+export type ProductDetailsFailAction = {
+  type: typeof PRODUCT_DETAILS_FAIL
+  error: string
+}
+
+export type ProductListActions =
   | ProductListRequestAction
   | ProductListSuccessAction
   | ProductListFailAction
+
+export type ProductDetailsActions =
+  | ProductDetailsRequestAction
+  | ProductDetailsSuccessAction
+  | ProductDetailsFailAction
+
+export type ProductActions = ProductListActions | ProductDetailsActions
 
 export type AsyncAction<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -76,7 +101,14 @@ export type AsyncAction<ReturnType = void> = ThunkAction<
 >
 
 // STATE TYPES
+export type ProductState = {
+  product: ProductsProps
+  loading: boolean
+  error: string | null
+}
+
 export type ProductsState = {
+  product: ProductsProps
   products: ProductsProps
   loading: boolean
   error: string | null
@@ -88,5 +120,6 @@ export type CartState = {
 
 export type AppState = {
   productList: ProductsState
+  productDetails: ProductState
   cart: CartState
 }
