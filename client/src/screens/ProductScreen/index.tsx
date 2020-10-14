@@ -7,7 +7,7 @@ import { ProductScreenProps, ProductProps } from '../../types'
 import Rating from '../../components/Rating'
 
 const ProductScreen = ({ match }: ProductScreenProps) => {
-  const [product, setProduct] = useState<any>({})
+  const [product, setProduct] = useState<ProductProps | any>({})
   
   useEffect(() => {
     const fetchProduct = async () => {

@@ -70,7 +70,7 @@ Or, if you're using VS Code, you can use `cmd + shift + b` to run the default bu
 > **Note on editors!** - TypeScript has great support in [every editor](http://www.typescriptlang.org/index.html#download-links), but this project has been pre-configured for use with [VS Code](https://code.visualstudio.com/).
 Throughout the README We will try to call out specific places where VS Code really shines or where this project has been setup to take advantage of specific features.
 
-Finally, navigate to `http://localhost:3000` and you should see the template being served and rendered locally!
+Finally, navigate to `http://localhost:5000` and you should see the template being served and rendered locally!
 
 # TypeScript + Node
 In the next few sections I will call out everything that changes when adding TypeScript to an Express project.

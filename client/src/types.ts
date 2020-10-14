@@ -28,6 +28,8 @@ export type ProductProps = {
   countInStock: number
 }
 
+export type ProductsProps = ProductProps[]
+
 export type ProductScreenProps = {
   match: any
   product: ProductProps
@@ -73,7 +75,7 @@ export type AsyncAction<ReturnType = void> = ThunkAction<
 
 // STATE TYPES
 export type ProductState = {
-  products: ProductProps[]
+  products: ProductsProps
   loading: boolean
   error: string | null
 }
@@ -83,6 +85,6 @@ export type CartState = {
 }
 
 export type AppState = {
-  products: ProductProps
+  products: ProductState
   cart: CartState
 }
