@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-//import { useDispatch, useSelector } from 'react-redux'
+// import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import axios from 'axios'
 
@@ -25,9 +25,9 @@ const ProductScreen = ({ match }: ProductScreenProps) => {
 
   // const dispatch = useDispatch()
 
-  // const productDetails = useSelector((state: AppState) => state.productDetails)
+  // const productDetails = useSelector((state: AppState) => state.productList)
   // const { loading, error, product } = productDetails
-
+  
   // useEffect(() => {
   //   dispatch(listProductDetails(match.params.id))
   // }, [dispatch, match])

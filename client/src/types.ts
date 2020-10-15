@@ -101,12 +101,6 @@ export type AsyncAction<ReturnType = void> = ThunkAction<
 >
 
 // STATE TYPES
-export type ProductState = {
-  product: ProductsProps
-  loading: boolean
-  error: string | null
-}
-
 export type ProductsState = {
   product: ProductsProps
   products: ProductsProps
@@ -120,6 +114,5 @@ export type CartState = {
 
 export type AppState = {
   productList: ProductsState
-  productDetails: ProductState
   cart: CartState
 }

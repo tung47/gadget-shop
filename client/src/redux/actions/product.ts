@@ -2,15 +2,10 @@ import axios from 'axios'
 import { Dispatch } from 'redux'
 
 import {
-  AppState,
   AsyncAction,
   ProductsProps,
-  ProductListRequestAction,
-  ProductListSuccessAction,
-  ProductListFailAction,
-  ProductDetailsRequestAction,
-  ProductDetailsSuccessAction,
-  ProductDetailsFailAction,
+  ProductListActions,
+  ProductDetailsActions,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
@@ -19,7 +14,7 @@ import {
   PRODUCT_DETAILS_FAIL,
 } from '../../types'
 
-const producListRequest = (): ProductListRequestAction => {
+const producListRequest = (): ProductListActions => {
   return {
     type: PRODUCT_LIST_REQUEST,
   }
@@ -27,7 +22,7 @@ const producListRequest = (): ProductListRequestAction => {
 
 const productListSuccess = (
   products: ProductsProps
-): ProductListSuccessAction => {
+): ProductListActions => {
   return {
     type: PRODUCT_LIST_SUCCESS,
     payload: {
@@ -36,31 +31,31 @@ const productListSuccess = (
   }
 }
 
-const productListFail = (error: string): ProductListFailAction => {
+const productListFail = (error: string): ProductListActions => {
   return {
     type: PRODUCT_LIST_FAIL,
     error: error,
   }
 }
 
-const producDetailsRequest = (): ProductDetailsRequestAction => {
+const productDetailsRequest = (): ProductDetailsActions => {
   return {
     type: PRODUCT_DETAILS_REQUEST,
   }
 }
 
 const productDetailsSuccess = (
-  product: ProductsProps
-): ProductDetailsSuccessAction => {
+  products: ProductsProps
+): ProductDetailsActions => {
   return {
     type: PRODUCT_DETAILS_SUCCESS,
     payload: {
-      product,
+      product: products,
     },
   }
 }
 
-const productDetailsFail = (error: string): ProductDetailsFailAction => {
+const productDetailsFail = (error: string): ProductDetailsActions => {
   return {
     type: PRODUCT_DETAILS_FAIL,
     error: error,
@@ -71,7 +66,7 @@ export const listProducts = (): AsyncAction => async (dispatch: Dispatch) => {
   try {
     dispatch(producListRequest())
 
-    const { data } = await axios.get(`./api/v1/products`)
+    const { data } = await axios.get(`/api/v1/products`)
 
     dispatch(productListSuccess(data))
   } catch (error) {
@@ -85,14 +80,13 @@ export const listProducts = (): AsyncAction => async (dispatch: Dispatch) => {
   }
 }
 
-export const listProductDetails = (id: any): AsyncAction => async (
+export const listProductDetails = (id: string): AsyncAction => async (
   dispatch: Dispatch,
-  getState: () => AppState
 ) => {
   try {
-    dispatch(producDetailsRequest())
+    dispatch(productDetailsRequest())
 
-    const { data } = await axios.get(`./api/v1/products/${id}`)
+    const { data } = await axios.get(`/api/v1/products/${id}`)
 
     dispatch(productDetailsSuccess(data))
   } catch (error) {

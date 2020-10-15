@@ -1,5 +1,4 @@
 import {
-  ProductState,
   ProductsState,
   ProductActions,
   PRODUCT_LIST_REQUEST,
@@ -10,7 +9,7 @@ import {
   PRODUCT_DETAILS_FAIL,
 } from '../../types'
 
-const initialProductsState: ProductsState = {
+const initialState: ProductsState = {
   product: [],
   products: [],
   loading: true,
@@ -18,7 +17,7 @@ const initialProductsState: ProductsState = {
 }
 
 export function productListReducer(
-  state: ProductsState = initialProductsState,
+  state: ProductsState = initialState,
   action: ProductActions
 ): ProductsState {
   switch (action.type) {
@@ -45,16 +44,16 @@ export function productListReducer(
   }
 }
 
-const initialProductState: ProductState = {
-  product: [],
-  loading: true,
-  error: null,
-}
+// const initialProductState: ProductState = {
+//   product: [],
+//   loading: true,
+//   error: null,
+// }
 
 export function productDetailsReducer(
-  state: ProductState = initialProductState,
+  state: ProductsState = initialState,
   action: ProductActions
-): ProductState {
+): ProductsState {
   switch (action.type) {
     case PRODUCT_DETAILS_REQUEST:
       return {
