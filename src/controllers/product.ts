@@ -1,26 +1,40 @@
 import asyncHandler from 'express-async-handler'
+import { Request, Response, NextFunction } from 'express'
 
 import Product from '../models/Product'
+import ProductService from '../services/product'
+import {
+  NotFoundError,
+  BadRequestError,
+  InternalServerError,
+} from '../helpers/apiError'
 
-// @desc Fetch all products
-// @route GET /api/v1/products
-// @access Public
-const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({})
-  res.json(products)
-})
-
-// @desc Fetch single product
-// @route GET /api/v1/product/:id
-// @access Public
-const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id)
-  if (product) {
-    res.json(product)
-  } else {
-    res.status(404)
-    throw new Error('Product not found')
+// @desc    Fetch all products
+// @route   GET /api/v1/products
+// @access  Public
+export const getProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(await ProductService.getProducts())
+  } catch (error) {
+    next(new NotFoundError('Products not found', error))
   }
-})
+}
 
-export { getProducts, getProductById }
+// @desc    Fetch single product
+// @route   GET /api/v1/products/:id
+// @access  Public
+export const getProductById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(await ProductService.getProductById(req.params.id))
+  } catch (error) {
+    next(new NotFoundError('Product not found', error))
+  }
+}
