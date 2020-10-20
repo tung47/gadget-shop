@@ -105,7 +105,6 @@ export type ProductsState = {
   loading: boolean
   error: string | null
   productList: ProductProps[]
-  productDetails: ProductProps[]
 }
 
 export type AppState = {

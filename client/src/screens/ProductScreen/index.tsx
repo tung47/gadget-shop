@@ -1,34 +1,27 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 
-import { AppState, ProductScreenProps } from '../../types'
+import { AppState } from '../../types'
 import Rating from '../../components/Rating'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
-import { listProductDetails } from '../../redux/actions/product'
 
 export type RouteParam = {
   id: string
 }
 
-const ProductScreen = ({ match }: ProductScreenProps) => {
-  const dispatch = useDispatch()
-
+const ProductScreen = () => {
   const error: string | null = useSelector(
     (state: AppState) => state.products.error
   )
-
-  useEffect(() => {
-    dispatch(listProductDetails(match.params._id))
-  }, [dispatch, match])
 
   const { id } = useParams<RouteParam>()
   const product = useSelector((state: AppState) =>
     state.products.productList.find((p) => p._id === id)
   )
-  console.log(product)
+  
   if (!product) {
     return <p>No Products</p>
   }
