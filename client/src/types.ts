@@ -26,7 +26,7 @@ export type ProductsProps = ProductProps[]
 
 export type ProductScreenProps = {
   match: any
-  product: ProductsProps
+  product: ProductProps
 }
 
 export type RatingProps = {
@@ -55,7 +55,7 @@ export type ProductListSuccessAction = {
     products: ProductsProps
   }
 }
-
+      
 export type ProductListFailAction = {
   type: typeof PRODUCT_LIST_FAIL
   error: string
@@ -72,7 +72,7 @@ export type ProductDetailsRequestAction = {
 export type ProductDetailsSuccessAction = {
   type: typeof PRODUCT_DETAILS_SUCCESS
   payload: {
-    product: ProductsProps
+    productDetails: ProductsProps
   }
 }
 
@@ -102,17 +102,12 @@ export type AsyncAction<ReturnType = void> = ThunkAction<
 
 // STATE TYPES
 export type ProductsState = {
-  product: ProductsProps
-  products: ProductsProps
   loading: boolean
   error: string | null
-}
-
-export type CartState = {
-  inCart: ProductProps
+  productList: ProductProps[]
+  productDetails: ProductProps[]
 }
 
 export type AppState = {
-  productList: ProductsState
-  cart: CartState
+  products: ProductsState
 }

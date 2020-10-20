@@ -10,70 +10,50 @@ import {
 } from '../../types'
 
 const initialState: ProductsState = {
-  product: [],
-  products: [],
   loading: true,
   error: null,
+  productList: [],
+  productDetails: [],
 }
 
-export function productListReducer(
-  state: ProductsState = initialState,
-  action: ProductActions
-): ProductsState {
-  switch (action.type) {
-    case PRODUCT_LIST_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      }
-    case PRODUCT_LIST_SUCCESS:
-      const { products } = action.payload
-      return {
-        ...state,
-        loading: false,
-        products: products,
-      }
-    case PRODUCT_LIST_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: action.error,
-      }
-    default:
-      return state
-  }
-}
-
-// const initialProductState: ProductState = {
-//   product: [],
-//   loading: true,
-//   error: null,
-// }
-
-export function productDetailsReducer(
+export default function productsReducer(
   state: ProductsState = initialState,
   action: ProductActions
 ): ProductsState {
   switch (action.type) {
     case PRODUCT_DETAILS_REQUEST:
+    case PRODUCT_LIST_REQUEST: {
       return {
         ...state,
         loading: true,
       }
-    case PRODUCT_DETAILS_SUCCESS:
-      const { product } = action.payload
+    }
+    case PRODUCT_LIST_SUCCESS: {
+      const { products } = action.payload
       return {
         ...state,
         loading: false,
-        product,
         error: null,
+        productList: products,
       }
+    }
+    case PRODUCT_DETAILS_SUCCESS: {
+      const { productDetails } = action.payload
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        productDetails,
+      }
+    }
     case PRODUCT_DETAILS_FAIL:
+    case PRODUCT_LIST_FAIL: {
       return {
         ...state,
         loading: false,
         error: action.error,
       }
+    }
     default:
       return state
   }
