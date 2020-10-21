@@ -24,8 +24,13 @@ export type ProductProps = {
 
 export type ProductsProps = ProductProps[]
 
+export type RouteParam = {
+  id: string
+}
+
 export type ProductScreenProps = {
   match: any
+  history: any
   product: ProductProps
 }
 
@@ -55,7 +60,7 @@ export type ProductListSuccessAction = {
     products: ProductsProps
   }
 }
-      
+
 export type ProductListFailAction = {
   type: typeof PRODUCT_LIST_FAIL
   error: string
@@ -100,6 +105,26 @@ export type AsyncAction<ReturnType = void> = ThunkAction<
   Action<string>
 >
 
+// Cart Actions Types
+export const CART_ADD_ITEM = 'CART_ADD_ITEM'
+export const CART_REMOVE_ITEM = 'CART_REMOVE_ITEM'
+
+export type CartAddItemAction = {
+  type: typeof CART_ADD_ITEM
+  payload: {
+    product: ProductProps
+  }
+}
+
+export type CartRemoveItemAction = {
+  type: typeof CART_REMOVE_ITEM
+  payload: { 
+    product: ProductProps 
+  }
+}
+
+export type CartActions = CartAddItemAction | CartRemoveItemAction
+
 // STATE TYPES
 export type ProductsState = {
   loading: boolean
@@ -107,6 +132,11 @@ export type ProductsState = {
   productList: ProductProps[]
 }
 
+export type CartState = {
+  cartItems: ProductProps[]
+}
+
 export type AppState = {
   products: ProductsState
+  cart: CartState
 }

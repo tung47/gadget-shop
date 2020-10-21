@@ -12,7 +12,7 @@ const initialState: ProductsState = {
   productList: [],
 }
 
-export default function productsReducer(
+export default function products(
   state: ProductsState = initialState,
   action: ProductActions
 ): ProductsState {
