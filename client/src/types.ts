@@ -10,6 +10,8 @@ export type ReviewDocument = {
 export type ProductProps = {
   user: any[]
   _id: string
+  id: string
+  productId: string
   name: string
   image: string
   brand: string
@@ -20,6 +22,7 @@ export type ProductProps = {
   numReviews: number
   price: number
   countInStock: number
+  qty: number
 }
 
 export type ProductsProps = ProductProps[]
@@ -113,6 +116,12 @@ export type CartAddItemAction = {
   type: typeof CART_ADD_ITEM
   payload: {
     product: ProductProps
+    name: string
+    image: string
+    price: number
+    countInStock: number
+    id: string
+    qty: number
   }
 }
 

@@ -1,15 +1,30 @@
 import React, { useState } from 'react'
-import { Link, useParams, useHistory } from 'react-router-dom'
+import {
+  Link,
+  useParams,
+  useHistory,
+  RouteComponentProps,
+} from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+  Form,
+  Breadcrumb,
+} from 'react-bootstrap'
 
-import { AppState, RouteParam, ProductScreenProps } from '../../types'
+import { AppState, RouteParam } from '../../types'
 import Rating from '../../components/Rating'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 
-const ProductScreen = ({match, history}: ProductScreenProps) => {
-  const [qty, setQty] = useState<number|any>(0)
+const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
+  let history = useHistory()
+  const [qty, setQty] = useState<number | any>(1)
 
   const error: string | null = useSelector(
     (state: AppState) => state.products.error
@@ -24,8 +39,8 @@ const ProductScreen = ({match, history}: ProductScreenProps) => {
     return <p>No Products</p>
   }
 
-  const updateQty = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setQty({qty: e.target.value})
+  const updateQty = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQty({ qty: Number(e.target.value) })
   }
 
   const addToCartHandler = () => {
@@ -37,6 +52,13 @@ const ProductScreen = ({match, history}: ProductScreenProps) => {
       <Link className="btn btn-light my-3" to="/">
         Go back
       </Link>
+
+      <Breadcrumb>
+        <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+        <Breadcrumb.Item href="/">Products</Breadcrumb.Item>
+        <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
+      </Breadcrumb>
+
       {!product ? (
         <Loader />
       ) : error ? (
@@ -44,7 +66,14 @@ const ProductScreen = ({match, history}: ProductScreenProps) => {
       ) : (
         <Row>
           <Col md={6}>
-            <Image src={product.image} alt="product.name" fluid />
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <Image src={product.image} alt="product.name" fluid />
+              </ListGroup.Item>
+              <ListGroup.Item>
+                Description: {product.description}
+              </ListGroup.Item>
+            </ListGroup>
           </Col>
           <Col md={3}>
             <ListGroup variant="flush">
@@ -56,10 +85,6 @@ const ProductScreen = ({match, history}: ProductScreenProps) => {
                   value={product.rating}
                   text={`${product.numReviews} reviews`}
                 />
-              </ListGroup.Item>
-              <ListGroup.Item>Price: €{product.price}</ListGroup.Item>
-              <ListGroup.Item>
-                Description: {product.description}
               </ListGroup.Item>
             </ListGroup>
           </Col>
@@ -77,7 +102,6 @@ const ProductScreen = ({match, history}: ProductScreenProps) => {
 
                 <ListGroup.Item>
                   <Row>
-                    <Col>Status:</Col>
                     <Col>
                       {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
                     </Col>
@@ -87,7 +111,7 @@ const ProductScreen = ({match, history}: ProductScreenProps) => {
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <Row>
-                      <Col>Qty</Col>
+                      <Col>Quantity:</Col>
                       <Col>
                         <Form.Control
                           as="select"
@@ -108,7 +132,7 @@ const ProductScreen = ({match, history}: ProductScreenProps) => {
                 <ListGroup.Item>
                   <Button
                     onClick={addToCartHandler}
-                    className="btn-block"
+                    className="btn btn-dark"
                     type="button"
                     disabled={product.countInStock === 0}
                   >
