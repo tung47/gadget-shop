@@ -6,7 +6,7 @@ import { AppState } from '../types'
 import createRootReducer from './reducers'
 import rootSaga from './sagas'
 
-const initState: AppState = {
+let initState: AppState = {
   products: {
     product: [],
     loading: false,
@@ -16,6 +16,11 @@ const initState: AppState = {
   cart: {
     cartItems: [],
   },
+}
+
+const savedState = localStorage.getItem('state') || ''
+if (savedState) {
+  initState = JSON.parse(savedState)
 }
 
 export default function makeStore(initialState = initState) {
