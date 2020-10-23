@@ -7,6 +7,7 @@ import {
 } from '../../types'
 
 const initialState: ProductsState = {
+  product: [],
   loading: true,
   error: null,
   productList: [],

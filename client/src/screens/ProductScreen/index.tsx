@@ -5,7 +5,7 @@ import {
   useHistory,
   RouteComponentProps,
 } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Row,
   Col,
@@ -21,16 +21,18 @@ import { AppState, RouteParam } from '../../types'
 import Rating from '../../components/Rating'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
+import { addToCart } from '../../redux/actions/cart'
 
 const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
-  let history = useHistory()
-  const [qty, setQty] = useState<number | any>(1)
-
+  const dispatch = useDispatch()
+  const history = useHistory()
+  
   const error: string | null = useSelector(
     (state: AppState) => state.products.error
   )
 
   const { id } = useParams<RouteParam>()
+
   const product = useSelector((state: AppState) =>
     state.products.productList.find((p) => p._id === id)
   )
@@ -39,12 +41,9 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
     return <p>No Products</p>
   }
 
-  const updateQty = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQty({ qty: Number(e.target.value) })
-  }
-
   const addToCartHandler = () => {
-    history.push(`/cart/${match.params.id}?qty=${qty}`)
+    history.push(`/cart/${match.params.id}`)
+    dispatch(addToCart(product))
   }
 
   return (
@@ -99,7 +98,6 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-
                 <ListGroup.Item>
                   <Row>
                     <Col>
@@ -107,28 +105,6 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-
-                {product.countInStock > 0 && (
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Quantity:</Col>
-                      <Col>
-                        <Form.Control
-                          as="select"
-                          value={qty}
-                          onChange={updateQty}
-                        >
-                          {[...Array(product.countInStock).keys()].map((x) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
-                        </Form.Control>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                )}
-
                 <ListGroup.Item>
                   <Button
                     onClick={addToCartHandler}

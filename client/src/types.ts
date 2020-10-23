@@ -8,10 +8,7 @@ export type ReviewDocument = {
 }
 
 export type ProductProps = {
-  user: any[]
-  _id: string
-  id: string
-  productId: string
+  _id?: string
   name: string
   image: string
   brand: string
@@ -22,7 +19,6 @@ export type ProductProps = {
   numReviews: number
   price: number
   countInStock: number
-  qty: number
 }
 
 export type ProductsProps = ProductProps[]
@@ -111,31 +107,37 @@ export type AsyncAction<ReturnType = void> = ThunkAction<
 // Cart Actions Types
 export const CART_ADD_ITEM = 'CART_ADD_ITEM'
 export const CART_REMOVE_ITEM = 'CART_REMOVE_ITEM'
+export const CART_FAIL_ITEM = 'CART_FAIL_ITEM'
 
 export type CartAddItemAction = {
   type: typeof CART_ADD_ITEM
   payload: {
     product: ProductProps
-    name: string
-    image: string
-    price: number
-    countInStock: number
-    id: string
-    qty: number
   }
 }
 
 export type CartRemoveItemAction = {
   type: typeof CART_REMOVE_ITEM
-  payload: { 
-    product: ProductProps 
+  payload: {
+    product: ProductProps
   }
 }
 
-export type CartActions = CartAddItemAction | CartRemoveItemAction
+export type CartFailItemAction = {
+  type: typeof CART_FAIL_ITEM
+  payload: {
+    error: string
+  }
+}
+
+export type CartActions =
+  | CartAddItemAction
+  | CartRemoveItemAction
+  | CartFailItemAction
 
 // STATE TYPES
 export type ProductsState = {
+  product: ProductProps[]
   loading: boolean
   error: string | null
   productList: ProductProps[]

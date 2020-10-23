@@ -21,7 +21,7 @@ const productListSuccess = (products: ProductsProps): ProductListActions => {
   return {
     type: PRODUCT_LIST_SUCCESS,
     payload: {
-      products,
+      products: products,
     },
   }
 }
