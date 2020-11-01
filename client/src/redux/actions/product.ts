@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
+import Product from '../../components/Product'
 
 import {
   AsyncAction,
@@ -40,20 +41,20 @@ const productListFail = (error: string): ProductListActions => {
   }
 }
 
-const adminCreateProduct = (data: ProductProps): AdminActions => {
+const adminCreateProduct = (product: ProductProps): AdminActions => {
   return {
     type: ADMIN_CREATE_PRODUCT,
     payload: {
-      product: data,
+      product: product,
     },
   }
 }
 
-const adminUpdateProduct = (data: ProductProps): AdminActions => {
+const adminUpdateProduct = (product: ProductProps): AdminActions => {
   return {
     type: ADMIN_UPDATE_PRODUCT,
     payload: {
-      product: data,
+      product: product,
     },
   }
 }
