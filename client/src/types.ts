@@ -71,8 +71,8 @@ export type RatingProps = {
 }
 
 export type MessageProps = {
-  variant: string
-  children: string
+  variant?: string
+  children?: any
 }
 
 export type UserProps = {
