@@ -8,6 +8,13 @@ import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
+  ProductProps,
+  AdminActions,
+  ADMIN_CREATE_PRODUCT,
+  ADMIN_UPDATE_PRODUCT,
+  ADMIN_DELETE_PRODUCT,
+  ErrorAction,
+  ACTION_FAIL,
 } from '../../types'
 
 // Product List Actions
@@ -33,9 +40,38 @@ const productListFail = (error: string): ProductListActions => {
   }
 }
 
-export const listProducts = (): AsyncAction => async (
-  dispatch: Dispatch,
-) => {
+const adminCreateProduct = (data: ProductProps): AdminActions => {
+  return {
+    type: ADMIN_CREATE_PRODUCT,
+    payload: {
+      product: data,
+    },
+  }
+}
+
+const adminUpdateProduct = (data: ProductProps): AdminActions => {
+  return {
+    type: ADMIN_UPDATE_PRODUCT,
+    payload: {
+      product: data,
+    },
+  }
+}
+
+const adminDeleteProduct = (): AdminActions => {
+  return {
+    type: ADMIN_DELETE_PRODUCT,
+  }
+}
+
+const actionFail = (error: string): ErrorAction => {
+  return {
+    type: ACTION_FAIL,
+    error: error,
+  }
+}
+
+export const listProducts = (): AsyncAction => async (dispatch: Dispatch) => {
   try {
     dispatch(productListRequest())
 
@@ -52,3 +88,71 @@ export const listProducts = (): AsyncAction => async (
     )
   }
 }
+
+export const createProduct = (product: ProductProps): AsyncAction => async (
+  dispatch: Dispatch
+) => {
+  try {
+    const token = localStorage.getItem('token')
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.post(`/api/v1/products`, product, config)
+    dispatch(adminCreateProduct(data))
+  } catch (error) {
+    return dispatch(
+      actionFail(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    )
+  }
+}
+
+export const updateProduct = (product: ProductProps): AsyncAction => async (
+  dispatch: Dispatch
+) => {
+  try {
+    const id = product._id
+    const token = localStorage.getItem('token')
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const { data } = await axios.patch(
+      `/api/v1/products/${id}`,
+      product,
+      config
+    )
+    dispatch(adminUpdateProduct(data))
+  } catch (error) {
+    return dispatch(actionFail(error.response && error.response.data.message
+      ? error.response.data.message
+      : error.message))
+  }
+}
+
+export const deleteProductByAdmin = (id: string): AsyncAction => async (dispatch: Dispatch) => {
+    try {
+      const token = localStorage.getItem('token')
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      await axios.delete(`/api/v1/products/${id}`, config)
+      dispatch(adminDeleteProduct())
+    } catch (error) {
+      dispatch(actionFail(error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message))
+    }
+  }
+

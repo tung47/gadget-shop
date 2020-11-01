@@ -50,11 +50,9 @@ app.use(lusca.xframe('SAMEORIGIN'))
 app.use(lusca.xssProtection(true))
 app.use(express.json())
 
-// Use movie router
+// Use router
 app.use('/api/v1/movies', movieRouter)
-// Use product router
 app.use('/api/v1/products', productRouter)
-// Use user router
 app.use('/api/v1/users', userRouter)
 
 // Custom API error handler

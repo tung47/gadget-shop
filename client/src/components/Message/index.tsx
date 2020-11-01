@@ -7,8 +7,4 @@ const Message = ({ variant, children }: MessageProps) => {
   return <Alert variant={variant}>{children}</Alert>
 }
 
-Message.defaultProps = {
-  variant: 'info',
-}
-
 export default Message

@@ -16,6 +16,11 @@ let initState: AppState = {
   cart: {
     cartItems: [],
   },
+  user: { 
+    user: [],
+    isLoggedIn: false,
+    userList: [],
+  }
 }
 
 const savedState = localStorage.getItem('state') || ''

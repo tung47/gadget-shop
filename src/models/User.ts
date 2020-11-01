@@ -7,7 +7,8 @@ export type UserDocument = Document & {
   email: string;
   password: string;
   isAdmin: boolean;
-  matchPassword: Function;
+  products: mongoose.Schema.Types.ObjectId[];
+  matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
 const userSchema = new mongoose.Schema(
@@ -32,9 +33,14 @@ const userSchema = new mongoose.Schema(
     },
     isAdmin: {
       type: Boolean,
-      required: true,
       default: false,
     },
+    products: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+      },
+    ],
   },
   {
     timestamps: true,
@@ -44,5 +50,14 @@ const userSchema = new mongoose.Schema(
 userSchema.methods.matchPassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password)
 }
+
+userSchema.pre<UserDocument>('save', async function (next) {
+  if (!this.isModified('password')) {
+    next()
+  }
+  const salt = await bcrypt.genSalt(10)
+  this.password = await bcrypt.hash(this.password, salt)
+  next()
+})
 
 export default mongoose.model<UserDocument>('User', userSchema)

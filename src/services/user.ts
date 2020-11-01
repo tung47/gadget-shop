@@ -1,16 +1,56 @@
 import User, { UserDocument } from '../models/User'
-import {
-  NotFoundError,
-  BadRequestError,
-  InternalServerError,
-} from '../helpers/apiError'
 
-async function create(user: UserDocument): Promise<UserDocument> {
-  try {
-    const newUser = await user.save()
+function create(user: UserDocument): Promise<UserDocument> {
+  return user.save()
+}
 
-    return newUser
-  } catch (error) {
-    throw new InternalServerError()
+async function findById(userId: string): Promise<UserDocument | null> {
+  const user = await User.findById(userId).exec()
+  if (!user) {
+    throw new Error(`User ${userId} not found`)
   }
+  return user
+}
+
+async function findAll(): Promise<UserDocument[]> {
+  return await User.find().sort({ email: 1 }).exec()
+}
+
+async function updateUser(
+  userId: string,
+  update: Partial<UserDocument>
+): Promise<UserDocument | null> {
+  const user = await User.findById(userId)
+  if (!user) throw new Error(`User ${userId} not found`)
+  return await User.findByIdAndUpdate(userId, update, {
+    new: true,
+    runValidators: true,
+  }).exec()
+}
+
+function deleteUser(userId: string): Promise<UserDocument | null> {
+  return User.findByIdAndDelete(userId).exec()
+}
+
+async function updateProfile(
+  userId: string,
+  update: Partial<UserDocument>
+): Promise<UserDocument | null> {
+  const user = await User.findById(userId).exec()
+  if (!user) throw new Error(`User ${userId} not found`)
+  if (user.isAdmin) update.isAdmin = user.isAdmin
+  //if (user.products) update.products = user.products
+  return await User.findByIdAndUpdate(userId, update, {
+    new: true,
+    runValidators: true,
+  }).exec()
+}
+
+export default {
+  create,
+  findById,
+  findAll,
+  updateUser,
+  deleteUser,
+  updateProfile,
 }

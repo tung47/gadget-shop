@@ -3,35 +3,63 @@ import asyncHandler from 'express-async-handler'
 import { Request, Response, NextFunction } from 'express'
 
 import User from '../models/User'
+import {
+  BadRequestError,
+  UnauthorizedError,
+  JWTError,
+  AppError,
+} from '../helpers/apiError'
 
-const protect = asyncHandler(
+export type AdminPayload = {
+  isAdmin: boolean;
+}
+
+export const protect = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    let token
-
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
-    ) {
-      try {
+    try {
+      let token
+      if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+      ) {
         token = req.headers.authorization.split(' ')[1]
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-        // req.user = await User.findById(decoded.id).select('-password')
-
-        next()
-      } catch (error) {
-        console.error(error)
-        res.status(401)
-        throw new Error('Not authorized, token failed')
       }
-    }
+      if (!token) {
+        return next(new UnauthorizedError('You are not logged in'))
+      }
 
-    if (!token) {
-      res.status(401)
-      throw new Error('Not authorized, no token')
+      const decoded: any = jwt.verify(
+        token,
+        process.env['JWT_SECRET'] as string
+      )
+
+      const currentUser = await User.findById(decoded.id)
+      if (!currentUser) {
+        return next(new JWTError('The user with this token does not exist.'))
+      }
+      req.user = currentUser
+      next()
+    } catch (err) {
+      if (err.name === 'ValidationError') {
+        return next(new BadRequestError('Invalid Request', err))
+      } else {
+        return next(new AppError())
+      }
     }
   }
 )
 
-export { protect }
+export const admin = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const adminReq = req.user as AdminPayload
+      if (req.user && adminReq.isAdmin) {
+        next()
+      } else {
+        return next(new UnauthorizedError('You do not have permissions'))
+      }
+    } catch (err) {
+      return next(new AppError())
+    }
+  }
+)
