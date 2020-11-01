@@ -1,5 +1,6 @@
 import { ThunkAction } from 'redux-thunk'
 import { Action } from 'redux'
+import Product from './components/Product'
 
 // Actions Types
 export const PRODUCT_LIST_REQUEST = 'PRODUCT_LIST_REQUEST'
@@ -81,6 +82,7 @@ export type UserProps = {
   email: string
   password: string
   isAdmin: boolean
+  products: ProductProps[]
 }
 
 export type AsyncAction<ReturnType = void> = ThunkAction<
@@ -164,7 +166,7 @@ export type CartActions =
 export type UserRegisterAction = {
   type: typeof USER_REGISTER
   payload: {
-    user: UserProps
+    user: UserProps[]
   }
 }
 
@@ -199,14 +201,14 @@ export type UserRemoveFromCartAction = {
 export type UserDetailsRequestAction = {
   type: typeof USER_DETAILS_REQUEST
   payload: {
-    user: UserProps
+    user: UserProps[]
   }
 }
 
 export type UserUpdateRequestAction = {
   type: typeof USER_UPDATE_REQUEST
   payload: {
-    user: UserProps
+    user: UserProps[]
   }
 }
 
@@ -254,7 +256,7 @@ export type AdminGetUserAction = {
 export type AdminUpdateUserAction = {
   type: typeof ADMIN_UPDATE_USER
   payload: {
-    user: UserProps
+    user: UserProps[]
   }
 }
 

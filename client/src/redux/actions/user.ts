@@ -1,6 +1,5 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
-import bcrypt from 'bcryptjs'
 
 import {
   UserProps,
@@ -63,7 +62,7 @@ const authFetches = {
   },
 }
 
-const userRegister = (user: UserProps): UserActions => {
+const userRegister = (user: UserProps[]): UserActions => {
   return {
     type: USER_REGISTER,
     payload: {
@@ -106,7 +105,7 @@ const userRemoveFromCart = (product: ProductProps): UserActions => {
   }
 }
 
-const userDetailsRequest = (user: UserProps): UserActions => {
+const userDetailsRequest = (user: UserProps[]): UserActions => {
   return {
     type: USER_DETAILS_REQUEST,
     payload: {
@@ -115,7 +114,7 @@ const userDetailsRequest = (user: UserProps): UserActions => {
   }
 }
 
-const userUpdateRequest = (user: UserProps): UserActions => {
+const userUpdateRequest = (user: UserProps[]): UserActions => {
   return {
     type: USER_UPDATE_REQUEST,
     payload: {
@@ -133,7 +132,7 @@ const adminGetUser = (userList: UserProps[]): AdminActions => {
   }
 }
 
-const adminUpdateUser = (user: UserProps): AdminActions => {
+const adminUpdateUser = (user: UserProps[]): AdminActions => {
   return {
     type: ADMIN_UPDATE_USER,
     payload: {
