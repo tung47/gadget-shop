@@ -71,10 +71,10 @@ const userRegister = (user: UserProps[]): UserActions => {
   }
 }
 
-const userLogin = (user: UserProps): UserActions => {
+const userLogin = (user: UserProps[]): UserActions => {
   return {
     type: USER_LOGIN,
-    payload: { user: [] },
+    payload: { user: user },
   }
 }
 

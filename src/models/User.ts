@@ -2,22 +2,15 @@ import mongoose, { Document } from 'mongoose'
 import bcrypt from 'bcryptjs'
 
 export type UserDocument = Document & {
-  id: string;
   name: string;
   email: string;
   password: string;
   isAdmin: boolean;
-  products: mongoose.Schema.Types.ObjectId[];
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
 const userSchema = new mongoose.Schema(
   {
-    id: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     name: {
       type: String,
       required: true,
@@ -35,12 +28,6 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    products: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-      },
-    ],
   },
   {
     timestamps: true,

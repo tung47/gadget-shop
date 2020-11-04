@@ -1,6 +1,5 @@
 import { ThunkAction } from 'redux-thunk'
 import { Action } from 'redux'
-import Product from './components/Product'
 
 // Actions Types
 export const PRODUCT_LIST_REQUEST = 'PRODUCT_LIST_REQUEST'

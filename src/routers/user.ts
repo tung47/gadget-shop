@@ -1,30 +1,13 @@
 import express from 'express'
 
-import {
-  signup,
-  signin,
-  findById,
-  deleteUser,
-  findAll,
-  updateUser,
-  getProfile,
-  updateProfile,
-} from '../controllers/user'
+import { authUser, getUserProfile, registerUser } from '../controllers/user'
 import { protect, admin } from '../middlewares/authMiddleware'
 
 const router = express.Router()
 
-router.post('/signup', signup)
-router.post('/signin', signin)
-
-router.use(protect)
-router.get('/profile', getProfile)
-router.patch('/profile', updateProfile)
-
-router.use(admin)
-router.get('/', findAll)
-router.get('/:userId', findById)
-router.patch('/:userId', updateUser)
-router.delete('/:userId', deleteUser)
+// Every path we define here will get /api/v1/users prefix
+router.route('/').post(registerUser)
+router.post('/login', authUser)
+router.route('/profile').get(protect, getUserProfile)
 
 export default router
