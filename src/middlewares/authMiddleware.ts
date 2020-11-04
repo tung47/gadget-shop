@@ -3,12 +3,7 @@ import asyncHandler from 'express-async-handler'
 import { Request, Response, NextFunction } from 'express'
 
 import User from '../models/User'
-import {
-  BadRequestError,
-  UnauthorizedError,
-  JWTError,
-  AppError,
-} from '../helpers/apiError'
+import { UnauthorizedError, AppError } from '../helpers/apiError'
 
 export type RequestHeadersProps = {
   authorization: string;
@@ -44,13 +39,13 @@ export const protect = asyncHandler(
       } catch (error) {
         console.error(error)
         res.status(401)
-        throw new Error('Not authorized, token failed')
+        throw new UnauthorizedError('Not authorized, token failed', error)
       }
     }
 
     if (!token) {
       res.status(401)
-      throw new Error('Not authorized, no token')
+      throw new UnauthorizedError('Not authorized, no token')
     }
   }
 )
