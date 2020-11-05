@@ -6,6 +6,8 @@ import { AppState } from '../types'
 import createRootReducer from './reducers'
 import rootSaga from './sagas'
 
+const userLoginFromStorage = localStorage.getItem('userLogin') || null
+
 let initState: AppState = {
   products: {
     product: [],
@@ -16,10 +18,10 @@ let initState: AppState = {
   cart: {
     cartItems: [],
   },
-  user: { 
-    user: [],
-    isLoggedIn: false,
-    userList: [],
+  user: {
+    userLogin: {
+      userInfo: userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null,
+    },
   }
 }
 

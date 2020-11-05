@@ -1,7 +1,7 @@
 import { ThunkAction } from 'redux-thunk'
 import { Action } from 'redux'
 
-// Actions Types
+// Product Actions Types
 export const PRODUCT_LIST_REQUEST = 'PRODUCT_LIST_REQUEST'
 export const PRODUCT_LIST_SUCCESS = 'PRODUCT_LIST_SUCCESS'
 export const PRODUCT_LIST_FAIL = 'PRODUCT_LIST_FAIL'
@@ -10,26 +10,29 @@ export const PRODUCT_DETAILS_REQUEST = 'PRODUCT_DETAILS_REQUEST'
 export const PRODUCT_DETAILS_SUCCESS = 'PRODUCT_DETAILS_SUCCESS'
 export const PRODUCT_DETAILS_FAIL = 'PRODUCT_DETAILS_FAIL'
 
+// Cart Actions Types
 export const CART_ADD_ITEM = 'CART_ADD_ITEM'
 export const CART_REMOVE_ITEM = 'CART_REMOVE_ITEM'
 export const CART_FAIL_ITEM = 'CART_FAIL_ITEM'
 
+// User Actions Types
 export const USER_REGISTER = 'USER_REGISTER'
 export const USER_LOGIN = 'USER_LOGIN'
 export const USER_LOGOUT = 'USER_LOGOUT'
-export const USER_ADD_TO_CART = 'USER_ADD_TO_CART'
-export const USER_REMOVE_FROM_CART = 'USER_REMOVE_FROM_CART'
-export const USER_DETAILS_REQUEST = 'USER_LIST_REQUEST'
-export const USER_UPDATE_REQUEST = 'USER_UPDATE_REQUEST'
 
-export const ADMIN_CREATE_PRODUCT = 'ADMIN_CREATE_PRODUCT'
-export const ADMIN_UPDATE_PRODUCT = 'ADMIN_UPDATE_PRODUCT'
-export const ADMIN_DELETE_PRODUCT = 'ADMIN_DELETE_PRODUCT'
+export const USER_DETAILS = 'USER_DETAILS'
+export const USER_DETAILS_RESET = 'USER_DETAILS_RESET'
 
-export const ADMIN_GET_USER = 'ADMIN_GET_USER'
-export const ADMIN_UPDATE_USER = 'ADMIN_UPDATE_USER'
-export const ADMIN_DELETE_USER = 'ADMIN_DELETE_USER'
+export const USER_UPDATE_PROFILE = 'USER_UPDATE_PROFILE'
+export const USER_UPDATE_PROFILE_RESET = 'USER_UPDATE_PROFILE_RESET'
 
+export const USER_LIST = 'USER_LIST'
+export const USER_LIST_RESET = 'USER_LIST_RESET'
+
+export const USER_DELETE = 'USER_DELETE'
+export const USER_UPDATE = 'USER_UPDATE'
+
+// Fail Actions Types
 export const ACTION_FAIL = 'ACTION_FAIL'
 
 export type ReviewDocument = {
@@ -162,17 +165,32 @@ export type CartActions =
   | CartFailItemAction
 
 // User Actions
+/*export const USER_REGISTER = 'USER_REGISTER'
+export const USER_LOGIN = 'USER_LOGIN'
+export const USER_LOGOUT = 'USER_LOGOUT'
+
+export const USER_DETAILS = 'USER_DETAILS'
+export const USER_DETAILS_RESET = 'USER_DETAILS_RESET'
+
+export const USER_UPDATE_PROFILE = 'USER_UPDATE_PROFILE'
+export const USER_UPDATE_PROFILE_RESET = 'USER_UPDATE_PROFILE_RESET'
+
+export const USER_LIST = 'USER_LIST'
+export const USER_LIST_RESET = 'USER_LIST_RESET'
+
+export const USER_DELETE = 'USER_DELETE'
+export const USER_UPDATE = 'USER_UPDATE' */
 export type UserRegisterAction = {
   type: typeof USER_REGISTER
   payload: {
-    user: UserProps[]
+    userInfo: UserProps
   }
 }
 
 export type UserLoginAction = {
   type: typeof USER_LOGIN
   payload: {
-    user: UserProps[]
+    userInfo: UserProps
   }
 }
 
@@ -183,100 +201,18 @@ export type UserLogoutAction = {
   }
 }
 
-export type UserAddToCartAction = {
-  type: typeof USER_ADD_TO_CART
-  payload: {
-    product: ProductProps
-  }
-}
-
-export type UserRemoveFromCartAction = {
-  type: typeof USER_REMOVE_FROM_CART
-  payload: {
-    product: ProductProps
-  }
-}
-
-export type UserDetailsRequestAction = {
-  type: typeof USER_DETAILS_REQUEST
-  payload: {
-    user: UserProps[]
-  }
-}
-
-export type UserUpdateRequestAction = {
-  type: typeof USER_UPDATE_REQUEST
-  payload: {
-    user: UserProps[]
-  }
-}
-
 export type UserActions =
   | UserRegisterAction
   | UserLoginAction
   | UserLogoutAction
-  | UserAddToCartAction
-  | UserRemoveFromCartAction
-  | UserDetailsRequestAction
-  | UserUpdateRequestAction
-
-// Admin-Product Actions
-export type AdminCreateProductAction = {
-  type: typeof ADMIN_CREATE_PRODUCT
-  payload: {
-    product: ProductProps
-  }
-}
-
-export type AdminUpdateProductAction = {
-  type: typeof ADMIN_UPDATE_PRODUCT
-  payload: {
-    product: ProductProps
-  }
-}
-
-export type AdminDeleteProductAction = {
-  type: typeof ADMIN_DELETE_PRODUCT
-}
-
-export type AdminProductActions =
-  | AdminCreateProductAction
-  | AdminUpdateProductAction
-  | AdminDeleteProductAction
-
-// Admin-User Actions
-export type AdminGetUserAction = {
-  type: typeof ADMIN_GET_USER
-  payload: {
-    userList: UserProps[]
-  }
-}
-
-export type AdminUpdateUserAction = {
-  type: typeof ADMIN_UPDATE_USER
-  payload: {
-    user: UserProps[]
-  }
-}
-
-export type AdminDeleteUserAction = {
-  type: typeof ADMIN_DELETE_USER
-}
-
-export type AdminUserActions =
-  | AdminGetUserAction
-  | AdminUpdateUserAction
-  | AdminDeleteUserAction
-
-export type AdminActions = AdminProductActions | AdminUserActions
-
+  
 // Error Actions
 export type ErrorAction = {
   type: typeof ACTION_FAIL
   error: string | null
 }
 
-// STATE TYPES
+// Product State
 export type ProductsState = {
   product: ProductProps[]
   loading: boolean
@@ -284,16 +220,29 @@ export type ProductsState = {
   productList: ProductProps[]
 }
 
+// Cart State
 export type CartState = {
   cartItems: ProductProps[]
 }
 
-export type UserState = {
-  user: UserProps[]
-  isLoggedIn: boolean
-  userList: UserProps[]
+// User State
+/*export type UserActions =
+  | UserRegisterAction
+  | UserLoginAction
+  | UserLogoutAction
+  | UserAddToCartAction
+  | UserRemoveFromCartAction
+  | UserDetailsRequestAction
+  | UserUpdateRequestAction*/
+export type UserLoginState = {
+  userInfo: UserProps | null
 }
 
+export type UserState = {
+  userLogin: UserLoginState
+}
+
+// App State
 export type AppState = {
   products: ProductsState
   cart: CartState

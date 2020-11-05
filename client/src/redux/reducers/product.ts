@@ -4,8 +4,6 @@ import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
-  ADMIN_CREATE_PRODUCT,
-  ADMIN_UPDATE_PRODUCT,
 } from '../../types'
 
 const initialState: ProductsState = {
