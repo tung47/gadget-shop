@@ -5,11 +5,13 @@ import {
   USER_LOGOUT,
   USER_REGISTER,
   UserLoginState,
+  ACTION_FAIL,
 } from '../../types'
 
 // User Login and Logout Reducers
 const userLoginInit = {
   userInfo: null,
+  error: null,
 }
 
 export function userLoginReducer(
@@ -22,6 +24,9 @@ export function userLoginReducer(
       return { ...state, userInfo }
     case USER_LOGOUT: 
       return { ...state, userInfo: null }
+    case ACTION_FAIL: {
+      return { ...state, error: action.error}
+    }
     default:
       return state
   }

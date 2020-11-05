@@ -18,11 +18,10 @@ let initState: AppState = {
   cart: {
     cartItems: [],
   },
-  user: {
-    userLogin: {
-      userInfo: userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null,
-    },
-  }
+  userLogin: {
+    userInfo: userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null,
+    error: null,
+  },
 }
 
 const savedState = localStorage.getItem('state') || ''

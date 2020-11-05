@@ -94,6 +94,12 @@ export type AsyncAction<ReturnType = void> = ThunkAction<
   Action<string>
 >
 
+// Error Actions
+export type ErrorAction = {
+  type: typeof ACTION_FAIL
+  error: string | null
+}
+
 // Product Actions
 export type ProductListRequestAction = {
   type: typeof PRODUCT_LIST_REQUEST
@@ -180,6 +186,7 @@ export const USER_LIST_RESET = 'USER_LIST_RESET'
 
 export const USER_DELETE = 'USER_DELETE'
 export const USER_UPDATE = 'USER_UPDATE' */
+
 export type UserRegisterAction = {
   type: typeof USER_REGISTER
   payload: {
@@ -202,15 +209,10 @@ export type UserLogoutAction = {
 }
 
 export type UserActions =
+  | ErrorAction
   | UserRegisterAction
   | UserLoginAction
   | UserLogoutAction
-  
-// Error Actions
-export type ErrorAction = {
-  type: typeof ACTION_FAIL
-  error: string | null
-}
 
 // Product State
 export type ProductsState = {
@@ -236,6 +238,7 @@ export type CartState = {
   | UserUpdateRequestAction*/
 export type UserLoginState = {
   userInfo: UserProps | null
+  error: string | null
 }
 
 export type UserState = {
@@ -246,5 +249,5 @@ export type UserState = {
 export type AppState = {
   products: ProductsState
   cart: CartState
-  user: UserState
+  userLogin: UserLoginState
 }

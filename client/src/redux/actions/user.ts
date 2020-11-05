@@ -25,7 +25,7 @@ const userLoginAction = (user: UserProps): UserLoginAction => {
   }
 }
 
-export const login = ({ email, password }: UserProps): AsyncAction => async (
+export const login = (email: string, password: string): AsyncAction => async (
   dispatch: Dispatch
 ) => {
   try {
@@ -53,4 +53,9 @@ export const login = ({ email, password }: UserProps): AsyncAction => async (
           : error.message,
     })
   }
+}
+
+export const logout = (): AsyncAction => async (dispatch: Dispatch) => {
+  localStorage.removeItem('userInfo')
+  dispatch({ type: USER_LOGOUT })
 }

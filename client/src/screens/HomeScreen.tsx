@@ -2,11 +2,11 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 
-import { ProductsProps,ProductProps, AppState } from '../../types'
-import Product from '../../components/Product'
-import Message from '../../components/Message'
-import Loader from '../../components/Loader'
-import { listProducts } from '../../redux/actions/product'
+import { ProductsProps,ProductProps, AppState } from '../types'
+import Product from '../components/Product'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import { listProducts } from '../redux/actions/product'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()

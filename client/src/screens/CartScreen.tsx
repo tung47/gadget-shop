@@ -9,9 +9,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 
-import { RouteParam, AppState, ProductProps } from '../../types'
-import Message from '../../components/Message'
-import { addToCart, removeFromCart } from '../../redux/actions'
+import { RouteParam, AppState, ProductProps } from '../types'
+import Message from '../components/Message'
+import { addToCart, removeFromCart } from '../redux/actions'
 
 const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const history = useHistory()

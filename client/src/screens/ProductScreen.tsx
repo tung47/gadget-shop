@@ -17,11 +17,11 @@ import {
   Breadcrumb,
 } from 'react-bootstrap'
 
-import { AppState, RouteParam } from '../../types'
-import Rating from '../../components/Rating'
-import Message from '../../components/Message'
-import Loader from '../../components/Loader'
-import { addToCart } from '../../redux/actions/cart'
+import { AppState, RouteParam } from '../types'
+import Rating from '../components/Rating'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import { addToCart } from '../redux/actions/cart'
 
 const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const dispatch = useDispatch()
