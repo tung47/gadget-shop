@@ -22,6 +22,10 @@ let initState: AppState = {
     userInfo: userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null,
     error: null,
   },
+  userRegister: {
+    userInfo: null,
+    error: null,
+  }
 }
 
 const savedState = localStorage.getItem('state') || ''

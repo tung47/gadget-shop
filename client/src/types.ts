@@ -171,22 +171,6 @@ export type CartActions =
   | CartFailItemAction
 
 // User Actions
-/*export const USER_REGISTER = 'USER_REGISTER'
-export const USER_LOGIN = 'USER_LOGIN'
-export const USER_LOGOUT = 'USER_LOGOUT'
-
-export const USER_DETAILS = 'USER_DETAILS'
-export const USER_DETAILS_RESET = 'USER_DETAILS_RESET'
-
-export const USER_UPDATE_PROFILE = 'USER_UPDATE_PROFILE'
-export const USER_UPDATE_PROFILE_RESET = 'USER_UPDATE_PROFILE_RESET'
-
-export const USER_LIST = 'USER_LIST'
-export const USER_LIST_RESET = 'USER_LIST_RESET'
-
-export const USER_DELETE = 'USER_DELETE'
-export const USER_UPDATE = 'USER_UPDATE' */
-
 export type UserRegisterAction = {
   type: typeof USER_REGISTER
   payload: {
@@ -228,21 +212,14 @@ export type CartState = {
 }
 
 // User State
-/*export type UserActions =
-  | UserRegisterAction
-  | UserLoginAction
-  | UserLogoutAction
-  | UserAddToCartAction
-  | UserRemoveFromCartAction
-  | UserDetailsRequestAction
-  | UserUpdateRequestAction*/
 export type UserLoginState = {
   userInfo: UserProps | null
   error: string | null
 }
 
-export type UserState = {
-  userLogin: UserLoginState
+export type UserRegisterState = {
+  userInfo: UserProps | null
+  error: string | null
 }
 
 // App State
@@ -250,4 +227,5 @@ export type AppState = {
   products: ProductsState
   cart: CartState
   userLogin: UserLoginState
+  userRegister: UserRegisterState
 }
