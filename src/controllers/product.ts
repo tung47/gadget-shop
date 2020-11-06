@@ -1,14 +1,8 @@
-import asyncHandler from 'express-async-handler'
 import { Request, Response, NextFunction } from 'express'
 
 import Product from '../models/Product'
 import ProductService from '../services/product'
-import {
-  NotFoundError,
-  BadRequestError,
-  InternalServerError,
-  AppError,
-} from '../helpers/apiError'
+import { NotFoundError, BadRequestError, AppError } from '../helpers/apiError'
 
 // @desc    Fetch all products
 // @route   GET /api/v1/products
@@ -101,7 +95,9 @@ export const createProduct = async (
       price,
     })
 
-    await ProductService.create(product)
+    await ProductService.create(product) // Check https://jestjs.io/docs/en/asynchronous for more info about
+    // how to test async code, especially with error
+
     res.json(product)
   } catch (error) {
     if (error.name === 'ValidationError') {
