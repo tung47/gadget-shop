@@ -15,6 +15,7 @@ export type ProductDocument = Document & {
   numReviews: number;
   price: number;
   countInStock: number;
+  users: mongoose.Schema.Types.ObjectId[];
 }
 
 const productSchema = new mongoose.Schema(

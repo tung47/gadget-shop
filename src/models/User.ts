@@ -7,6 +7,7 @@ export type UserDocument = Document & {
   password: string;
   isAdmin: boolean;
   matchPassword(enteredPassword: string): Promise<boolean>;
+  products: mongoose.Schema.Types.ObjectId[];
 }
 
 const userSchema = new mongoose.Schema(
@@ -28,6 +29,12 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    products: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+      },
+    ],
   },
   {
     timestamps: true,
