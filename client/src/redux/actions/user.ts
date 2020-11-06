@@ -28,6 +28,10 @@ import {
   USER_UPDATE_PROFILE_RESET,
   UserLoginResetAction,
   USER_LOGIN_RESET,
+  UserListAction,
+  USER_LIST,
+  UserListResetAction,
+  USER_LIST_RESET,
 } from '../../types'
 
 // Fail Action
@@ -93,6 +97,7 @@ export const logout = (): AsyncAction => async (dispatch: Dispatch) => {
   dispatch(userRegisterResetAction())
   dispatch(userDetailsResetAction())
   dispatch(userUpdateProfileResetAction())
+  dispatch(userListResetAction())
 }
 
 // User Register Actions
@@ -148,7 +153,7 @@ const userDetailsAction = (user: UserProps): UserDetailsAction => {
   }
 }
 
-const userDetailsResetAction = (): UserDetailsResetAction => {
+export const userDetailsResetAction = (): UserDetailsResetAction => {
   return {
     type: USER_DETAILS_RESET,
   }
@@ -194,7 +199,7 @@ const userUpdateProfileAction = (user: UserProps): UserUpdateProfileAction => {
   }
 }
 
-const userUpdateProfileResetAction = (): UserUpdateProfileResetAction => {
+export const userUpdateProfileResetAction = (): UserUpdateProfileResetAction => {
   return {
     type: USER_UPDATE_PROFILE_RESET,
   }
@@ -220,7 +225,7 @@ export const updateUserProfile = (user: UserProps): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.put(`/api/users/profile`, user, config)
+    const { data } = await axios.put(`/api/v1/users/profile`, user, config)
 
     dispatch(userUpdateProfileAction(data))
   } catch (error) {
@@ -235,3 +240,52 @@ export const updateUserProfile = (user: UserProps): AsyncAction => async (
   }
 }
 
+// User List Actions
+const userListAction = (users: UserProps[]): UserListAction => {
+  return {
+    type: USER_LIST,
+    payload: {
+      users: users,
+    },
+  }
+}
+
+export const userListResetAction = (): UserListResetAction => {
+  return {
+    type: USER_LIST_RESET,
+  }
+}
+
+export const listUsers = (): AsyncAction => async (
+  dispatch: Dispatch,
+  getState: () => AppState
+) => {
+  try {
+    const { userLogin } = getState()
+
+    if (!userLogin || !userLogin.userInfo) {
+      throw new Error('401: Login to continue')
+    }
+
+    const { token } = userLogin.userInfo as UserProps
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+
+    const { data } = await axios.put(`/api/v1/users/`, config)
+
+    dispatch(userListAction(data))
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(userLogoutAction())
+    }
+    dispatch(failAction(message))
+  }
+}

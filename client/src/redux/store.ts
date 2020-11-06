@@ -34,6 +34,10 @@ let initState: AppState = {
     userInfo: null,
     error: null,
     success: false,
+  },
+  userList: {
+    users: [],
+    error: null,
   }
 }
 

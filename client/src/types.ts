@@ -298,4 +298,5 @@ export type AppState = {
   userRegister: UserRegisterState
   userDetails: UserDetailsState
   userUpdateProfile: UserUpdateProfileState
+  userList: UserListState
 }

@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { AppState, UserParams, UserProps } from '../types'
 import Message from '../components/Message'
-import { getUserDetails, updateUserProfile } from '../redux/actions/user'
+import { getUserDetails, updateUserProfile, userUpdateProfileResetAction,
+  userDetailsResetAction, } from '../redux/actions/user'
 
 const INITIAL_USER: UserProps = {
   _id: '',
@@ -53,8 +54,8 @@ const ProfileScreen = () => {
 
       if (updateSuccess) {
         history.push('/account')
-        // dispatch(userUpdateResetAction())
-        // dispatch(userDetailsResetAction())
+        dispatch(userUpdateProfileResetAction())
+        dispatch(userDetailsResetAction())
       }  
   }, [dispatch, history, authedUser, user, updateSuccess, userId])
 
@@ -67,9 +68,9 @@ const ProfileScreen = () => {
     }
   }
 
-  // if (!authedUser || authedUser._id !== userId) {
-  //   return <Redirect to="/" />
-  // }
+  if (!authedUser || authedUser._id !== userId) {
+    return <Redirect to="/" />
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target
