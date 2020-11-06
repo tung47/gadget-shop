@@ -57,7 +57,7 @@ export const admin = asyncHandler(
       if (req.user && adminReq.isAdmin) {
         next()
       } else {
-        return next(new UnauthorizedError('You do not have permissions'))
+        return next(new UnauthorizedError('Not authorized as an admin'))
       }
     } catch (err) {
       return next(new AppError())

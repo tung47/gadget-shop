@@ -37,7 +37,7 @@ export const authUser = asyncHandler(async (req: Request, res: Response) => {
 })
 
 // @desc    Get user profile
-// @route   GET /api/users/profile
+// @route   GET /api/v1/users/profile
 // @access  Private
 export const getUserProfile = asyncHandler(
   async (req: Request, res: Response) => {
@@ -121,3 +121,11 @@ export const registerUser = asyncHandler(
     }
   }
 )
+
+// @desc    Get all users
+// @route   GET /api/v1/users/
+// @access  Private
+export const getUsers = asyncHandler(async (req: Request, res: Response) => {
+  const users = await User.find()
+  res.json(users)
+})
