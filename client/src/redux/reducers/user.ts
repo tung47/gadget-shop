@@ -11,6 +11,8 @@ import {
   UserUpdateProfileState,
   USER_UPDATE_PROFILE,
   USER_UPDATE_PROFILE_RESET,
+  USER_REGISTER_RESET,
+  USER_LOGIN_RESET,
 } from '../../types'
 
 // User Login and Logout Reducers
@@ -27,6 +29,8 @@ export function userLoginReducer(
     case USER_LOGIN:
       const { userInfo } = action.payload
       return { ...state, userInfo }
+    case USER_LOGIN_RESET: 
+      return { ...state, userInfo: null, error: null }
     case USER_LOGOUT: 
       return { ...state, userInfo: null }
     case ACTION_FAIL: {
@@ -52,6 +56,8 @@ export function userRegisterReducer(
     case USER_REGISTER:
       const { userInfo } = action.payload
       return { ...state, userInfo }
+    case USER_REGISTER_RESET: 
+      return { ...state, userInfo: null, error: null }
     case ACTION_FAIL: {
       const { error } = action
       return { ...state, error }
@@ -75,6 +81,8 @@ export function userDetailsReducer(
     case USER_DETAILS:
       const { user } = action.payload
       return { ...state, user }
+    case USER_REGISTER_RESET: 
+      return { ...state, user: null, error: null }  
     case ACTION_FAIL: {
       const { error } = action
       return { ...state, error }
@@ -99,6 +107,8 @@ export function userUpdateProfileReducer(
     case USER_UPDATE_PROFILE:
       const { userInfo } = action.payload
       return { ...state, success: true, userInfo }
+    case USER_UPDATE_PROFILE_RESET: 
+      return { ...state, userInfo: null, error: null }
     case ACTION_FAIL: {
       const { error } = action
       return { ...state, error }

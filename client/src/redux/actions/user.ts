@@ -14,12 +14,20 @@ import {
   UserLoginState,
   UserLoginAction,
   UserRegisterAction,
+  UserRegisterResetAction,
   UserDetailsAction,
   USER_DETAILS,
   AppState,
   UserLogoutAction,
   UserUpdateProfileAction,
   USER_UPDATE_PROFILE,
+  USER_REGISTER_RESET,
+  UserDetailsResetAction,
+  USER_DETAILS_RESET,
+  UserUpdateProfileResetAction,
+  USER_UPDATE_PROFILE_RESET,
+  UserLoginResetAction,
+  USER_LOGIN_RESET,
 } from '../../types'
 
 // Fail Action
@@ -37,6 +45,12 @@ const userLoginAction = (user: UserProps): UserLoginAction => {
     payload: {
       userInfo: user,
     },
+  }
+}
+
+const userLoginResetAction = (): UserLoginResetAction => {
+  return {
+    type: USER_LOGIN_RESET,
   }
 }
 
@@ -64,7 +78,7 @@ export const login = (email: string, password: string): AsyncAction => async (
   }
 }
 
-// User Login Actions
+// User Logout Actions
 const userLogoutAction = (): UserLogoutAction => {
   return {
     type: USER_LOGOUT,
@@ -73,7 +87,12 @@ const userLogoutAction = (): UserLogoutAction => {
 
 export const logout = (): AsyncAction => async (dispatch: Dispatch) => {
   localStorage.removeItem('userInfo')
+  localStorage.removeItem('error')
   dispatch(userLogoutAction())
+  dispatch(userLoginResetAction())
+  dispatch(userRegisterResetAction())
+  dispatch(userDetailsResetAction())
+  dispatch(userUpdateProfileResetAction())
 }
 
 // User Register Actions
@@ -83,6 +102,12 @@ const userRegisterAction = (user: UserProps): UserRegisterAction => {
     payload: {
       userInfo: user,
     },
+  }
+}
+
+const userRegisterResetAction = (): UserRegisterResetAction => {
+  return {
+    type: USER_REGISTER_RESET,
   }
 }
 
@@ -123,6 +148,12 @@ const userDetailsAction = (user: UserProps): UserDetailsAction => {
   }
 }
 
+const userDetailsResetAction = (): UserDetailsResetAction => {
+  return {
+    type: USER_DETAILS_RESET,
+  }
+}
+
 export const getUserDetails = (id: string): AsyncAction => async (
   dispatch: Dispatch,
   getState: () => AppState
@@ -146,9 +177,9 @@ export const getUserDetails = (id: string): AsyncAction => async (
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message
-    // if (message === 'Not authorized, token failed') {
-    //   dispatch(logout())
-    // }
+    if (message === 'Not authorized, token failed') {
+      dispatch(userLogoutAction())
+    }
     dispatch(failAction(message))
   }
 }
@@ -160,6 +191,12 @@ const userUpdateProfileAction = (user: UserProps): UserUpdateProfileAction => {
     payload: {
       userInfo: user,
     },
+  }
+}
+
+const userUpdateProfileResetAction = (): UserUpdateProfileResetAction => {
+  return {
+    type: USER_UPDATE_PROFILE_RESET,
   }
 }
 
@@ -191,9 +228,10 @@ export const updateUserProfile = (user: UserProps): AsyncAction => async (
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message
-    // if (message === 'Not authorized, token failed') {
-    //   dispatch(logout())
-    // }
+    if (message === 'Not authorized, token failed') {
+      dispatch(userLogoutAction())
+    }
     dispatch(failAction(message))
   }
 }
+
