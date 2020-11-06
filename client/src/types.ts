@@ -80,11 +80,16 @@ export type MessageProps = {
 
 export type UserProps = {
   _id?: string
-  name: string
+  name?: string
   email: string
-  password: string
-  isAdmin: boolean
-  products: ProductProps[]
+  password?: string
+  isAdmin?: boolean
+  products?: ProductProps[]
+  token?: string
+}
+
+export type UserParams = {
+  userId: string
 }
 
 export type AsyncAction<ReturnType = void> = ThunkAction<
@@ -187,9 +192,28 @@ export type UserLoginAction = {
 
 export type UserLogoutAction = {
   type: typeof USER_LOGOUT
+}
+
+export type UserDetailsAction = {
+  type: typeof USER_DETAILS
   payload: {
-    user: UserProps[]
+    user: UserProps
   }
+}
+
+export type UserDetailsResetAction = {
+  type: typeof USER_DETAILS_RESET
+}
+
+export type UserUpdateProfileAction = {
+  type: typeof USER_UPDATE_PROFILE
+  payload: {
+    userInfo: UserProps
+  }
+}
+
+export type UserUpdateProfileResetAction = {
+  type: typeof USER_UPDATE_PROFILE_RESET
 }
 
 export type UserActions =
@@ -197,6 +221,9 @@ export type UserActions =
   | UserRegisterAction
   | UserLoginAction
   | UserLogoutAction
+  | UserDetailsAction
+  | UserUpdateProfileAction
+  | UserUpdateProfileResetAction
 
 // Product State
 export type ProductsState = {
@@ -222,10 +249,23 @@ export type UserRegisterState = {
   error: string | null
 }
 
+export type UserDetailsState = {
+  user: UserProps | null
+  error: string | null
+}
+
+export type UserUpdateProfileState = {
+  userInfo: UserProps | null
+  error: string | null
+  success: boolean
+}
+
 // App State
 export type AppState = {
   products: ProductsState
   cart: CartState
   userLogin: UserLoginState
   userRegister: UserRegisterState
+  userDetails: UserDetailsState
+  userUpdateProfile: UserUpdateProfileState
 }

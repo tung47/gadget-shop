@@ -25,6 +25,15 @@ let initState: AppState = {
   userRegister: {
     userInfo: null,
     error: null,
+  }, 
+  userDetails: {
+    user: null,
+    error: null,
+  }, 
+  userUpdateProfile: {
+    userInfo: null,
+    error: null,
+    success: false,
   }
 }
 
