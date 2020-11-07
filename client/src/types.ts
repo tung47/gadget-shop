@@ -1,5 +1,6 @@
 import { ThunkAction } from 'redux-thunk'
 import { Action } from 'redux'
+import Product from './components/Product'
 
 // Product Actions Types
 export const PRODUCT_LIST_REQUEST = 'PRODUCT_LIST_REQUEST'
@@ -9,6 +10,10 @@ export const PRODUCT_LIST_FAIL = 'PRODUCT_LIST_FAIL'
 export const PRODUCT_DETAILS_REQUEST = 'PRODUCT_DETAILS_REQUEST'
 export const PRODUCT_DETAILS_SUCCESS = 'PRODUCT_DETAILS_SUCCESS'
 export const PRODUCT_DETAILS_FAIL = 'PRODUCT_DETAILS_FAIL'
+
+export const PRODUCT_DELETE = 'PRODUCT_DELETE'
+export const PRODUCT_CREATE = 'PRODUCT_CREATE'
+export const PRODUCT_UPDATE = 'PRODUCT_UPDATE'
 
 // Cart Actions Types
 export const CART_ADD_ITEM = 'CART_ADD_ITEM'
@@ -38,6 +43,9 @@ export const USER_DELETE = 'USER_DELETE'
 export const USER_UPDATE = 'USER_UPDATE'
 export const USER_UPDATE_RESET = 'USER_UPDATE_RESET'
 
+export const USER_ADD_PRODUCT = 'USER_ADD_PRODUCT'
+export const USER_REMOVE_PRODUCT = 'USER_REMOVE_PRODUCT'
+
 // Fail Actions Types
 export const ACTION_FAIL = 'ACTION_FAIL'
 
@@ -59,6 +67,7 @@ export type ProductProps = {
   numReviews: number
   price: number
   countInStock: number
+  uploading?: boolean
 }
 
 export type ProductsProps = ProductProps[]
@@ -96,6 +105,10 @@ export type UserProps = {
 
 export type UserParams = {
   userId: string
+}
+
+export type ParamsType = { 
+  id: string 
 }
 
 export type AsyncAction<ReturnType = void> = ThunkAction<
@@ -144,6 +157,24 @@ export type ProductDetailsFailAction = {
   error: string | null
 }
 
+export type ProductDeleteAction = {
+  type: typeof PRODUCT_DELETE
+}
+
+export type ProductCreateAction = {
+  type: typeof PRODUCT_CREATE
+  payload: {
+    product: ProductProps
+  }
+}
+
+export type ProductUpdateAction = {
+  type: typeof PRODUCT_UPDATE
+  payload: {
+    product: ProductProps
+  }
+}
+
 export type ProductListActions =
   | ProductListRequestAction
   | ProductListSuccessAction
@@ -154,7 +185,12 @@ export type ProductDetailsActions =
   | ProductDetailsSuccessAction
   | ProductDetailsFailAction
 
-export type ProductActions = ProductListActions | ProductDetailsActions
+export type ProductActions =
+  | ProductListActions
+  | ProductDetailsActions
+  | ProductDeleteAction
+  | ProductCreateAction
+  | ProductUpdateAction
 
 // Cart Actions
 export type CartAddItemAction = {
@@ -236,6 +272,20 @@ export type UserListResetAction = {
   type: typeof USER_LIST_RESET
 }
 
+export type UserAddProductAction = {
+  type: typeof USER_ADD_PRODUCT
+  payload: {
+    product: ProductProps
+  }
+}
+
+export type UserRemoveProductAction = {
+  type: typeof USER_REMOVE_PRODUCT
+  payload: {
+    product: ProductProps
+  }
+}
+
 export type UserActions =
   | ErrorAction
   | UserRegisterAction
@@ -249,10 +299,12 @@ export type UserActions =
   | UserUpdateProfileResetAction
   | UserListAction
   | UserListResetAction
+  | UserAddProductAction
+  | UserRemoveProductAction
 
 // Product State
 export type ProductsState = {
-  product: ProductProps[]
+  product: ProductProps[] | null
   loading: boolean
   error: string | null
   productList: ProductProps[]

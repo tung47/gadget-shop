@@ -4,6 +4,9 @@ import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
+  PRODUCT_CREATE,
+  PRODUCT_UPDATE,
+  PRODUCT_DELETE,
 } from '../../types'
 
 const initialState: ProductsState = {
@@ -40,18 +43,17 @@ export default function products(
         error: action.error,
       }
     }
-
-    // case ADMIN_CREATE_PRODUCT: {
-    //   const { product } = action.payload
-    //   return { ...state, productList: state.productList.concat(product) }
-    // }
-    // case ADMIN_UPDATE_PRODUCT: {
-    //   const { product } = action.payload
-    //   return { ...state, product }
-    // }
-    // case DELETE_PRODUCT_ADMIN: {
-    //   return { ...state }
-    // }
+    case PRODUCT_CREATE: {
+      const { product } = action.payload
+      return { ...state, productList: state.productList.concat(product) }
+    }
+    case PRODUCT_UPDATE: {
+      const { product } = action.payload
+      //return { ...state, product: product }
+    }
+    case PRODUCT_DELETE: {
+      return { ...state }
+    }
 
     default:
       return state
