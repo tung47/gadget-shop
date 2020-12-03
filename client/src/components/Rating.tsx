@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { RatingProps } from '../../types'
+import { RatingProps } from '../types'
 
 const Rating = ({ value, text, color }: RatingProps) => {
   return (
