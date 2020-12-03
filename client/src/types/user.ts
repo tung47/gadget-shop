@@ -1,27 +1,42 @@
-import { ProductProps, ErrorAction } from './index'
+import { ProductProps } from './index'
 
 // User Actions Types
-export const USER_REGISTER = 'USER_REGISTER'
-export const USER_REGISTER_RESET = 'USER_REGISTER_RESET'
-
-export const USER_LOGIN = 'USER_LOGIN'
-export const USER_LOGIN_RESET = 'USER_LOGIN_RESET'
-
+export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST'
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
+export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
 export const USER_LOGOUT = 'USER_LOGOUT'
 
-export const USER_DETAILS = 'USER_DETAILS'
+export const USER_REGISTER_REQUEST = 'USER_REGISTER_REQUEST'
+export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS'
+export const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL'
+
+export const USER_DETAILS_REQUEST = 'USER_DETAILS_REQUEST'
+export const USER_DETAILS_SUCCESS = 'USER_DETAILS_SUCCESS'
+export const USER_DETAILS_FAIL = 'USER_DETAILS_FAIL'
 export const USER_DETAILS_RESET = 'USER_DETAILS_RESET'
 
-export const USER_UPDATE_PROFILE = 'USER_UPDATE_PROFILE'
-export const USER_UPDATE_PROFILE_RESET = 'USER_UPDATE_PROFILE_RESET'
+export const USER_UPDATE_REQUEST = 'USER_UPDATE_REQUEST'
+export const USER_UPDATE_SUCCESS = 'USER_UPDATE_SUCCESS'
+export const USER_UPDATE_FAIL = 'USER_UPDATE_FAIL'
+export const USER_UPDATE_RESET = 'USER_UPDATE_RESET'
 
-export const USER_LIST = 'USER_LIST'
+export const USER_LIST_REQUEST = 'USER_LIST_REQUEST'
+export const USER_LIST_SUCCESS = 'USER_LIST_SUCCESS'
+export const USER_LIST_FAIL = 'USER_LIST_FAIL'
 export const USER_LIST_RESET = 'USER_LIST_RESET'
 
-export const USER_DELETE = 'USER_DELETE'
+export const USER_DELETE_REQUEST = 'USER_DELETE_REQUEST'
+export const USER_DELETE_SUCCESS = 'USER_DELETE_SUCCESS'
+export const USER_DELETE_FAIL = 'USER_DELETE_FAIL'
 
-export const USER_UPDATE = 'USER_UPDATE'
-export const USER_UPDATE_RESET = 'USER_UPDATE_RESET'
+export const USER_BAN_REQUEST = 'USER_BAN_REQUEST'
+export const USER_BAN_SUCCESS = 'USER_BAN_SUCCESS'
+export const USER_BAN_FAIL = 'USER_BAN_FAIL'
+
+export const USER_UNBAN_REQUEST = 'USER_UNBAN_REQUEST'
+export const USER_UNBAN_SUCCESS = 'USER_UNBAN_SUCCESS'
+export const USER_UNBAN_FAIL = 'USER_UNBAN_FAIL'
+export const USER_BAN_UNBAN_RESET = 'USER_BAN_UNBAN_RESET'
 
 export const USER_ADD_PRODUCT = 'USER_ADD_PRODUCT'
 export const USER_REMOVE_PRODUCT = 'USER_REMOVE_PRODUCT'
@@ -40,114 +55,245 @@ export type UserParams = {
   userId: string
 }
 
-// User Actions
-export type UserRegisterAction = {
-  type: typeof USER_REGISTER
+// User Login Logout Actions Types
+export type LoginInfo = {
+  email: string
+  password: string
+}
+
+export type LoginResponse = {
+  token: string
+  message?: string
+}
+
+export type UserLoginRequestAction = {
+  type: typeof USER_LOGIN_REQUEST
+}
+export type UserLoginSuccessAction = {
+  type: typeof USER_LOGIN_SUCCESS
   payload: {
     userInfo: UserProps
   }
 }
-export type UserRegisterResetAction = {
-  type: typeof USER_REGISTER_RESET
+export type UserLoginFailAction = {
+  type: typeof USER_LOGIN_FAIL
+  error: string
 }
-
-export type UserLoginAction = {
-  type: typeof USER_LOGIN
-  payload: {
-    userInfo: UserProps
-  }
-}
-export type UserLoginResetAction = {
-  type: typeof USER_LOGIN_RESET
-}
-
 export type UserLogoutAction = {
   type: typeof USER_LOGOUT
 }
 
-export type UserDetailsAction = {
-  type: typeof USER_DETAILS
+// User Register Actions Types
+export type UserRegisterRequestAction = {
+  type: typeof USER_REGISTER_REQUEST
+}
+export type UserRegisterSuccessAction = {
+  type: typeof USER_REGISTER_SUCCESS
+  payload: {
+    userInfo: UserProps
+  }
+}
+export type UserRegisterFailureAction = {
+  type: typeof USER_REGISTER_FAIL
+  error: string
+}
+
+// User Details Actions Types
+export type UserDetailsRequestAction = {
+  type: typeof USER_DETAILS_REQUEST
+}
+export type UserDetailsSuccessAction = {
+  type: typeof USER_DETAILS_SUCCESS
   payload: {
     user: UserProps
   }
+}
+export type UserDetailsFailureAction = {
+  type: typeof USER_DETAILS_FAIL
+  error: string
 }
 export type UserDetailsResetAction = {
   type: typeof USER_DETAILS_RESET
 }
 
-export type UserUpdateProfileAction = {
-  type: typeof USER_UPDATE_PROFILE
+// User Update Profile Actions Types
+export type UserUpdateRequestAction = {
+  type: typeof USER_UPDATE_REQUEST
+}
+export type UserUpdateSuccessAction = {
+  type: typeof USER_UPDATE_SUCCESS
   payload: {
     userInfo: UserProps
   }
 }
-export type UserUpdateProfileResetAction = {
-  type: typeof USER_UPDATE_PROFILE_RESET
+export type UserUpdateFailAction = {
+  type: typeof USER_UPDATE_FAIL
+  error: string
+}
+export type UserUpdateResetAction = {
+  type: typeof USER_UPDATE_RESET
 }
 
-export type UserListAction = {
-  type: typeof USER_LIST
+// User List Actions Types
+export type UserListRequestAction = {
+  type: typeof USER_LIST_REQUEST
+}
+export type UserListSuccessAction = {
+  type: typeof USER_LIST_SUCCESS
   payload: {
-    users: UserProps[]
+    userList: UserProps[]
   }
+}
+export type UserListFailAction = {
+  type: typeof USER_LIST_FAIL
+  error: string
 }
 export type UserListResetAction = {
   type: typeof USER_LIST_RESET
 }
 
-export type UserAddProductAction = {
-  type: typeof USER_ADD_PRODUCT
-  payload: {
-    product: ProductProps
-  }
+// User Delete Actions Types
+export type UserDeleteRequestAction = {
+  type: typeof USER_DELETE_REQUEST
+}
+export type UserDeleteSuccessAction = {
+  type: typeof USER_DELETE_SUCCESS
+}
+export type UserDeleteFailAction = {
+  type: typeof USER_DELETE_FAIL
+  error: string
 }
 
-export type UserRemoveProductAction = {
-  type: typeof USER_REMOVE_PRODUCT
-  payload: {
-    product: ProductProps
-  }
+// User Ban Actions Types
+export type UserBanRequestAction = {
+  type: typeof USER_BAN_REQUEST
 }
+export type UserBanSuccessAction = {
+  type: typeof USER_BAN_SUCCESS
+}
+export type UserBanFailureAction = {
+  type: typeof USER_BAN_FAIL
+  error: string
+}
+
+// User Unban Actions Types
+export type UserUnbanRequestAction = {
+  type: typeof USER_UNBAN_REQUEST
+}
+export type UserUnbanSuccessAction = {
+  type: typeof USER_UNBAN_SUCCESS
+}
+export type UserUnbanFailAction = {
+  type: typeof USER_UNBAN_FAIL
+  error: string
+}
+export type UserBanUnbanReset = {
+  type: typeof USER_BAN_UNBAN_RESET
+}
+
+export type UserLoginLogoutActions =
+  | UserLoginRequestAction
+  | UserLoginSuccessAction
+  | UserLoginFailAction
+  | UserLogoutAction
+
+export type UserRegisterActions =
+  | UserRegisterRequestAction
+  | UserRegisterSuccessAction
+  | UserRegisterFailureAction
+
+export type UserDetailsActions =
+  | UserDetailsRequestAction
+  | UserDetailsSuccessAction
+  | UserDetailsFailureAction
+  | UserDetailsResetAction
+
+export type UserUpdateActions =
+  | UserUpdateRequestAction
+  | UserUpdateSuccessAction
+  | UserUpdateFailAction
+  | UserUpdateResetAction
+
+export type UserListActions =
+  | UserListRequestAction
+  | UserListSuccessAction
+  | UserListFailAction
+  | UserListResetAction
+
+export type UserDeleteActions =
+  | UserDeleteRequestAction
+  | UserDeleteSuccessAction
+  | UserDeleteFailAction
+
+export type UserBanUnbanActions =
+  | UserBanRequestAction
+  | UserBanSuccessAction
+  | UserBanFailureAction
+  | UserUnbanRequestAction
+  | UserUnbanSuccessAction
+  | UserUnbanFailAction
+  | UserBanUnbanReset
 
 export type UserActions =
-  | ErrorAction
-  | UserRegisterAction
-  | UserRegisterResetAction
-  | UserLoginAction
-  | UserLoginResetAction
-  | UserLogoutAction
-  | UserDetailsAction
-  | UserDetailsResetAction
-  | UserUpdateProfileAction
-  | UserUpdateProfileResetAction
-  | UserListAction
-  | UserListResetAction
-  | UserAddProductAction
-  | UserRemoveProductAction
-
-// User State
+  | UserLoginLogoutActions
+  | UserRegisterActions
+  | UserDetailsActions
+  | UserUpdateActions
+  | UserListActions
+  | UserDeleteActions
+  | UserBanUnbanActions
+  
+// USER STATE TYPES
 export type UserLoginState = {
+  loading: boolean
+  error: null | string
   userInfo: UserProps | null
-  error: string | null
 }
 
 export type UserRegisterState = {
+  loading: boolean
+  error: null | string
   userInfo: UserProps | null
-  error: string | null
-}
-
-export type UserDetailsState = {
-  user: UserProps | null
-  error: string | null
-}
-
-export type UserUpdateProfileState = {
-  userInfo: UserProps | null
-  error: string | null
   success: boolean
 }
 
+export type UserDetailsState = {
+  loading: boolean
+  error: null | string
+  user: UserProps | null
+}
+
+export type UserUpdateState = {
+  loading: boolean
+  error: null | string
+  success: boolean
+  userInfo: UserProps | null
+}
+
 export type UserListState = {
-  users: UserProps[] | null
-  error: string | null
+  loading: boolean
+  error: null | string
+  users: UserProps[]
+}
+
+export type UserDeleteState = {
+  loading: boolean
+  error: null | string
+  success: boolean
+}
+
+export type UserBanUnbanState = {
+  loading: boolean
+  error: null | string
+  success: boolean
+}
+
+export type UserState = {
+  userLogin: UserLoginState
+  userRegister: UserRegisterState
+  userDetails: UserDetailsState
+  userUpdate: UserUpdateState
+  userList: UserListState
+  userDelete: UserDeleteState
+  userBanUnban: UserBanUnbanState
 }

@@ -19,25 +19,43 @@ let initState: AppState = {
     cartItems: [],
   },
   userLogin: {
-    userInfo: userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null,
+    loading: false,
     error: null,
+    userInfo: userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null,
+    
   },
   userRegister: {
-    userInfo: null,
+    loading: false,
     error: null,
+    success: false,
+    userInfo: null,
+    
   }, 
   userDetails: {
-    user: null,
+    loading: false,
     error: null,
+    user: null,
   }, 
-  userUpdateProfile: {
+  userUpdate: {
+    loading: false,
+    error: null,
+    success: false,
     userInfo: null,
+  },
+  userList: {
+    loading: false,
+    error: null,
+    users: [],
+  },
+  userDelete: {
+    loading: false,
     error: null,
     success: false,
   },
-  userList: {
-    users: [],
+  userBanUnban: {
+    loading: false,
     error: null,
+    success: false,
   }
 }
 
