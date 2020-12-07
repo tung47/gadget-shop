@@ -18,7 +18,9 @@ const userLoginRequestAction = (): UserLoginLogoutActions => {
   }
 }
 
-const userLoginSuccessAction = (user: UserProps): UserLoginLogoutActions => {
+export const userLoginSuccessAction = (
+  user: UserProps
+): UserLoginLogoutActions => {
   return {
     type: USER_LOGIN_SUCCESS,
     payload: {

@@ -22,14 +22,12 @@ let initState: AppState = {
     loading: false,
     error: null,
     userInfo: userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null,
-    
   },
   userRegister: {
     loading: false,
     error: null,
     success: false,
     userInfo: null,
-    
   }, 
   userDetails: {
     loading: false,

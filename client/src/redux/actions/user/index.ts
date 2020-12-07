@@ -1,4 +1,5 @@
 export * from './loginLogout'
+export * from './register'
 
 // import { Dispatch } from 'redux'
 // import axios from 'axios'
@@ -42,48 +43,7 @@ export * from './loginLogout'
 //   USER_LOGOUT,
 // } from '../../../types'
 
-// // User Register Actions
-// const userRegisterAction = (user: UserProps): UserRegisterAction => {
-//   return {
-//     type: USER_REGISTER,
-//     payload: {
-//       userInfo: user,
-//     },
-//   }
-// }
 
-// const userRegisterResetAction = (): UserRegisterResetAction => {
-//   return {
-//     type: USER_REGISTER_RESET,
-//   }
-// }
-
-// export const register = (
-//   name: string,
-//   email: string,
-//   password: string
-// ): AsyncAction => async (dispatch: Dispatch) => {
-//   try {
-//     const config = {
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     }
-
-//     const { data } = await axios.post(
-//       '/api/v1/users',
-//       { name, email, password },
-//       config
-//     )
-
-//     dispatch(userRegisterAction(data))
-//     dispatch(userLoginAction(data))
-
-//     localStorage.setItem('userInfo', JSON.stringify(data))
-//   } catch (error) {
-//     dispatch(failAction(error))
-//   }
-// }
 
 // // User Details Actions
 // const userDetailsAction = (user: UserProps): UserDetailsAction => {
