@@ -28,6 +28,7 @@ export const authUser = asyncHandler(async (req: Request, res: Response) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isBanned: user.isBanned,
       token: generateToken(user._id),
     })
   } else {
