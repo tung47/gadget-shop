@@ -21,13 +21,8 @@ const RegisterScreen = () => {
 
   const dispatch = useDispatch()
 
-  const userLogin = useSelector(
-    (state: AppState) => state.userLogin
-  )
-  const { loading, error, userInfo } = userLogin
-
-  // const userRegister = useSelector((state: AppState) => state.userRegister)
-  // const { loading, error, userInfo } = userRegister
+  const userRegister = useSelector((state: AppState) => state.userRegister)
+  const { loading, error, userInfo } = userRegister
 
   const redirect = location.search ? location.search.split('=')[1] : '/'
 

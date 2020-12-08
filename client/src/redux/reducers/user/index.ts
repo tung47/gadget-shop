@@ -1,31 +1,6 @@
 export * from './loginLogout'
 export * from './register'
-
-
-// // User Details Reducers
-// const userDetailsInit = {
-//   user: null,
-//   error: null,
-// }
-
-// export function userDetailsReducer(
-//   state: UserDetailsState = userDetailsInit,
-//   action: UserActions
-// ): UserDetailsState {
-//   switch (action.type) {
-//     case USER_DETAILS:
-//       const { user } = action.payload
-//       return { ...state, user }
-//     case USER_REGISTER_RESET: 
-//       return { ...state, user: null, error: null }  
-//     case ACTION_FAIL: {
-//       const { error } = action
-//       return { ...state, error }
-//     }
-//     default:
-//       return state
-//   }
-// }
+export * from './details'
 
 // // User Update Profile Reducers
 // const userUpdateProfileInit = {

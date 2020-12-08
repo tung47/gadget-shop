@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { AppState, UserParams, UserProps } from '../types'
 import Message from '../components/Message'
-import { getUserDetails, updateUserProfile, userUpdateProfileResetAction,
-  userDetailsResetAction, } from '../redux/actions/user'
+import { getUserDetails, userDetailsResetAction, } from '../redux/actions/user'
 
 const INITIAL_USER: UserProps = {
   _id: '',
@@ -30,10 +29,10 @@ const ProfileScreen = () => {
   const userLogin = useSelector((state: AppState) => state.userLogin)
   const { userInfo: authedUser } = userLogin
 
-  const userUpdateProfile = useSelector(
-    (state: AppState) => state.userUpdateProfile
-  )
-  const { success: updateSuccess } = userUpdateProfile
+  // const userUpdateProfile = useSelector(
+  //   (state: AppState) => state.userUpdateProfile
+  // )
+  // const { success: updateSuccess } = userUpdateProfile
 
   useEffect(() => {
     if (
@@ -52,12 +51,12 @@ const ProfileScreen = () => {
         password: userDetails.password
       })
 
-      if (updateSuccess) {
-        history.push('/account')
-        dispatch(userUpdateProfileResetAction())
-        dispatch(userDetailsResetAction())
-      }  
-  }, [dispatch, history, authedUser, user, updateSuccess, userId])
+      // if (updateSuccess) {
+      //   history.push('/account')
+      //   //dispatch(userUpdateProfileResetAction())
+      //   dispatch(userDetailsResetAction())
+      // }  
+  }, [dispatch, history, authedUser, user, userId])
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -87,7 +86,7 @@ const ProfileScreen = () => {
         <h2>User Profile</h2>
         {message && <Message variant="danger">{message}</Message>}
         {error && <Message variant="danger">{error}</Message>}
-        {updateSuccess && <Message variant="success">Profile Updated</Message>}
+        {/* {updateSuccess && <Message variant="success">Profile Updated</Message>} */}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>

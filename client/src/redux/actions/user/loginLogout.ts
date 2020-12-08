@@ -69,7 +69,7 @@ export const login = (email: string, password: string): AsyncAction => async (
 }
 
 // User Logout Actions
-const userLogoutAction = (): UserLoginLogoutActions => {
+export const userLogoutAction = (): UserLoginLogoutActions => {
   return {
     type: USER_LOGOUT,
   }
