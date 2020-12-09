@@ -1,32 +1,7 @@
 export * from './loginLogout'
 export * from './register'
 export * from './details'
-
-// // User Update Profile Reducers
-// const userUpdateProfileInit = {
-//   success: false,
-//   userInfo: null,
-//   error: null,
-// }
-
-// export function userUpdateProfileReducer(
-//   state: UserUpdateProfileState = userUpdateProfileInit,
-//   action: UserActions
-// ): UserUpdateProfileState {
-//   switch (action.type) {
-//     case USER_UPDATE_PROFILE:
-//       const { userInfo } = action.payload
-//       return { ...state, success: true, userInfo }
-//     case USER_UPDATE_PROFILE_RESET: 
-//       return { ...state, userInfo: null, error: null }
-//     case ACTION_FAIL: {
-//       const { error } = action
-//       return { ...state, error }
-//     }
-//     default:
-//       return state
-//   }
-// }
+export * from './update'
 
 // // User Update Profile Reducers
 // const userListInit = {

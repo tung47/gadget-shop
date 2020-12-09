@@ -42,7 +42,7 @@ export const userDetailsResetAction = (): UserDetailsActions => {
   }
 }
 
-export const getUserDetails = (id: string): AsyncAction => async (
+export const getUserDetails = (userId: string): AsyncAction => async (
   dispatch: Dispatch,
   getState: () => AppState
 ) => {
@@ -59,17 +59,17 @@ export const getUserDetails = (id: string): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.get(`/api/v1/users/${id}`, config)
+    const { data } = await axios.get(`/api/v1/users/${userId}`, config)
 
     dispatch(userDetailsSuccessAction(data))
   } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
-    if (message === 'Not authorized, token failed') {
-      dispatch(userLogoutAction())
-    }
+    // const message =
+    //   error.response && error.response.data.message
+    //     ? error.response.data.message
+    //     : error.message
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(userLogoutAction())
+    // }
     dispatch(
       userDetailsFailAction(
         error.response && error.response.data.message

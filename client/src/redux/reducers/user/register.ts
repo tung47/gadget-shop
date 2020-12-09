@@ -20,7 +20,13 @@ export function userRegisterReducer(
 ): UserRegisterState {
   switch (action.type) {
     case USER_REGISTER_REQUEST:
-      return { ...state, loading: true, error: null, success: false }
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        success: false,
+        userInfo: null,
+      }
     case USER_REGISTER_SUCCESS:
       const { userInfo } = action.payload
       return { ...state, loading: false, success: true, userInfo }

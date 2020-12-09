@@ -6,6 +6,7 @@ import {
   userLoginReducer,
   userRegisterReducer,
   userDetailsReducer,
+  userUpdateReducer,
 } from './user'
 
 const createRootReducer = () =>
@@ -15,7 +16,7 @@ const createRootReducer = () =>
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
-    // userUpdateProfile: userUpdateProfileReducer,
+    userUpdate: userUpdateReducer,
     // userList: userListReducer,
   })
 

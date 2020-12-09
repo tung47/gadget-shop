@@ -20,15 +20,15 @@ export function userLoginReducer(
 ): UserLoginState {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
-      return { ...state, loading: true, error: null}
+      return { ...state, loading: true, error: null }
     case USER_LOGIN_SUCCESS:
       const { userInfo } = action.payload
       return { ...state, loading: false, userInfo }
-    case USER_LOGIN_FAIL: 
+    case USER_LOGIN_FAIL:
       const { error } = action
       return { ...state, loading: false, error }
-    case USER_LOGOUT: 
-      return { ...state, userInfo: null }
+    case USER_LOGOUT:
+      return { ...state, loading: false, error: null, userInfo: null }
     default:
       return state
   }
