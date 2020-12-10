@@ -6,8 +6,8 @@ export type UserDocument = Document & {
   email: string;
   password: string;
   isAdmin: boolean;
+  isBanned: boolean;
   matchPassword(enteredPassword: string): Promise<boolean>;
-  products: mongoose.Schema.Types.ObjectId[];
 }
 
 const userSchema = new mongoose.Schema(
@@ -29,12 +29,11 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    products: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-      },
-    ],
+    isBanned: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -2,7 +2,12 @@ import { combineReducers } from 'redux'
 
 import products from './product'
 import cart from './cart'
-import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer, userListReducer } from './user'
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
+  userUpdateReducer,
+} from './user'
 
 const createRootReducer = () =>
   combineReducers({
@@ -10,9 +15,9 @@ const createRootReducer = () =>
     cart,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
-    userDetails: userDetailsReducer, 
-    userUpdateProfile: userUpdateProfileReducer,
-    userList: userListReducer,
+    userDetails: userDetailsReducer,
+    userUpdate: userUpdateReducer,
+    // userList: userListReducer,
   })
 
 export default createRootReducer

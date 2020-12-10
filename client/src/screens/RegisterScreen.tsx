@@ -4,6 +4,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Message from '../components/Message'
+import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { register } from '../redux/actions/user'
 import { AppState } from '../types'
@@ -21,7 +22,10 @@ const RegisterScreen = () => {
   const dispatch = useDispatch()
 
   const userRegister = useSelector((state: AppState) => state.userRegister)
-  const { error, userInfo } = userRegister
+  const { loading, error } = userRegister
+
+  const userLogin = useSelector((state: AppState) => state.userLogin)
+  const { userInfo } = userLogin
 
   const redirect = location.search ? location.search.split('=')[1] : '/'
 
@@ -34,7 +38,7 @@ const RegisterScreen = () => {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (password !== confirmPassword) {
-      setMessage('Passwords do not match')
+      setMessage('Password and username do not match')
     } else {
       dispatch(register(name, email, password))
     }
@@ -45,6 +49,7 @@ const RegisterScreen = () => {
       <h1>Register</h1>
       {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
+      {loading && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId='name'>
           <Form.Label>Name</Form.Label>

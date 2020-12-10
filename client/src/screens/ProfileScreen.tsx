@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect, useHistory, useParams } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { AppState, UserParams, UserProps } from '../types'
+import { AppState, UserProps } from '../types'
 import Message from '../components/Message'
-import { getUserDetails, updateUserProfile, userUpdateProfileResetAction,
-  userDetailsResetAction, } from '../redux/actions/user'
+import Loader from '../components/Loader'
+import {
+  getUserDetails,
+  updateUser,
+} from '../redux/actions/user'
+import { userInfo } from 'os'
 
 const INITIAL_USER: UserProps = {
   _id: '',
@@ -16,69 +20,52 @@ const INITIAL_USER: UserProps = {
 }
 
 const ProfileScreen = () => {
-  const { userId } = useParams<UserParams>()
-  
+  const history = useHistory()
+
   const [user, setUser] = useState(INITIAL_USER)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
 
   const dispatch = useDispatch()
-  const history = useHistory()
 
-  const { user: userDetails, error } = useSelector((state: AppState) => state.userDetails)
+  const userDetails = useSelector((state: AppState) => state.userDetails)
+  const { loading, error, user: detailsUser } = userDetails
+  const {_id: id} = user
   
   const userLogin = useSelector((state: AppState) => state.userLogin)
-  const { userInfo: authedUser } = userLogin
+  const { userInfo: loginUser } = userLogin
 
-  const userUpdateProfile = useSelector(
-    (state: AppState) => state.userUpdateProfile
-  )
-  const { success: updateSuccess } = userUpdateProfile
+  const userUpdate = useSelector((state: AppState) => state.userUpdate)
+  const { success: updateSuccess } = userUpdate
 
   useEffect(() => {
-    if (
-      (authedUser && authedUser._id !== userId) ||
-      !userDetails ||
-      userDetails._id !== userId
-    ) {
-      dispatch(getUserDetails(userId))
+    if (!loginUser) {
+      history.push('/login')
+    } else {
+      if (!detailsUser || !detailsUser.name) {
+        dispatch(getUserDetails('profile'))
+      } else {
+        setName(detailsUser.name)
+        setEmail(detailsUser.email)
+      }
     }
-
-    userDetails &&
-      setUser({
-        _id: userDetails._id,
-        name: userDetails.name || '',
-        email: userDetails.email,
-        password: userDetails.password
-      })
-
-      if (updateSuccess) {
-        history.push('/account')
-        dispatch(userUpdateProfileResetAction())
-        dispatch(userDetailsResetAction())
-      }  
-  }, [dispatch, history, authedUser, user, updateSuccess, userId])
+  }, [dispatch, history, userInfo, user])
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (user.password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      dispatch(updateUserProfile(user))
+      const updateData = { id, name, email, password }
+      dispatch(updateUser(updateData))
     }
   }
 
-  if (!authedUser || authedUser._id !== userId) {
+  if (!loginUser) {
     return <Redirect to="/" />
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target
-
-    setUser((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
   }
 
   return (
@@ -86,53 +73,59 @@ const ProfileScreen = () => {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant="danger">{message}</Message>}
-        {error && <Message variant="danger">{error}</Message>}
+        {}
         {updateSuccess && <Message variant="success">Profile Updated</Message>}
-        <Form onSubmit={submitHandler}>
-          <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="name"
-              placeholder="Enter name"
-              value={user.name}
-              onChange={handleChange}
-            ></Form.Control>
-          </Form.Group>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">{error}</Message>
+        ) : (
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="name"
+                placeholder="Enter name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group controlId="email">
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={user.email}
-              onChange={handleChange}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group controlId="email">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter password"
-              value={user.password}
-              onChange={handleChange}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm password"
-              value={confirmPassword}
-              onChange={handleChange}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group controlId="confirmPassword">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Button type="submit" variant="primary">
-            Update
-          </Button>
-        </Form>
+            <Button type="submit" variant="primary">
+              Update
+            </Button>
+          </Form>
+        )}
       </Col>
       <Col md={9}>
         <h2>My Orders</h2>

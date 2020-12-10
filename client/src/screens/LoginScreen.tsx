@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../types'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
+import Loader from '../components/Loader'
 import { login } from '../redux/actions/user'
 
 const LoginScreen = () => {
@@ -19,7 +20,7 @@ const LoginScreen = () => {
   const userLogin = useSelector(
     (state: AppState) => state.userLogin
   )
-  const { userInfo, error } = userLogin
+  const { loading, error, userInfo } = userLogin
 
   const redirect = location.search ? location.search.split('=')[1] : '/'
 
@@ -38,6 +39,7 @@ const LoginScreen = () => {
     <FormContainer>
       <h1>Login</h1>
       {error && <Message variant='danger'>{error}</Message>}
+      {loading && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="email">
           <Form.Label>Email Address</Form.Label>
