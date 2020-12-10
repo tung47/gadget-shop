@@ -6,7 +6,7 @@ import {
   AsyncAction,
   ProductProps,
   CartActions,
-} from '../../types'
+} from '../../../types'
 
 // ADD TO CART AND REMOVE FROM CART ACTIONS
 const cartAddItem = (product: ProductProps): CartActions => {

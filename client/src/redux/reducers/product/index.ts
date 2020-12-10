@@ -7,7 +7,7 @@ import {
   PRODUCT_CREATE,
   PRODUCT_UPDATE,
   PRODUCT_DELETE,
-} from '../../types'
+} from '../../../types'
 
 const initialState: ProductsState = {
   product: [],
