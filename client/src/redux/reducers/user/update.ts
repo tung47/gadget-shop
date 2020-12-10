@@ -21,7 +21,13 @@ export function userUpdateReducer(
 ): UserUpdateState {
   switch (action.type) {
     case USER_UPDATE_REQUEST:
-      return { ...state, loading: true, error: null }
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        success: false,
+        userInfo: null,
+      }
     case USER_UPDATE_SUCCESS:
       const { userInfo } = action.payload
       return { ...state, loading: false, success: true, userInfo }

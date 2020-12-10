@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect, useHistory, useLocation, useParams } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { AppState, UserParams, UserProps } from '../types'
+import { AppState, UserProps } from '../types'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {
   getUserDetails,
   updateUser,
-  userDetailsResetAction,
-  userUpdateResetAction,
 } from '../redux/actions/user'
 import { userInfo } from 'os'
 
@@ -22,114 +20,52 @@ const INITIAL_USER: UserProps = {
 }
 
 const ProfileScreen = () => {
-  // const location = useLocation()
-  // const history = useHistory()
-
-  // const [id, setId] = useState('')
-  // const [name, setName] = useState('')
-  // const [email, setEmail] = useState('')
-  // const [password, setPassword] = useState('')
-  // const [confirmPassword, setConfirmPassword] = useState('')
-  // const [message, setMessage] = useState(null)
-
-  // const dispatch = useDispatch()
-
-  // const userDetails = useSelector((state: AppState) => state.userDetails)
-  // const { loading, error, user: detailsUser } = userDetails
-
-  // const userLogin = useSelector((state: AppState) => state.userLogin)
-  // const { userInfo } = userLogin
-
-  // const userUpdate = useSelector((state: AppState) => state.userUpdate)
-  // const { success } = userUpdate
-
-  // useEffect(() => {
-  //   if (!userInfo) {
-  //     history.push('/login')
-  //   } else {
-  //     if (!detailsUser || !detailsUser.name) {
-  //       dispatch(getUserDetails('profile'))
-  //     } else {
-  //       setId(userInfo._id)
-  //       setName(detailsUser.name)
-  //       setEmail(detailsUser.email)
-  //     }
-  //   }
-  // }, [dispatch, history, userInfo, detailsUser])
-
-  // const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   if (detailsUser.password !== confirmPassword) {
-  //     setMessage('Passwords do not match')
-  //   } else {
-  //     const id = user._id
-  //     dispatch(updateUser( id, name, email, password ))
-  //   }
-  // }
-
-
-  const { userId } = useParams<UserParams>()
+  const history = useHistory()
 
   const [user, setUser] = useState(INITIAL_USER)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
 
   const dispatch = useDispatch()
-  const history = useHistory()
 
-  const userLogin = useSelector((state: AppState) => state.userLogin)
-  const { userInfo: loginUser } = userLogin
-  
   const userDetails = useSelector((state: AppState) => state.userDetails)
   const { loading, error, user: detailsUser } = userDetails
+  const {_id: id} = user
   
+  const userLogin = useSelector((state: AppState) => state.userLogin)
+  const { userInfo: loginUser } = userLogin
+
   const userUpdate = useSelector((state: AppState) => state.userUpdate)
   const { success: updateSuccess } = userUpdate
 
   useEffect(() => {
-    if (
-      (loginUser && loginUser._id !== userId) ||
-      !detailsUser ||
-      detailsUser._id !== userId
-    ) {
-      dispatch(getUserDetails(userId))
+    if (!loginUser) {
+      history.push('/login')
+    } else {
+      if (!detailsUser || !detailsUser.name) {
+        dispatch(getUserDetails('profile'))
+      } else {
+        setName(detailsUser.name)
+        setEmail(detailsUser.email)
+      }
     }
-
-    detailsUser &&
-      setUser({
-        _id: detailsUser._id,
-        name: detailsUser.name,
-        email: detailsUser.email,
-        password: detailsUser.password,
-      })
-
-    if (updateSuccess) {
-      history.push('/account')
-      dispatch(userUpdateResetAction())
-      dispatch(userDetailsResetAction())
-    }
-  }, [dispatch, history, detailsUser, loginUser ])
+  }, [dispatch, history, userInfo, user])
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (user.password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      dispatch(updateUser(user))
+      const updateData = { id, name, email, password }
+      dispatch(updateUser(updateData))
     }
   }
 
-  if (!loginUser || loginUser._id !== userId) {
+  if (!loginUser) {
     return <Redirect to="/" />
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target
-
-    setUser((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
   }
 
   return (
@@ -150,8 +86,8 @@ const ProfileScreen = () => {
               <Form.Control
                 type="name"
                 placeholder="Enter name"
-                value={user.name}
-                onChange={handleChange}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
@@ -160,8 +96,8 @@ const ProfileScreen = () => {
               <Form.Control
                 type="email"
                 placeholder="Enter email"
-                value={user.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
@@ -170,8 +106,8 @@ const ProfileScreen = () => {
               <Form.Control
                 type="password"
                 placeholder="Enter password"
-                value={user.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
@@ -181,7 +117,7 @@ const ProfileScreen = () => {
                 type="password"
                 placeholder="Confirm password"
                 value={confirmPassword}
-                onChange={handleChange}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
