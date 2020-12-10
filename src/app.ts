@@ -13,6 +13,8 @@ import bluebird from 'bluebird'
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets'
 
 import movieRouter from './routers/movie'
+import productRouter from './routers/product'
+import userRouter from './routers/user'
 
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
@@ -38,7 +40,7 @@ mongoose
   })
 
 // Express configuration
-app.set('port', process.env.PORT || 3000)
+app.set('port', process.env.PORT || 5000)
 
 // Use common 3rd-party middlewares
 app.use(compression())
@@ -46,9 +48,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(lusca.xframe('SAMEORIGIN'))
 app.use(lusca.xssProtection(true))
+app.use(express.json())
 
-// Use movie router
+// Use router
 app.use('/api/v1/movies', movieRouter)
+app.use('/api/v1/products', productRouter)
+app.use('/api/v1/users', userRouter)
 
 // Custom API error handler
 app.use(apiErrorHandler)
