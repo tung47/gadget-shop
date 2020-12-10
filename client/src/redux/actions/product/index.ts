@@ -15,7 +15,7 @@ import {
   PRODUCT_CREATE,
   PRODUCT_UPDATE,
   PRODUCT_DELETE
-} from '../../types'
+} from '../../../types'
 
 // Product List Actions
 const productListRequest = (): ProductListActions => {

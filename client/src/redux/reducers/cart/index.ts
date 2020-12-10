@@ -3,7 +3,7 @@ import {
   CartActions,
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
-} from '../../types'
+} from '../../../types'
 
 export default function cart(
   state: CartState = { cartItems: [] },
