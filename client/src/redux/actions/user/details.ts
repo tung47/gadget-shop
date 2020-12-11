@@ -11,7 +11,7 @@ import {
   USER_DETAILS_RESET,
   AppState,
 } from '../../../types'
-import { userLogoutAction } from './loginLogout'
+// import { userLogoutAction } from './loginLogout'
 
 // User Details Actions
 const userDetailsRequestAction = (): UserDetailsActions => {

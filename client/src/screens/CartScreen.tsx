@@ -1,26 +1,28 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   Link,
-  RouteComponentProps,
   useHistory,
-  useParams,
-  useRouteMatch,
 } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Button, Card } from 'react-bootstrap'
 
-import { RouteParam, AppState, ProductProps } from '../types'
+import { AppState, ProductProps } from '../types'
 import Message from '../components/Message'
-import { addToCart, removeFromCart } from '../redux/actions'
+import { removeFromCart } from '../redux/actions'
 
-const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
+const CartScreen = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const { cartItems } = useSelector((state: AppState) => state.cart)
+  const cart = useSelector((state: AppState) => state.cart)
+  const { cartItems } = cart
 
   const removeFromCartHandler = (product: ProductProps) => {
     dispatch(removeFromCart(product))
+  }
+
+  const checkoutHandler = () => {
+    history.push('/login?redirect=shipping')
   }
 
   return (
@@ -83,7 +85,7 @@ const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                 type="button"
                 className="btn-block"
                 disabled={cartItems.length === 0}
-                // onClick={checkoutHandler}
+                onClick={checkoutHandler}
               >
                 Proceed To Checkout
               </Button>
