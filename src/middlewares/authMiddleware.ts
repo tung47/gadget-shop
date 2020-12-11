@@ -59,7 +59,7 @@ export const admin = asyncHandler(
       } else {
         return next(new UnauthorizedError('Not authorized as an admin'))
       }
-    } catch (err) {
+    } catch (error) {
       return next(new AppError())
     }
   }

@@ -125,8 +125,8 @@ export const registerUser = asyncHandler(
 
 // @desc    Get all users
 // @route   GET /api/v1/users/
-// @access  Private
+// @access  Private/Admin
 export const getUsers = asyncHandler(async (req: Request, res: Response) => {
-  const users = await User.find()
+  const users = await User.find({})
   res.json(users)
 })
