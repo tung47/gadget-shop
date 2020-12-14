@@ -141,7 +141,7 @@ export type UserListRequestAction = {
 export type UserListSuccessAction = {
   type: typeof USER_LIST_SUCCESS
   payload: {
-    userList: UserProps[]
+    users: UserProps[]
   }
 }
 export type UserListFailAction = {
