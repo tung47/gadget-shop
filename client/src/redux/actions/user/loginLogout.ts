@@ -10,8 +10,10 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGOUT,
 } from '../../../types'
+import { userRegisterResetAction } from './register'
 import { userDetailsResetAction } from './details'
 import { userUpdateResetAction } from './update'
+import { userListResetAction } from './list'
 
 // User Login Actions
 const userLoginRequestAction = (): UserLoginLogoutActions => {
@@ -81,8 +83,8 @@ export const logout = (): AsyncAction => async (dispatch: Dispatch) => {
   localStorage.removeItem('userInfo')
   localStorage.removeItem('error')
   dispatch(userLogoutAction())
-  // dispatch(userRegisterResetAction())
+  dispatch(userRegisterResetAction())
   dispatch(userDetailsResetAction())
   dispatch(userUpdateResetAction())
-  // dispatch(userListResetAction())
+  dispatch(userListResetAction())
 }

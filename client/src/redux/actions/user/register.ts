@@ -8,6 +8,7 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
+  USER_REGISTER_RESET,
 } from '../../../types'
 import { userLoginSuccessAction } from './loginLogout'
 
@@ -31,6 +32,11 @@ const userRegisterFailAction = (error: string): UserRegisterActions => {
   return {
     type: USER_REGISTER_FAIL,
     error,
+  }
+}
+export const userRegisterResetAction = (): UserRegisterActions => {
+  return {
+    type: USER_REGISTER_RESET,
   }
 }
 

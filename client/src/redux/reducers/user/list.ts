@@ -3,6 +3,7 @@ import {
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
+  USER_LIST_RESET,
   UserListState,
 } from '../../../types'
 
@@ -23,13 +24,14 @@ export function userListReducer(
         ...state,
         loading: true,
         error: null,
+        users: [],
       }
     case USER_LIST_SUCCESS:
       const { users } = action.payload
       return {
         ...state,
-        users: users,
         loading: false,
+        users: users,
       }
     case USER_LIST_FAIL:
       const { error } = action
@@ -37,6 +39,13 @@ export function userListReducer(
         ...state,
         loading: false,
         error: error,
+      }
+    case USER_LIST_RESET:
+      return { 
+        ...state, 
+        loading: false, 
+        error: null, 
+        users: [] 
       }
     default:
       return state
