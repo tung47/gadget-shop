@@ -29,6 +29,12 @@ const UserListScreen = () => {
     }
   }, [dispatch, history, userInfo])
 
+  const deleteHandler = () => {
+    if (window.confirm('Are you sure')) {
+      console.log('Deleted!')
+    }
+  }
+
   return (
     <>
       <h1>Users</h1>
@@ -61,6 +67,15 @@ const UserListScreen = () => {
                   ) : (
                     <i className="fas fa-times" style={{ color: 'red' }}></i>
                   )}
+                </td>
+                <td>
+                  <Button
+                    variant='danger'
+                    className='btn-sm'
+                    onClick={() => deleteHandler()}
+                  >
+                    <i className='fas fa-trash'></i>
+                  </Button>
                 </td>
               </tr>
             ))}
