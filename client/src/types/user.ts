@@ -9,6 +9,7 @@ export const USER_LOGOUT = 'USER_LOGOUT'
 export const USER_REGISTER_REQUEST = 'USER_REGISTER_REQUEST'
 export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS'
 export const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL'
+export const USER_REGISTER_RESET = 'USER_REGISTER_RESET'
 
 export const USER_DETAILS_REQUEST = 'USER_DETAILS_REQUEST'
 export const USER_DETAILS_SUCCESS = 'USER_DETAILS_SUCCESS'
@@ -37,9 +38,6 @@ export const USER_UNBAN_REQUEST = 'USER_UNBAN_REQUEST'
 export const USER_UNBAN_SUCCESS = 'USER_UNBAN_SUCCESS'
 export const USER_UNBAN_FAIL = 'USER_UNBAN_FAIL'
 export const USER_BAN_UNBAN_RESET = 'USER_BAN_UNBAN_RESET'
-
-export const USER_ADD_PRODUCT = 'USER_ADD_PRODUCT'
-export const USER_REMOVE_PRODUCT = 'USER_REMOVE_PRODUCT'
 
 export type UserProps = {
   _id?: string
@@ -97,6 +95,9 @@ export type UserRegisterFailureAction = {
   type: typeof USER_REGISTER_FAIL
   error: string
 }
+export type UserRegisterResetAction = {
+  type: typeof USER_REGISTER_RESET
+}
 
 // User Details Actions Types
 export type UserDetailsRequestAction = {
@@ -141,7 +142,7 @@ export type UserListRequestAction = {
 export type UserListSuccessAction = {
   type: typeof USER_LIST_SUCCESS
   payload: {
-    userList: UserProps[]
+    users: UserProps[]
   }
 }
 export type UserListFailAction = {
@@ -201,6 +202,7 @@ export type UserRegisterActions =
   | UserRegisterRequestAction
   | UserRegisterSuccessAction
   | UserRegisterFailureAction
+  | UserRegisterResetAction
 
 export type UserDetailsActions =
   | UserDetailsRequestAction

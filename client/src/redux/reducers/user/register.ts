@@ -3,6 +3,7 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
+  USER_REGISTER_RESET,
   UserRegisterState,
 } from '../../../types'
 
@@ -33,6 +34,14 @@ export function userRegisterReducer(
     case USER_REGISTER_FAIL:
       const { error } = action
       return { ...state, loading: false, success: false, error }
+    case USER_REGISTER_RESET:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        userInfo: null,
+        success: false,
+      }
     default:
       return state
   }
