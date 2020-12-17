@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import asyncHandler from 'express-async-handler'
 
 import generateToken from '../util/generateToken'
@@ -8,6 +8,7 @@ import {
   BadRequestError,
   NotFoundError,
   UnauthorizedError,
+  ForbiddenError,
 } from '../helpers/apiError'
 
 export type Payload = {
@@ -17,25 +18,29 @@ export type Payload = {
 // @desc    Auth user & get token
 // @route   POST /api/v1/users/login
 // @access  Public
-export const authUser = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password }: UserDocument = req.body
+export const authUser = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password, isBanned }: UserDocument = req.body
 
-  const user: UserDocument = await User.findOne({ email })
+    const user: UserDocument = await User.findOne({ email })
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      isBanned: user.isBanned,
-      token: generateToken(user._id),
-    })
-  } else {
-    res.status(401)
-    throw new UnauthorizedError('Invalid email or password')
+    if (isBanned) {
+      next(new ForbiddenError('User is banned. Cannot login in.'))
+    } else if (!isBanned && user && (await user.matchPassword(password))) {
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        isBanned: user.isBanned,
+        token: generateToken(user._id),
+      })
+    } else {
+      res.status(401)
+      throw new UnauthorizedError('Invalid email or password')
+    }
   }
-})
+)
 
 // @desc    Get user profile
 // @route   GET /api/v1/users/profile
@@ -51,6 +56,7 @@ export const getUserProfile = asyncHandler(
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        isBanned: user.isBanned,
       })
     } else {
       res.status(404)
@@ -81,6 +87,7 @@ export const updateUserProfile = asyncHandler(
         name: updatedUser.name,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
+        isBanned: updatedUser.isBanned,
         token: generateToken(updatedUser._id),
       })
     } else {
@@ -114,6 +121,7 @@ export const registerUser = asyncHandler(
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        isBanned: user.isBanned,
         token: generateToken(user._id),
       })
     } else {
@@ -145,3 +153,35 @@ export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
     throw new NotFoundError('User not found')
   }
 })
+
+// @desc   Ban user
+// @route  POST api/v1/users/:id/ban-user
+// @access Private/Admin
+export const banUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await UserService.ban(req.params.userId)
+    res.status(200).send(`User id ${req.params.userId} is banned`)
+  } catch (error) {
+    next(new NotFoundError('User not found', error))
+  }
+}
+
+// @desc   Unban user
+// @route  POST api/v1/users/:userId/unban-user
+// @access Private/Admin
+export const unbanUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await UserService.unban(req.params.userId)
+    res.status(200).send(`User id ${req.params.userId} is unbanned`)
+  } catch (error) {
+    next(new NotFoundError('User not found', error))
+  }
+}

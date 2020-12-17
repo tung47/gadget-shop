@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,17 +6,22 @@ import { useHistory } from 'react-router-dom'
 
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listUsers, deleteUser } from '../redux/actions/user'
+import {
+  listUsers,
+  deleteUser,
+  banUser,
+  unbanUser,
+} from '../redux/actions/user'
 import { AppState } from '../types'
 
 const UserListScreen = () => {
   const history = useHistory()
-
   const dispatch = useDispatch()
+  const [message, setMessage] = useState('')
 
   const userList = useSelector((state: AppState) => state.userList)
   const { loading, error, users } = userList
-  
+
   const userLogin = useSelector((state: AppState) => state.userLogin)
   const { userInfo } = userLogin
 
@@ -29,11 +34,22 @@ const UserListScreen = () => {
     } else {
       history.push('/login')
     }
-  }, [dispatch, history, userInfo, successDelete ])
+  }, [dispatch, history, userInfo, successDelete])
 
   const deleteHandler = (userId: string) => {
     if (window.confirm('Are you sure?')) {
       dispatch(deleteUser(userId))
+    }
+  }
+
+  const banHandler = (userId: string) => {
+    const user = users.find((user) => user._id === userId)
+
+    if (user) {
+      user.isBanned && dispatch(unbanUser(user._id))
+      !user.isBanned && dispatch(banUser(user._id))
+    } else {
+      setMessage('Could not find user')
     }
   }
 
@@ -44,6 +60,8 @@ const UserListScreen = () => {
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
+      ) : message ? (
+        <Message variant="danger">{message}</Message>
       ) : (
         <Table striped bordered hover responsive className="table-sm">
           <thead>
@@ -52,6 +70,7 @@ const UserListScreen = () => {
               <th>NAME</th>
               <th>EMAIL</th>
               <th>ADMIN</th>
+              <th>BAN STATUS</th>
               <th></th>
             </tr>
           </thead>
@@ -71,12 +90,26 @@ const UserListScreen = () => {
                   )}
                 </td>
                 <td>
+                  {user.isBanned ? (
+                    <i className="fas fa-check" style={{ color: 'green' }}></i>
+                  ) : (
+                    <i className="fas fa-times" style={{ color: 'red' }}></i>
+                  )}
+                </td>
+                <td>
                   <Button
-                    variant='danger'
-                    className='btn-sm'
+                    variant="danger"
+                    className="btn-sm"
                     onClick={() => deleteHandler(user._id)}
                   >
-                    <i className='fas fa-trash'></i>
+                    <i className="fas fa-trash"></i>
+                  </Button>
+                  <Button
+                    variant="danger"
+                    className="btn-sm"
+                    onClick={() => banHandler(user._id)}
+                  >
+                    <i className="fas fa-ban"></i>
                   </Button>
                 </td>
               </tr>

@@ -39,26 +39,10 @@ function deleteProduct(productId: string): Promise<ProductDocument | null> {
   return Product.findByIdAndDelete(productId).exec()
 }
 
-async function placeOrder(
-  productId: string,
-  userId: string
-): Promise<UserDocument> {
-  const product = await Product.findById(productId).exec()
-  if (!product) throw new Error(`Product ${productId} not found`)
-  // console.log('PRODUCT _ID: ', product._id)
-
-  const user = await User.findById(userId).exec()
-  // console.log('USER ID: ', userId)
-  if (!user) throw new Error(`User ${userId} not found`)
-  user.products.push(product._id)
-  return user.save()
-}
-
 export default {
   create,
   getProducts,
   getProductById,
   update,
   deleteProduct,
-  placeOrder,
 }

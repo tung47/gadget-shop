@@ -45,7 +45,7 @@ export type UserProps = {
   email: string
   password?: string
   isAdmin?: boolean
-  products?: ProductProps[]
+  isBanned?: boolean
   token?: string
 }
 

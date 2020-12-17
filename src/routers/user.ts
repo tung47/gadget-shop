@@ -7,6 +7,8 @@ import {
   registerUser,
   updateUserProfile,
   deleteUser,
+  banUser,
+  unbanUser,
 } from '../controllers/user'
 import { protect, admin } from '../middlewares/authMiddleware'
 
@@ -20,5 +22,7 @@ router
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile)
 router.route('/:id').delete(protect, admin, deleteUser)
+router.post('/:id/ban-user', protect, admin, banUser)
+router.post('/:id/unban-user', protect, admin, unbanUser)
 
 export default router
