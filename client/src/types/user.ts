@@ -40,7 +40,7 @@ export const USER_UNBAN_FAIL = 'USER_UNBAN_FAIL'
 export const USER_BAN_UNBAN_RESET = 'USER_BAN_UNBAN_RESET'
 
 export type UserProps = {
-  _id?: string
+  _id: string
   name?: string
   email: string
   password?: string

@@ -85,7 +85,7 @@ export const updateUserProfile = asyncHandler(
       })
     } else {
       res.status(404)
-      throw new Error('User not found')
+      throw new NotFoundError('User not found')
     }
   }
 )
@@ -129,4 +129,19 @@ export const registerUser = asyncHandler(
 export const getUsers = asyncHandler(async (req: Request, res: Response) => {
   const users = await User.find({})
   res.json(users)
+})
+
+// @desc    Delete user
+// @route   DELETE /api/v1/users/:id
+// @access  Private/Admin
+export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
+  const user = await User.findById(req.params.id)
+
+  if (user) {
+    await user.remove()
+    res.json({ message: 'User removed' })
+  } else {
+    res.status(404)
+    throw new NotFoundError('User not found')
+  }
 })

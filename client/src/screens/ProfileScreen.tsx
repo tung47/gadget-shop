@@ -6,11 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppState, UserProps } from '../types'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import {
-  getUserDetails,
-  updateUser,
-} from '../redux/actions/user'
-import { userInfo } from 'os'
+import { getUserDetails, updateUser } from '../redux/actions/user'
 
 const INITIAL_USER: UserProps = {
   _id: '',
@@ -33,8 +29,8 @@ const ProfileScreen = () => {
 
   const userDetails = useSelector((state: AppState) => state.userDetails)
   const { loading, error, user: detailsUser } = userDetails
-  const {_id: id} = user
-  
+  const { _id } = user
+
   const userLogin = useSelector((state: AppState) => state.userLogin)
   const { userInfo: loginUser } = userLogin
 
@@ -52,14 +48,14 @@ const ProfileScreen = () => {
         setEmail(detailsUser.email)
       }
     }
-  }, [dispatch, history, userInfo, user])
+  }, [dispatch, history, loginUser, user])
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      const updateData = { id, name, email, password }
+      const updateData = { _id, name, email, password }
       dispatch(updateUser(updateData))
     }
   }

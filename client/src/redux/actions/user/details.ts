@@ -63,19 +63,13 @@ export const getUserDetails = (userId: string): AsyncAction => async (
 
     dispatch(userDetailsSuccessAction(data))
   } catch (error) {
-    // const message =
-    //   error.response && error.response.data.message
-    //     ? error.response.data.message
-    //     : error.message
-    // if (message === 'Not authorized, token failed') {
-    //   dispatch(userLogoutAction())
-    // }
-    dispatch(
-      userDetailsFailAction(
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-      )
-    )
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      // dispatch(userLogoutAction())
+    }
+    dispatch(userDetailsFailAction(message))
   }
 }
