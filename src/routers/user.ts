@@ -7,6 +7,8 @@ import {
   registerUser,
   updateUserProfile,
   deleteUser,
+  getUserById,
+  updateUserStatus,
   banUser,
   unbanUser,
 } from '../controllers/user'
@@ -21,7 +23,11 @@ router
   .route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile)
-router.route('/:id').delete(protect, admin, deleteUser)
+router
+  .route('/:id')
+  .delete(protect, admin, deleteUser)
+  .get(protect, admin, getUserById)
+  .put(protect, admin, updateUserStatus)
 router.post('/:id/ban-user', protect, admin, banUser)
 router.post('/:id/unban-user', protect, admin, unbanUser)
 

@@ -154,6 +154,45 @@ export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   }
 })
 
+// @desc    Get user by ID
+// @route   GET /api/users/:id
+// @access  Private/Admin
+export const getUserById = asyncHandler(async (req: Request, res: Response) => {
+  const user = await User.findById(req.params.id).select('-password')
+
+  if (user) {
+    res.json(user)
+  } else {
+    res.status(404)
+    throw new NotFoundError('User not found')
+  }
+})
+
+// @desc    Update user status
+// @route   PUT /api/users/:id
+// @access  Private/Admin
+export const updateUserStatus = asyncHandler(
+  async (req: Request, res: Response) => {
+    const user = await User.findById(req.params.id)
+
+    if (user) {
+      user.isAdmin = req.body.isAdmin
+      user.isBanned = req.body.isBanned
+
+      const updatedUser = await user.save()
+
+      res.json({
+        _id: updatedUser._id,
+        isAdmin: updatedUser.isAdmin,
+        isBanned: updatedUser.isBanned,
+      })
+    } else {
+      res.status(404)
+      throw new NotFoundError('User not found')
+    }
+  }
+)
+
 // @desc   Ban user
 // @route  POST api/v1/users/:id/ban-user
 // @access Private/Admin
