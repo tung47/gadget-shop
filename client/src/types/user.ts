@@ -1,5 +1,3 @@
-import { ProductProps } from './index'
-
 // User Actions Types
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
@@ -29,15 +27,6 @@ export const USER_LIST_RESET = 'USER_LIST_RESET'
 export const USER_DELETE_REQUEST = 'USER_DELETE_REQUEST'
 export const USER_DELETE_SUCCESS = 'USER_DELETE_SUCCESS'
 export const USER_DELETE_FAIL = 'USER_DELETE_FAIL'
-
-export const USER_BAN_REQUEST = 'USER_BAN_REQUEST'
-export const USER_BAN_SUCCESS = 'USER_BAN_SUCCESS'
-export const USER_BAN_FAIL = 'USER_BAN_FAIL'
-
-export const USER_UNBAN_REQUEST = 'USER_UNBAN_REQUEST'
-export const USER_UNBAN_SUCCESS = 'USER_UNBAN_SUCCESS'
-export const USER_UNBAN_FAIL = 'USER_UNBAN_FAIL'
-export const USER_BAN_UNBAN_RESET = 'USER_BAN_UNBAN_RESET'
 
 export type UserProps = {
   _id: string
@@ -165,33 +154,6 @@ export type UserDeleteFailAction = {
   error: string
 }
 
-// User Ban Actions Types
-export type UserBanRequestAction = {
-  type: typeof USER_BAN_REQUEST
-}
-export type UserBanSuccessAction = {
-  type: typeof USER_BAN_SUCCESS
-}
-export type UserBanFailureAction = {
-  type: typeof USER_BAN_FAIL
-  error: string
-}
-
-// User Unban Actions Types
-export type UserUnbanRequestAction = {
-  type: typeof USER_UNBAN_REQUEST
-}
-export type UserUnbanSuccessAction = {
-  type: typeof USER_UNBAN_SUCCESS
-}
-export type UserUnbanFailAction = {
-  type: typeof USER_UNBAN_FAIL
-  error: string
-}
-export type UserBanUnbanReset = {
-  type: typeof USER_BAN_UNBAN_RESET
-}
-
 export type UserLoginLogoutActions =
   | UserLoginRequestAction
   | UserLoginSuccessAction
@@ -227,15 +189,6 @@ export type UserDeleteActions =
   | UserDeleteSuccessAction
   | UserDeleteFailAction
 
-export type UserBanUnbanActions =
-  | UserBanRequestAction
-  | UserBanSuccessAction
-  | UserBanFailureAction
-  | UserUnbanRequestAction
-  | UserUnbanSuccessAction
-  | UserUnbanFailAction
-  | UserBanUnbanReset
-
 export type UserActions =
   | UserLoginLogoutActions
   | UserRegisterActions
@@ -243,7 +196,6 @@ export type UserActions =
   | UserUpdateActions
   | UserListActions
   | UserDeleteActions
-  | UserBanUnbanActions
   
 // USER STATE TYPES
 export type UserLoginState = {
@@ -284,12 +236,6 @@ export type UserDeleteState = {
   success: boolean
 }
 
-export type UserBanUnbanState = {
-  loading: boolean
-  error: null | string
-  success: boolean
-}
-
 export type UserState = {
   userLogin: UserLoginState
   userRegister: UserRegisterState
@@ -297,5 +243,4 @@ export type UserState = {
   userUpdate: UserUpdateState
   userList: UserListState
   userDelete: UserDeleteState
-  userBanUnban: UserBanUnbanState
 }

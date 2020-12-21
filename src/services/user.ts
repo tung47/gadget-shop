@@ -46,14 +46,6 @@ async function updateProfile(
   }).exec()
 }
 
-const ban = async (userId: string) => {
-  return await User.findByIdAndUpdate({ _id: userId }, { isBanned: true })
-}
-
-const unban = async (userId: string) => {
-  return await User.findByIdAndUpdate({ _id: userId }, { isBanned: false })
-}
-
 export default {
   create,
   findById,
@@ -61,6 +53,4 @@ export default {
   updateUser,
   deleteUser,
   updateProfile,
-  ban,
-  unban,
 }

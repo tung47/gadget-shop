@@ -95,8 +95,7 @@ export const createProduct = async (
       price,
     })
 
-    await ProductService.create(product) // Check https://jestjs.io/docs/en/asynchronous for more info about
-    // how to test async code, especially with error
+    await ProductService.create(product)
 
     res.json(product)
   } catch (error) {

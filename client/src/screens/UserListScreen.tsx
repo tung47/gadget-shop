@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,16 +9,13 @@ import Loader from '../components/Loader'
 import {
   listUsers,
   deleteUser,
-  banUser,
-  unbanUser,
 } from '../redux/actions/user'
 import { AppState } from '../types'
 
 const UserListScreen = () => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const [message, setMessage] = useState('')
-
+  
   const userList = useSelector((state: AppState) => state.userList)
   const { loading, error, users } = userList
 
@@ -42,17 +39,6 @@ const UserListScreen = () => {
     }
   }
 
-  const banHandler = (userId: string) => {
-    const user = users.find((user) => user._id === userId)
-
-    if (user) {
-      user.isBanned && dispatch(unbanUser(user._id))
-      !user.isBanned && dispatch(banUser(user._id))
-    } else {
-      setMessage('Could not find user')
-    }
-  }
-
   return (
     <>
       <h1>Users</h1>
@@ -60,8 +46,6 @@ const UserListScreen = () => {
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
-      ) : message ? (
-        <Message variant="danger">{message}</Message>
       ) : (
         <Table striped bordered hover responsive className="table-sm">
           <thead>
@@ -97,19 +81,17 @@ const UserListScreen = () => {
                   )}
                 </td>
                 <td>
+                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
+                    <Button variant='light' className='btn-sm'>
+                      <i className='fas fa-edit'></i>
+                    </Button>
+                  </LinkContainer>
                   <Button
                     variant="danger"
                     className="btn-sm"
                     onClick={() => deleteHandler(user._id)}
                   >
                     <i className="fas fa-trash"></i>
-                  </Button>
-                  <Button
-                    variant="danger"
-                    className="btn-sm"
-                    onClick={() => banHandler(user._id)}
-                  >
-                    <i className="fas fa-ban"></i>
                   </Button>
                 </td>
               </tr>

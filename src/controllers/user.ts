@@ -192,35 +192,3 @@ export const updateUserStatus = asyncHandler(
     }
   }
 )
-
-// @desc   Ban user
-// @route  POST api/v1/users/:id/ban-user
-// @access Private/Admin
-export const banUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    await UserService.ban(req.params.userId)
-    res.status(200).send(`User id ${req.params.userId} is banned`)
-  } catch (error) {
-    next(new NotFoundError('User not found', error))
-  }
-}
-
-// @desc   Unban user
-// @route  POST api/v1/users/:userId/unban-user
-// @access Private/Admin
-export const unbanUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    await UserService.unban(req.params.userId)
-    res.status(200).send(`User id ${req.params.userId} is unbanned`)
-  } catch (error) {
-    next(new NotFoundError('User not found', error))
-  }
-}

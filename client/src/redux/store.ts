@@ -50,11 +50,6 @@ let initState: AppState = {
     error: null,
     success: false,
   },
-  userBanUnban: {
-    loading: false,
-    error: null,
-    success: false,
-  }
 }
 
 const savedState = localStorage.getItem('state') || ''
