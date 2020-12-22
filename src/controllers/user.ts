@@ -171,24 +171,22 @@ export const getUserById = asyncHandler(async (req: Request, res: Response) => {
 // @desc    Update user status
 // @route   PUT /api/users/:id
 // @access  Private/Admin
-export const updateUserStatus = asyncHandler(
-  async (req: Request, res: Response) => {
-    const user = await User.findById(req.params.id)
+export const editUser = asyncHandler(async (req: Request, res: Response) => {
+  const user = await User.findById(req.params.id)
 
-    if (user) {
-      user.isAdmin = req.body.isAdmin
-      user.isBanned = req.body.isBanned
+  if (user) {
+    user.isAdmin = req.body.isAdmin
+    user.isBanned = req.body.isBanned
 
-      const updatedUser = await user.save()
+    const editedUser = await user.save()
 
-      res.json({
-        _id: updatedUser._id,
-        isAdmin: updatedUser.isAdmin,
-        isBanned: updatedUser.isBanned,
-      })
-    } else {
-      res.status(404)
-      throw new NotFoundError('User not found')
-    }
+    res.json({
+      _id: editedUser._id,
+      isAdmin: editedUser.isAdmin,
+      isBanned: editedUser.isBanned,
+    })
+  } else {
+    res.status(404)
+    throw new NotFoundError('User not found')
   }
-)
+})
