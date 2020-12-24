@@ -28,13 +28,18 @@ export const USER_DELETE_REQUEST = 'USER_DELETE_REQUEST'
 export const USER_DELETE_SUCCESS = 'USER_DELETE_SUCCESS'
 export const USER_DELETE_FAIL = 'USER_DELETE_FAIL'
 
+export const USER_EDIT_REQUEST = 'USER_EDIT_REQUEST'
+export const USER_EDIT_SUCCESS = 'USER_EDIT_SUCCESS'
+export const USER_EDIT_FAIL = 'USER_EDIT_FAIL'
+export const USER_EDIT_RESET = 'USER_EDIT_RESET'
+
 export type UserProps = {
   _id: string
   name?: string
   email: string
   password?: string
-  isAdmin?: boolean
-  isBanned?: boolean
+  isAdmin: boolean
+  isBanned: boolean
   token?: string
 }
 
@@ -154,6 +159,24 @@ export type UserDeleteFailAction = {
   error: string
 }
 
+// User Update Profile Actions Types
+export type UserEditRequestAction = {
+  type: typeof USER_EDIT_REQUEST
+}
+export type UserEditSuccessAction = {
+  type: typeof USER_EDIT_SUCCESS
+  payload: {
+    user: UserProps[]
+  }
+}
+export type UserEditFailAction = {
+  type: typeof USER_EDIT_FAIL
+  error: string
+}
+export type UserEditResetAction = {
+  type: typeof USER_EDIT_RESET
+}
+
 export type UserLoginLogoutActions =
   | UserLoginRequestAction
   | UserLoginSuccessAction
@@ -189,6 +212,12 @@ export type UserDeleteActions =
   | UserDeleteSuccessAction
   | UserDeleteFailAction
 
+export type UserEditActions =
+  | UserEditRequestAction
+  | UserEditSuccessAction
+  | UserEditFailAction
+  | UserEditResetAction  
+
 export type UserActions =
   | UserLoginLogoutActions
   | UserRegisterActions
@@ -196,6 +225,7 @@ export type UserActions =
   | UserUpdateActions
   | UserListActions
   | UserDeleteActions
+  | UserEditActions
   
 // USER STATE TYPES
 export type UserLoginState = {
@@ -236,6 +266,13 @@ export type UserDeleteState = {
   success: boolean
 }
 
+export type UserEditState = {
+  loading: boolean
+  error: null | string
+  success: boolean
+  user: UserProps[]
+}
+
 export type UserState = {
   userLogin: UserLoginState
   userRegister: UserRegisterState
@@ -243,4 +280,5 @@ export type UserState = {
   userUpdate: UserUpdateState
   userList: UserListState
   userDelete: UserDeleteState
+  userEdit: UserEditState
 }

@@ -20,7 +20,7 @@ const userDetailsRequestAction = (): UserDetailsActions => {
   }
 }
 
-const userDetailsSuccessAction = (user: UserProps): UserDetailsActions => {
+export const userDetailsSuccessAction = (user: UserProps): UserDetailsActions => {
   return {
     type: USER_DETAILS_SUCCESS,
     payload: {

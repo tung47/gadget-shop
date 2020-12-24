@@ -9,6 +9,7 @@ import {
   userUpdateReducer,
   userListReducer,
   userDeleteReducer,
+  userEditReducer,
 } from './user'
 
 const createRootReducer = () =>
@@ -21,6 +22,7 @@ const createRootReducer = () =>
     userUpdate: userUpdateReducer,
     userList: userListReducer,
     userDelete: userDeleteReducer,
+    userEdit: userEditReducer,
   })
 
 export default createRootReducer

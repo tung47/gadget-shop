@@ -13,6 +13,8 @@ const INITIAL_USER: UserProps = {
   name: '',
   email: '',
   password: '',
+  isAdmin: false,
+  isBanned: false,
 }
 
 const ProfileScreen = () => {
@@ -24,6 +26,8 @@ const ProfileScreen = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [isBanned, setIsBanned] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -48,14 +52,14 @@ const ProfileScreen = () => {
         setEmail(detailsUser.email)
       }
     }
-  }, [dispatch, history, loginUser, user])
+  }, [dispatch, history, loginUser, detailsUser])
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      const updateData = { _id, name, email, password }
+      const updateData = { _id, name, email, password, isAdmin, isBanned }
       dispatch(updateUser(updateData))
     }
   }

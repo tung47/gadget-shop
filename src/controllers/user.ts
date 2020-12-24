@@ -168,7 +168,7 @@ export const getUserById = asyncHandler(async (req: Request, res: Response) => {
   }
 })
 
-// @desc    Update user status
+// @desc    Edit user status
 // @route   PUT /api/users/:id
 // @access  Private/Admin
 export const editUser = asyncHandler(async (req: Request, res: Response) => {
