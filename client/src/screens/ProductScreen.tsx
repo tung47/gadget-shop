@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Link,
   useParams,
@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
+  Form,
   Row,
   Col,
   Image,
@@ -16,33 +17,37 @@ import {
   Breadcrumb,
 } from 'react-bootstrap'
 
-import { AppState, RouteParam } from '../types'
+import { AppState, RouteParam, ProductProps } from '../types'
 import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import { listProductDetails } from '../redux/actions/product'
 import { addToCart } from '../redux/actions/cart'
 
 const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  
-  const error: string | null = useSelector(
-    (state: AppState) => state.products.error
-  )
 
-  const { id } = useParams<RouteParam>()
+  const [qty, setQty] = useState(1)
 
-  const product = useSelector((state: AppState) =>
-    state.products.productList.find((p) => p._id === id)
-  )
+  const productDetails = useSelector((state: AppState) => state.productDetails)
+  const { loading, error, product: detailsProduct } = productDetails
+  const {
+    name,
+    image,
+    description,
+    rating: detailsRating,
+    numReviews,
+    price,
+    countInStock,
+  } = detailsProduct as ProductProps
 
-  if (!product) {
-    return <p>No Products</p>
-  }
+  useEffect(() => {
+    dispatch(listProductDetails(match.params.id))
+  }, [dispatch, match])
 
   const addToCartHandler = () => {
-    history.push(`/cart/${match.params.id}`)
-    dispatch(addToCart(product))
+    history.push(`/cart/${match.params.id}?qty=${qty}`)
   }
 
   return (
@@ -54,36 +59,28 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
       <Breadcrumb>
         <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
         <Breadcrumb.Item href="/">Products</Breadcrumb.Item>
-        <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
+        <Breadcrumb.Item active>{name}</Breadcrumb.Item>
       </Breadcrumb>
 
-      {!product ? (
+      {loading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
         <Row>
           <Col md={6}>
-            <ListGroup variant="flush">
-              <ListGroup.Item>
-                <Image src={product.image} alt="product.name" fluid />
-              </ListGroup.Item>
-              <ListGroup.Item>
-                Description: {product.description}
-              </ListGroup.Item>
-            </ListGroup>
+            <Image src={image} alt={name} fluid />
           </Col>
           <Col md={3}>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h3>{product.name}</h3>
+                <h3>{name}</h3>
               </ListGroup.Item>
               <ListGroup.Item>
-                <Rating
-                  value={product.rating}
-                  text={`${product.numReviews} reviews`}
-                />
+                <Rating value={detailsRating} text={`${numReviews} reviews`} />
               </ListGroup.Item>
+              <ListGroup.Item>Price: ${price}</ListGroup.Item>
+              <ListGroup.Item>Description: {description}</ListGroup.Item>
             </ListGroup>
           </Col>
           <Col md={3}>
@@ -93,23 +90,44 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                   <Row>
                     <Col>Price:</Col>
                     <Col>
-                      <strong>€{product.price}</strong>
+                      <strong>€{price}</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>
+
                 <ListGroup.Item>
                   <Row>
-                    <Col>
-                      {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
-                    </Col>
+                    <Col>{countInStock > 0 ? 'In Stock' : 'Out Of Stock'}</Col>
                   </Row>
                 </ListGroup.Item>
+
+                {countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col>
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e: any) => setQty(e.target.value)}
+                        >
+                          {[...Array(countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
+
                 <ListGroup.Item>
                   <Button
                     onClick={addToCartHandler}
                     className="btn btn-dark"
                     type="button"
-                    disabled={product.countInStock === 0}
+                    disabled={countInStock === 0}
                   >
                     Add To Cart
                   </Button>
