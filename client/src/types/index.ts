@@ -9,7 +9,7 @@ import {
   UserUpdateState,
   UserListState,
   UserDeleteState,
-  UserBanUnbanState,
+  UserEditState,
 } from './user'
 import { CartState } from './cart'
 
@@ -56,5 +56,5 @@ export type AppState = {
   userUpdate: UserUpdateState
   userList: UserListState
   userDelete: UserDeleteState
-  userBanUnban: UserBanUnbanState
+  userEdit: UserEditState
 }

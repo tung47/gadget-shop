@@ -8,6 +8,8 @@ import {
   userDetailsReducer,
   userUpdateReducer,
   userListReducer,
+  userDeleteReducer,
+  userEditReducer,
 } from './user'
 
 const createRootReducer = () =>
@@ -19,6 +21,8 @@ const createRootReducer = () =>
     userDetails: userDetailsReducer,
     userUpdate: userUpdateReducer,
     userList: userListReducer,
+    userDelete: userDeleteReducer,
+    userEdit: userEditReducer,
   })
 
 export default createRootReducer

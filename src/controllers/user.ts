@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import asyncHandler from 'express-async-handler'
 
 import generateToken from '../util/generateToken'
@@ -8,6 +8,7 @@ import {
   BadRequestError,
   NotFoundError,
   UnauthorizedError,
+  ForbiddenError,
 } from '../helpers/apiError'
 
 export type Payload = {
@@ -17,25 +18,29 @@ export type Payload = {
 // @desc    Auth user & get token
 // @route   POST /api/v1/users/login
 // @access  Public
-export const authUser = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password }: UserDocument = req.body
+export const authUser = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password, isBanned }: UserDocument = req.body
 
-  const user: UserDocument = await User.findOne({ email })
+    const user: UserDocument = await User.findOne({ email })
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      isBanned: user.isBanned,
-      token: generateToken(user._id),
-    })
-  } else {
-    res.status(401)
-    throw new UnauthorizedError('Invalid email or password')
+    if (isBanned) {
+      next(new ForbiddenError('User is banned. Cannot login in.'))
+    } else if (!isBanned && user && (await user.matchPassword(password))) {
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        isBanned: user.isBanned,
+        token: generateToken(user._id),
+      })
+    } else {
+      res.status(401)
+      throw new UnauthorizedError('Invalid email or password')
+    }
   }
-})
+)
 
 // @desc    Get user profile
 // @route   GET /api/v1/users/profile
@@ -51,6 +56,7 @@ export const getUserProfile = asyncHandler(
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        isBanned: user.isBanned,
       })
     } else {
       res.status(404)
@@ -81,11 +87,12 @@ export const updateUserProfile = asyncHandler(
         name: updatedUser.name,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
+        isBanned: updatedUser.isBanned,
         token: generateToken(updatedUser._id),
       })
     } else {
       res.status(404)
-      throw new Error('User not found')
+      throw new NotFoundError('User not found')
     }
   }
 )
@@ -114,6 +121,7 @@ export const registerUser = asyncHandler(
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        isBanned: user.isBanned,
         token: generateToken(user._id),
       })
     } else {
@@ -129,4 +137,56 @@ export const registerUser = asyncHandler(
 export const getUsers = asyncHandler(async (req: Request, res: Response) => {
   const users = await User.find({})
   res.json(users)
+})
+
+// @desc    Delete user
+// @route   DELETE /api/v1/users/:id
+// @access  Private/Admin
+export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
+  const user = await User.findById(req.params.id)
+
+  if (user) {
+    await user.remove()
+    res.json({ message: 'User removed' })
+  } else {
+    res.status(404)
+    throw new NotFoundError('User not found')
+  }
+})
+
+// @desc    Get user by ID
+// @route   GET /api/users/:id
+// @access  Private/Admin
+export const getUserById = asyncHandler(async (req: Request, res: Response) => {
+  const user = await User.findById(req.params.id).select('-password')
+
+  if (user) {
+    res.json(user)
+  } else {
+    res.status(404)
+    throw new NotFoundError('User not found')
+  }
+})
+
+// @desc    Edit user status
+// @route   PUT /api/users/:id
+// @access  Private/Admin
+export const editUser = asyncHandler(async (req: Request, res: Response) => {
+  const user = await User.findById(req.params.id)
+
+  if (user) {
+    user.isAdmin = req.body.isAdmin
+    user.isBanned = req.body.isBanned
+
+    const editedUser = await user.save()
+
+    res.json({
+      _id: editedUser._id,
+      isAdmin: editedUser.isAdmin,
+      isBanned: editedUser.isBanned,
+    })
+  } else {
+    res.status(404)
+    throw new NotFoundError('User not found')
+  }
 })
