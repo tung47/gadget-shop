@@ -40,6 +40,7 @@ export type ProductProps = {
   numReviews: number
   price: number
   countInStock: number
+  qty?: number
   uploading?: boolean
 }
 
@@ -171,8 +172,7 @@ export type ProductActions =
   | ProductDeleteActions
   | ProductUpdateActions
 
-// Product State
-// PRODUCT STATE TYPES
+// Product States
 export type ProductListState = {
   loading: boolean
   error: null | string

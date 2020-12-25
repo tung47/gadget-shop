@@ -11,7 +11,7 @@ import {
   UserDeleteState,
   UserEditState,
 } from './user'
-import { CartState } from './cart'
+import { CartItemsState } from './cart'
 
 export * from './user'
 export * from './product'
@@ -50,7 +50,7 @@ export type ErrorAction = {
 export type AppState = {
   productList: ProductListState
   productDetails: ProductDetailsState
-  cart: CartState
+  cartItems: CartItemsState
   userLogin: UserLoginState
   userRegister: UserRegisterState
   userDetails: UserDetailsState

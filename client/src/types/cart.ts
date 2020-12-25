@@ -5,6 +5,10 @@ export const CART_ADD_ITEM = 'CART_ADD_ITEM'
 export const CART_REMOVE_ITEM = 'CART_REMOVE_ITEM'
 export const CART_FAIL_ITEM = 'CART_FAIL_ITEM'
 
+export type ItemsProps = {
+  items: ProductProps[]
+}
+
 // Cart Actions
 export type CartAddItemAction = {
   type: typeof CART_ADD_ITEM
@@ -31,6 +35,10 @@ export type CartActions =
   | CartFailItemAction
 
 // Cart State
+export type CartItemsState = {
+  items: ProductProps[]
+}
+
 export type CartState = {
-  cartItems: ProductProps[]
+  cartItems: CartItemsState
 }

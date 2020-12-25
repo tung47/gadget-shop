@@ -37,8 +37,8 @@ export function productDetailsReducer(
       const { error } = action
       return {
         ...state,
-        error,
         loading: false,
+        error,
       }
     }
     case PRODUCT_DETAILS_RESET: {
