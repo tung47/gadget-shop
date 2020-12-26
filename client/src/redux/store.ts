@@ -23,8 +23,8 @@ let initState: AppState = {
     error: null,
     product: null,
   },
-  cartItems: {
-    items: cartItemsFromStorage,
+  cart: {
+    cartItems: cartItemsFromStorage,
   },
   userLogin: {
     loading: false,

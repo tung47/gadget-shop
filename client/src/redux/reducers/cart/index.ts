@@ -1,19 +1,19 @@
 import {
   ProductProps,
-  CartItemsState,
+  CartState,
   CartActions,
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
 } from '../../../types'
 
-const cartItemsInit: CartItemsState = {
-  items: [],
+const cartInit: CartState = {
+  cartItems: [],
 }
 
-export function cartItemsReducer(
-  state: CartItemsState = cartItemsInit,
+export function cartReducer(
+  state: CartState = cartInit,
   action: CartActions
-): CartItemsState {
+): CartState {
   switch (action.type) {
     case CART_ADD_ITEM:
       // {
@@ -24,29 +24,27 @@ export function cartItemsReducer(
       //     return { ...state, cartItems: [...state.cartItems, product] }
       //   }
       // }
-      const { product: item } = action.payload
-      console.log(item)
-      const { _id } = item as ProductProps
-
-      const existItem = state.items.find((x) => x._id === _id)
+      const { product } = action.payload
+      
+      const existItem = state.cartItems.find((x: ProductProps) => x._id === product._id)
 
       if (existItem) {
         return {
           ...state,
-          items: state.items.map((x) => (x._id === item._id ? item : x)),
+          cartItems: state.cartItems.map((x: ProductProps) => x._id === existItem._id ? product : x),
         }
       } else {
         return {
           ...state,
-          items: [...state.items, item],
+          cartItems: [...state.cartItems, product]
         }
       }
     case CART_REMOVE_ITEM: {
       const { product } = action.payload
-      const index = state.items.findIndex((x) => x._id === product._id)
+      const index = state.cartItems.findIndex((x: ProductProps) => x._id === product._id)
       if (index >= 0) {
-        state.items.splice(index, 1)
-        return { ...state, items: [...state.items] }
+        state.cartItems.splice(index, 1)
+        return { ...state, cartItems: [...state.cartItems] }
       } else {
         return state
       }

@@ -6,7 +6,7 @@ export const CART_REMOVE_ITEM = 'CART_REMOVE_ITEM'
 export const CART_FAIL_ITEM = 'CART_FAIL_ITEM'
 
 export type ItemsProps = {
-  items: ProductProps[]
+  cartItems: ProductProps[]
 }
 
 // Cart Actions
@@ -35,10 +35,6 @@ export type CartActions =
   | CartFailItemAction
 
 // Cart State
-export type CartItemsState = {
-  items: ProductProps[]
-}
-
 export type CartState = {
-  cartItems: CartItemsState
+  cartItems: ProductProps[]
 }

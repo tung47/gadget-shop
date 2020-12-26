@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
   Link,
-  useParams,
   useHistory,
   RouteComponentProps,
 } from 'react-router-dom'
@@ -48,6 +47,7 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`)
+    dispatch(addToCart(match.params.id,qty))
   }
 
   return (

@@ -25,8 +25,8 @@ const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
 
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
 
-  const cartItems = useSelector((state: AppState) => state.cartItems)
-  const { items } = cartItems as ItemsProps
+  const cart = useSelector((state: AppState) => state.cart)
+  const { cartItems } = cart as ItemsProps
   
   useEffect(() => {
     if (productId) {
@@ -49,14 +49,14 @@ const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
         <Link className="btn btn-light my-3" to="/">
           Go back
         </Link>
-        {items.length === 0 ? (
+        {cartItems.length === 0 ? (
           <Col>
             <Message>Your cart is empty.</Message>
             <Link to="/">Shop more products</Link>
           </Col>
         ) : (
           <ListGroup variant="flush">
-            {items.map((product: ProductProps) => (
+            {cartItems.map((item: ProductProps) => (
               <ListGroup.Item key={productId}>
                 <Row>
                   <Col md={2}>
@@ -85,7 +85,7 @@ const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                     <Button
                       type="button"
                       variant="light"
-                      onClick={() => removeFromCartHandler(product)}
+                      onClick={() => removeFromCartHandler(item)}
                     >
                       <i className="far fa-trash-alt"></i>
                     </Button>
@@ -101,11 +101,11 @@ const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>
-                Subtotal ({items.reduce((acc: number) => acc + qty, 0)})
+                Subtotal ({cartItems.reduce((acc: number) => acc + qty, 0)})
                 items
               </h2>
               $
-              {items
+              {cartItems
                 .reduce((acc: number) => acc + qty * price, 0)
                 .toFixed(2)}
             </ListGroup.Item>
@@ -113,7 +113,7 @@ const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
               <Button
                 type="button"
                 className="btn-block"
-                disabled={items.length === 0}
+                disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
               >
                 Proceed To Checkout

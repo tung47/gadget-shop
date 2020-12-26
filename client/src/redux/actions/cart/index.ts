@@ -10,14 +10,15 @@ import {
 } from '../../../types'
 
 // Cart add item actions
-const cartAddItem = (product: ProductProps): CartActions => {
-  return {
-    type: CART_ADD_ITEM,
-    payload: {
-      product,
-    },
-  }
-}
+
+// const cartAddItem = (product: ProductProps): CartActions => {
+//   return {
+//     type: CART_ADD_ITEM,
+//     payload: {
+//       product,
+//     },
+//   }
+// }
 
 // export const addToCart = (product: ProductProps): AsyncAction => async (
 //   dispatch: Dispatch,
@@ -30,16 +31,16 @@ const cartAddItem = (product: ProductProps): CartActions => {
 //     JSON.stringify(getState().cart)
 //   )
 // }
-export const addToCart = ( id: string, qty: number): AsyncAction => async (
+export const addToCart = (id: string, qty: number): AsyncAction => async (
   dispatch: Dispatch,
   getState: () => AppState
 ) => {
   const { data } = await axios.get(`/api/v1/products/${id}`)
-
+  
   dispatch({
     type: CART_ADD_ITEM,
     payload: {
-      _id: data._id,
+      product: data._id,
       name: data.name,
       image: data.image,
       price: data.price,
@@ -48,7 +49,7 @@ export const addToCart = ( id: string, qty: number): AsyncAction => async (
     },
   })
 
-  localStorage.setItem('cartItems', JSON.stringify(getState().cartItems))
+  localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 
 // Cart remove item actions
@@ -67,5 +68,5 @@ export const removeFromCart = (product: ProductProps): AsyncAction => (
 ) => {
   dispatch(cartRemoveItem(product))
 
-  localStorage.setItem('cartItems', JSON.stringify(getState().cartItems))
+  localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
