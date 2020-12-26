@@ -9,11 +9,15 @@ import rootSaga from './sagas'
 const userLoginFromStorage = localStorage.getItem('userLogin') || null
 
 let initState: AppState = {
-  products: {
-    product: [],
+  productList: {
     loading: false,
     error: null,
-    productList: [],
+    products: [],
+  },
+  productDetails: {
+    loading: false,
+    error: null,
+    product: null,
   },
   cart: {
     cartItems: [],

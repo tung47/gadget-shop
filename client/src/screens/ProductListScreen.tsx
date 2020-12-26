@@ -18,8 +18,8 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
 
   const dispatch = useDispatch()
 
-  const products = useSelector((state: AppState) => state.products)
-  const { error, productList } = products
+  const productList = useSelector((state: AppState) => state.productList)
+  const { loading, error, products } = productList
   
   const userLogin = useSelector((state: AppState) => state.userLogin)
   const { userInfo } = userLogin
@@ -34,12 +34,11 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
 
   const {id}  = useParams<RouteParam>()
 
-  const product = useSelector((state: AppState) =>
-    state.products.productList.find((p) => p._id === id)
-  )
-  const {_id } = product as ProductProps
-
-  const deleteHandler = () => {
+  // const product = useSelector((state: AppState) =>
+  //   state.productList.find((p) => p._id === id)
+  // )
+  
+  const deleteHandler = (productId: string) => {
     if (window.confirm('Are you sure')) {
       // DELETE PRODUCTS
     }
@@ -76,11 +75,11 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
             </tr>
           </thead>
           <tbody>
-            {productList.map((product) => (
+            {products.map((product) => (
               <tr key={product._id}>
                 <td>{product._id}</td>
                 <td>{product.name}</td>
-                <td>${product.price}</td>
+                <td>€{product.price}</td>
                 <td>{product.category}</td>
                 <td>{product.brand}</td>
                 <td>
@@ -92,7 +91,7 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                   <Button
                     variant='danger'
                     className='btn-sm'
-                    onClick={() => deleteHandler()}
+                    onClick={() => deleteHandler(product._id)}
                   >
                     <i className='fas fa-trash'></i>
                   </Button>
