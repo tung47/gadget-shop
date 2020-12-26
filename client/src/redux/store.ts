@@ -6,7 +6,11 @@ import { AppState } from '../types'
 import createRootReducer from './reducers'
 import rootSaga from './sagas'
 
+const cartFromStorage = localStorage.getItem('cartItems')
+const cartItemsFromStorage = cartFromStorage ? JSON.parse(cartFromStorage) : []
+
 const userLoginFromStorage = localStorage.getItem('userLogin') || null
+const userInfoFromStorage = userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null
 
 let initState: AppState = {
   productList: {
@@ -20,12 +24,12 @@ let initState: AppState = {
     product: null,
   },
   cart: {
-    cartItems: [],
+    cartItems: cartItemsFromStorage,
   },
   userLogin: {
     loading: false,
     error: null,
-    userInfo: userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null,
+    userInfo: userInfoFromStorage,
   },
   userRegister: {
     loading: false,
