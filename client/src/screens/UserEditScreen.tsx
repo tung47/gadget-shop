@@ -7,25 +7,20 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { AppState, UserProps, RouteParam, USER_EDIT_RESET } from '../types'
-import {
-  getUserDetails,
-  editUser,
-  userEditResetAction,
-} from '../redux/actions/user'
+import { getUserDetails, editUser } from '../redux/actions/user'
 
-const INITIAL_USER: UserProps = {
-  _id: '',
-  name: '',
-  email: '',
-  isAdmin: false,
-  isBanned: false,
-}
+// const INITIAL_USER: UserProps = {
+//   _id: '',
+//   name: '',
+//   email: '',
+//   isAdmin: false,
+//   isBanned: false,
+// }
 
 const UserEditScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const userId = match.params.id
 
-  const [user, setUser] = useState(INITIAL_USER)
-  const [email, setEmail] = useState('')
+  const [email] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
   const [isBanned, setIsBanned] = useState(false)
 
@@ -60,7 +55,16 @@ const UserEditScreen = ({ match }: RouteComponentProps<RouteParam>) => {
         setIsBanned(detailsIsBanned)
       }
     }
-  }, [dispatch, history, userId, successEdit])
+  }, [
+    dispatch,
+    history,
+    userId,
+    successEdit,
+    _id,
+    name,
+    detailsIsAdmin,
+    detailsIsBanned,
+  ])
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
