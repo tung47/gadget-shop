@@ -30,12 +30,7 @@ export type CartAddItemAction = {
 export type CartRemoveItemAction = {
   type: typeof CART_REMOVE_ITEM
   payload: {
-    productId: string
-    name: string
-    image: string
-    price: number
-    countInStock: number
-    qty: number
+    id: string
   }
 }
 

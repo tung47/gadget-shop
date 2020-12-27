@@ -10,7 +10,7 @@ import { Row, Col, ListGroup, Image, Button, Card, Form } from 'react-bootstrap'
 
 import { AppState, CartState, RouteParam, ItemProps } from '../types'
 import Message from '../components/Message'
-import { addToCart } from '../redux/actions'
+import { addToCart, removeFromCart } from '../redux/actions'
 
 const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const location = useLocation()
@@ -30,9 +30,9 @@ const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
     }
   }, [dispatch, productId, qty])
 
-  // const removeFromCartHandler = (product: ProductProps) => {
-  //   dispatch(removeFromCart(product))
-  // }
+  const removeFromCartHandler = (id: string) => {
+    dispatch(removeFromCart(id))
+  }
 
   const checkoutHandler = () => {
     history.push('/login?redirect=shipping')
@@ -79,15 +79,15 @@ const CartScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                       ))}
                     </Form.Control>
                   </Col>
-                  {/* <Col md={2}>
+                  <Col md={2}>
                     <Button
                       type="button"
                       variant="light"
-                      onClick={() => removeFromCartHandler(item)}
+                      onClick={() => removeFromCartHandler(item.productId)}
                     >
                       <i className="far fa-trash-alt"></i>
                     </Button>
-                  </Col> */}
+                  </Col>
                 </Row>
               </ListGroup.Item>
             ))}

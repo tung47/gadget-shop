@@ -1,5 +1,4 @@
 import {
-  ProductProps,
   ItemProps,
   CartState,
   CartActions,
@@ -18,47 +17,35 @@ export function cartReducer(
 ): CartState {
   switch (action.type) {
     case CART_ADD_ITEM:
-      // {
-      //   const { product } = action.payload
-      //   if (state.cartItems.find((p) => p._id === product._id)) {
-      //     return state
-      //   } else {
-      //     return { ...state, cartItems: [...state.cartItems, product] }
-      //   }
-      // }
-      const item  = action.payload
-      console.log("item",item)
-      
-      const existItem = state.cartItems.find((x: ItemProps) => x.productId === item.productId)
-      console.log("existItem",existItem)
+      const item = action.payload
+
+      const existItem = state.cartItems.find(
+        (x: ItemProps) => x.productId === item.productId
+      )
 
       if (existItem) {
         return {
           ...state,
-          // cartItems: state.cartItems.map((x: ItemProps) => x.productId === existItem.productId ? item : x),
+          cartItems: state.cartItems.map((x: ItemProps) =>
+            x.productId === existItem.productId ? item : x
+          ),
         }
       } else {
         return {
           ...state,
-          cartItems: [...state.cartItems, item]
+          cartItems: [...state.cartItems, item],
         }
       }
-      
-    // case CART_REMOVE_ITEM: {
-    //   const { product } = action.payload
-    //   const index = state.cartItems.findIndex((x: ProductProps) => x._id === product._id)
-    //   if (index >= 0) {
-    //     state.cartItems.splice(index, 1)
-    //     return { ...state, cartItems: [...state.cartItems] }
-    //   } else {
-    //     return state
-    //   }
-    // }
-
+    case CART_REMOVE_ITEM:
+      const { id } = action.payload
+      return {
+        ...state,
+        cartItems: state.cartItems.filter((x) => x.productId !== id),
+      }
     case CART_RESET:
-      return { 
-        ...state, 
-        cartItems: [] 
+      return {
+        ...state,
+        cartItems: [],
       }
     default:
       return state
