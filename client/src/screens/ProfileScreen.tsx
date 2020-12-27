@@ -20,14 +20,14 @@ const INITIAL_USER: UserProps = {
 const ProfileScreen = () => {
   const history = useHistory()
 
-  const [user, setUser] = useState(INITIAL_USER)
+  const [user] = useState(INITIAL_USER)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [isBanned, setIsBanned] = useState(false)
+  const [isAdmin] = useState(false)
+  const [isBanned] = useState(false)
 
   const dispatch = useDispatch()
 

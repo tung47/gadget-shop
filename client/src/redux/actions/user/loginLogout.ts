@@ -14,6 +14,7 @@ import { userRegisterResetAction } from './register'
 import { userDetailsResetAction } from './details'
 import { userUpdateResetAction } from './update'
 import { userListResetAction } from './list'
+import { cartResetAction } from '../cart'
 
 // User Login Actions
 const userLoginRequestAction = (): UserLoginLogoutActions => {
@@ -82,9 +83,11 @@ export const userLogoutAction = (): UserLoginLogoutActions => {
 export const logout = (): AsyncAction => async (dispatch: Dispatch) => {
   localStorage.removeItem('userInfo')
   localStorage.removeItem('error')
+  localStorage.removeItem('cartItems')
   dispatch(userLogoutAction())
   dispatch(userRegisterResetAction())
   dispatch(userDetailsResetAction())
   dispatch(userUpdateResetAction())
   dispatch(userListResetAction())
+  dispatch(cartResetAction())
 }
