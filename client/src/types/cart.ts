@@ -1,40 +1,54 @@
-import { ProductProps } from './product'
-
 // Cart Actions Types
 export const CART_ADD_ITEM = 'CART_ADD_ITEM'
 export const CART_REMOVE_ITEM = 'CART_REMOVE_ITEM'
-export const CART_FAIL_ITEM = 'CART_FAIL_ITEM'
+export const CART_RESET = 'CART_RESET'
 
-export type ItemsProps = {
-  cartItems: ProductProps[]
+export type ItemProps = {
+  productId: string
+  name: string
+  image: string
+  price: number
+  countInStock: number
+  qty: number
 }
+
+export type ItemsProps = ItemProps[]
 
 // Cart Actions
 export type CartAddItemAction = {
   type: typeof CART_ADD_ITEM
   payload: {
-    product: ProductProps
+    productId: string
+    name: string
+    image: string
+    price: number
+    countInStock: number
+    qty: number
   }
 }
 
 export type CartRemoveItemAction = {
   type: typeof CART_REMOVE_ITEM
   payload: {
-    product: ProductProps
+    productId: string
+    name: string
+    image: string
+    price: number
+    countInStock: number
+    qty: number
   }
 }
 
-export type CartFailItemAction = {
-  type: typeof CART_FAIL_ITEM
-  error: string | null
+export type CartResetAction = {
+  type: typeof CART_RESET
 }
 
 export type CartActions =
   | CartAddItemAction
   | CartRemoveItemAction
-  | CartFailItemAction
+  | CartResetAction
 
 // Cart State
 export type CartState = {
-  cartItems: ProductProps[]
+  cartItems: ItemsProps
 }

@@ -3,6 +3,7 @@ import { Dispatch } from 'redux'
 import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
+  CART_RESET,
   AppState,
   AsyncAction,
   ProductProps,
@@ -36,11 +37,12 @@ export const addToCart = (id: string, qty: number): AsyncAction => async (
   getState: () => AppState
 ) => {
   const { data } = await axios.get(`/api/v1/products/${id}`)
+  console.log("data", data)
   
   dispatch({
     type: CART_ADD_ITEM,
     payload: {
-      product: data._id,
+      productId: data._id,
       name: data.name,
       image: data.image,
       price: data.price,
@@ -52,21 +54,27 @@ export const addToCart = (id: string, qty: number): AsyncAction => async (
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 
-// Cart remove item actions
-const cartRemoveItem = (product: ProductProps): CartActions => {
+// // Cart remove item actions
+// const cartRemoveItem = (product: ProductProps): CartActions => {
+//   return {
+//     type: CART_REMOVE_ITEM,
+//     payload: {
+//       product,
+//     },
+//   }
+// }
+
+// export const removeFromCart = (product: ProductProps): AsyncAction => (
+//   dispatch: Dispatch,
+//   getState: () => AppState
+// ) => {
+//   dispatch(cartRemoveItem(product))
+
+//   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+// }
+
+export const cartResetAction = (): CartActions => {
   return {
-    type: CART_REMOVE_ITEM,
-    payload: {
-      product,
-    },
+    type: CART_RESET,
   }
-}
-
-export const removeFromCart = (product: ProductProps): AsyncAction => (
-  dispatch: Dispatch,
-  getState: () => AppState
-) => {
-  dispatch(cartRemoveItem(product))
-
-  localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
