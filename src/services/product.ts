@@ -1,5 +1,4 @@
 import Product, { ProductDocument } from '../models/Product'
-import User, { UserDocument } from '../models/User'
 
 function create(product: ProductDocument): Promise<ProductDocument> {
   return product.save()
