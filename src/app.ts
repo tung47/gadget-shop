@@ -9,6 +9,7 @@ import path from 'path'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import bluebird from 'bluebird'
+import morgan from 'morgan'
 
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets'
 
@@ -19,6 +20,11 @@ import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 
 const app = express()
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
+
 const mongoUrl = MONGODB_URI
 
 mongoose.Promise = bluebird

@@ -29,6 +29,7 @@
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^8.3.7",
+    "@types/morgan": "^1.9.2",
     "async": "^3.2.0",
     "bcrypt-nodejs": "^0.0.3",
     "bcryptjs": "^2.4.3",
@@ -51,6 +52,7 @@
     "lusca": "^1.6.1",
     "mongodb-memory-server": "^6.3.1",
     "mongoose": "^5.9.2",
+    "morgan": "^1.10.0",
     "nodemailer": "^6.4.3",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
