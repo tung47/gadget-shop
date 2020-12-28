@@ -34,6 +34,22 @@ export const getProductById = async (
   }
 }
 
+// @desc    Delete a product
+// @route   DELETE /api/v1/products/:id
+// @access  Private/Admin
+export const deleteProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await ProductService.deleteProduct(req.params.productId)
+    res.status(204).end()
+  } catch (err) {
+    next(new NotFoundError('Product not found', err))
+  }
+}
+
 // @desc    Update a product
 // @route   PUT /api/products/:id
 // @access  Private/Admin
@@ -47,22 +63,6 @@ export const updateProduct = async (
     const productId = req.params.productId
     const updatedProduct = await ProductService.update(productId, update)
     res.status(201).json(updatedProduct)
-  } catch (err) {
-    next(new NotFoundError('Product not found', err))
-  }
-}
-
-// @desc    Delete a product
-// @route   DELETE /api/v1/products/:id
-// @access  Private/Admin
-export const deleteProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    await ProductService.deleteProduct(req.params.productId)
-    res.status(204).end()
   } catch (err) {
     next(new NotFoundError('Product not found', err))
   }
@@ -107,21 +107,21 @@ export const createProduct = async (
   }
 }
 
-// @desc    Create new order
-// @route   POST /api/v1/products/order
-// @access  Private
-export const placeOrder = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { productId, userId } = req.body
-    console.log('PLACE ORDER REQ BODY: ', req.body)
-    const order = await ProductService.placeOrder(productId, userId)
-    console.log('ORDER: ', order)
-    res.json(order)
-  } catch (err) {
-    next(new NotFoundError('Product or user is not found', err))
-  }
-}
+// // @desc    Create new order
+// // @route   POST /api/v1/products/order
+// // @access  Private
+// export const placeOrder = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const { productId, userId } = req.body
+//     console.log('PLACE ORDER REQ BODY: ', req.body)
+//     const order = await ProductService.placeOrder(productId, userId)
+//     console.log('ORDER: ', order)
+//     res.json(order)
+//   } catch (err) {
+//     next(new NotFoundError('Product or user is not found', err))
+//   }
+// }

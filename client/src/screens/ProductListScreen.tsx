@@ -10,8 +10,9 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Message from '../components/Message'
+import Loader from '../components/Loader'
 import { listProducts } from '../redux/actions/product'
-import { AppState, RouteParam, ProductProps} from '../types'
+import { AppState, RouteParam, ProductProps } from '../types'
 
 const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const history = useHistory()
@@ -20,10 +21,10 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
 
   const productList = useSelector((state: AppState) => state.productList)
   const { loading, error, products } = productList
-  
+
   const userLogin = useSelector((state: AppState) => state.userLogin)
   const { userInfo } = userLogin
-  
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listProducts())
@@ -32,12 +33,12 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
     }
   }, [dispatch, history, userInfo])
 
-  const {id}  = useParams<RouteParam>()
+  const { id } = useParams<RouteParam>()
 
   // const product = useSelector((state: AppState) =>
   //   state.productList.find((p) => p._id === id)
   // )
-  
+
   const deleteHandler = (productId: string) => {
     if (window.confirm('Are you sure')) {
       // DELETE PRODUCTS
@@ -50,20 +51,22 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
 
   return (
     <>
-      <Row className='align-items-center'>
+      <Row className="align-items-center">
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className='text-right'>
-          <Button className='my-3' onClick={createProductHandler}>
-            <i className='fas fa-plus'></i> Create Product
+        <Col className="text-right">
+          <Button className="my-3" onClick={createProductHandler}>
+            <i className="fas fa-plus"></i> Create Product
           </Button>
         </Col>
       </Row>
-      {error ? (
-        <Message variant='danger'>{error}</Message>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
       ) : (
-        <Table striped bordered hover responsive className='table-sm'>
+        <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
               <th>ID</th>
@@ -84,16 +87,16 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                 <td>{product.brand}</td>
                 <td>
                   <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                    <Button variant='light' className='btn-sm'>
-                      <i className='fas fa-edit'></i>
+                    <Button variant="light" className="btn-sm">
+                      <i className="fas fa-edit"></i>
                     </Button>
                   </LinkContainer>
                   <Button
-                    variant='danger'
-                    className='btn-sm'
+                    variant="danger"
+                    className="btn-sm"
                     onClick={() => deleteHandler(product._id)}
                   >
-                    <i className='fas fa-trash'></i>
+                    <i className="fas fa-trash"></i>
                   </Button>
                 </td>
               </tr>

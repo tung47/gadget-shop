@@ -19,6 +19,10 @@ async function getProductById(id: string): Promise<ProductDocument> {
   }
 }
 
+function deleteProduct(productId: string): Promise<ProductDocument | null> {
+  return Product.findByIdAndDelete(productId).exec()
+}
+
 async function update(
   productId: string,
   update: Partial<ProductDocument>
@@ -33,10 +37,6 @@ async function update(
   if (update.category) product.category = update.category
   if (update.countInStock) product.countInStock = update.countInStock
   return product.save()
-}
-
-function deleteProduct(productId: string): Promise<ProductDocument | null> {
-  return Product.findByIdAndDelete(productId).exec()
 }
 
 export default {
