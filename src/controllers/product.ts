@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import asyncHandler from 'express-async-handler'
 
 import Product from '../models/Product'
 import ProductService from '../services/product'
@@ -37,18 +38,31 @@ export const getProductById = async (
 // @desc    Delete a product
 // @route   DELETE /api/v1/products/:id
 // @access  Private/Admin
-export const deleteProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    await ProductService.deleteProduct(req.params.productId)
-    res.status(204).end()
-  } catch (err) {
-    next(new NotFoundError('Product not found', err))
+// export const deleteProduct = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     await ProductService.deleteProduct(req.params.productId)
+//     res.status(204).end()
+//   } catch (err) {
+//     next(new NotFoundError('Product not found', err))
+//   }
+// }
+export const deleteProduct = asyncHandler(
+  async (req: Request, res: Response) => {
+    const product = await Product.findById(req.params.id)
+
+    if (product) {
+      await product.remove()
+      res.json({ message: 'Product removed' })
+    } else {
+      res.status(404)
+      throw new NotFoundError('Product not found')
+    }
   }
-}
+)
 
 // @desc    Update a product
 // @route   PUT /api/products/:id

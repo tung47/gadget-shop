@@ -23,6 +23,11 @@ let initState: AppState = {
     error: null,
     product: null,
   },
+  productDelete: {
+    loading: false,
+    error: null,
+    success: false,
+  },
   cart: {
     cartItems: cartItemsFromStorage,
   },

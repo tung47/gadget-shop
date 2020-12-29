@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listProducts } from '../redux/actions/product'
+import { listProducts, deleteProduct } from '../redux/actions/product'
 import { AppState, RouteParam, ProductProps } from '../types'
 
 const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
@@ -21,6 +21,13 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
 
   const productList = useSelector((state: AppState) => state.productList)
   const { loading, error, products } = productList
+
+  const productDelete = useSelector((state: AppState) => state.productDelete)
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = productDelete
 
   const userLogin = useSelector((state: AppState) => state.userLogin)
   const { userInfo } = userLogin
@@ -33,15 +40,9 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
     }
   }, [dispatch, history, userInfo])
 
-  const { id } = useParams<RouteParam>()
-
-  // const product = useSelector((state: AppState) =>
-  //   state.productList.find((p) => p._id === id)
-  // )
-
   const deleteHandler = (productId: string) => {
-    if (window.confirm('Are you sure')) {
-      // DELETE PRODUCTS
+    if (window.confirm('Do you really want to delete this product?')) {
+      dispatch(deleteProduct(productId))
     }
   }
 
@@ -61,6 +62,8 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
           </Button>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (

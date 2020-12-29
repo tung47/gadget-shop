@@ -98,7 +98,9 @@ export type ProductDeleteSuccessAction = {
 }
 export type ProductDeleteFailAction = {
   type: typeof PRODUCT_DELETE_FAIL
-  error: string
+  payload: {
+    error: string
+  }
 }
 
 // Product Create Actions

@@ -18,7 +18,9 @@ async function getProductById(id: string): Promise<ProductDocument> {
   }
 }
 
-function deleteProduct(productId: string): Promise<ProductDocument | null> {
+async function deleteProduct(
+  productId: string
+): Promise<ProductDocument | null> {
   return Product.findByIdAndDelete(productId).exec()
 }
 
