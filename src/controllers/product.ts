@@ -3,7 +3,11 @@ import asyncHandler from 'express-async-handler'
 
 import Product from '../models/Product'
 import ProductService from '../services/product'
-import { NotFoundError, BadRequestError, AppError } from '../helpers/apiError'
+import { NotFoundError } from '../helpers/apiError'
+
+export type Payload = {
+  _id: string;
+}
 
 // @desc    Fetch all products
 // @route   GET /api/v1/products
@@ -38,18 +42,6 @@ export const getProductById = async (
 // @desc    Delete a product
 // @route   DELETE /api/v1/products/:id
 // @access  Private/Admin
-// export const deleteProduct = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     await ProductService.deleteProduct(req.params.productId)
-//     res.status(204).end()
-//   } catch (err) {
-//     next(new NotFoundError('Product not found', err))
-//   }
-// }
 export const deleteProduct = asyncHandler(
   async (req: Request, res: Response) => {
     const product = await Product.findById(req.params.id)
@@ -64,78 +56,61 @@ export const deleteProduct = asyncHandler(
   }
 )
 
-// @desc    Update a product
-// @route   PUT /api/products/:id
-// @access  Private/Admin
-export const updateProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const update = req.body
-    const productId = req.params.productId
-    const updatedProduct = await ProductService.update(productId, update)
-    res.status(201).json(updatedProduct)
-  } catch (err) {
-    next(new NotFoundError('Product not found', err))
-  }
-}
-
 // @desc    Create a product
 // @route   POST /api/v1/products
 // @access  Private/Admin
-export const createProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const {
-      name,
-      imageCover,
-      description,
-      duration,
-      distance,
-      price,
-    } = req.body
+export const createProduct = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userReq = req.user as Payload
 
     const product = new Product({
-      name,
-      imageCover,
-      description,
-      duration,
-      distance,
-      price,
+      name: 'Sample name',
+      price: 0,
+      user: userReq._id,
+      image: '/images/sample.jpg',
+      brand: 'Sample brand',
+      category: 'Sample category',
+      countInStock: 0,
+      numReviews: 0,
+      description: 'Sample description',
     })
 
-    await ProductService.create(product)
+    const createdProduct = await product.save()
+    res.status(201).json(createdProduct)
+  }
+)
 
-    res.json(product)
-  } catch (error) {
-    if (error.name === 'ValidationError') {
-      next(new BadRequestError('Invalid Request', error))
+// @desc    Update a product
+// @route   PUT /api/v1/products/:id
+// @access  Private/Admin
+export const updateProduct = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {
+      name,
+      price,
+      description,
+      image,
+      brand,
+      category,
+      countInStock,
+    } = req.body
+
+    const product = await Product.findById(req.params.id)
+
+    if (product) {
+      product.name = name
+      product.price = price
+      product.description = description
+      product.image = image
+      product.brand = brand
+      product.category = category
+      product.countInStock = countInStock
+
+      const updatedProduct = await product.save()
+      res.json(updatedProduct)
     } else {
-      next(new AppError())
+      res.status(404)
+      throw new NotFoundError('Product not found')
     }
   }
-}
-
-// // @desc    Create new order
-// // @route   POST /api/v1/products/order
-// // @access  Private
-// export const placeOrder = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const { productId, userId } = req.body
-//     console.log('PLACE ORDER REQ BODY: ', req.body)
-//     const order = await ProductService.placeOrder(productId, userId)
-//     console.log('ORDER: ', order)
-//     res.json(order)
-//   } catch (err) {
-//     next(new NotFoundError('Product or user is not found', err))
-//   }
-// }
+)

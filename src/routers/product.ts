@@ -3,9 +3,9 @@ import express from 'express'
 import {
   getProductById,
   getProducts,
-  createProduct,
   deleteProduct,
   updateProduct,
+  createProduct,
 } from '../controllers/product'
 import { protect, admin } from '../middlewares/authMiddleware'
 
