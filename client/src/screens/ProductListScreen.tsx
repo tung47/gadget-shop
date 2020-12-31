@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react'
-import {
-  Link,
-  useParams,
-  useHistory,
-  RouteComponentProps,
-} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,10 +11,10 @@ import {
   deleteProduct,
   createProduct,
 } from '../redux/actions/product'
-import { AppState, RouteParam, ProductProps } from '../types'
+import { AppState } from '../types'
 import { productCreateReset } from '../redux/actions'
 
-const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
+const ProductListScreen = () => {
   const history = useHistory()
 
   const dispatch = useDispatch()
@@ -41,7 +36,7 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
     success: successCreate,
     product: createdProduct,
   } = productCreate
-  const _id = createdProduct && createdProduct._id;
+  const _id = createdProduct && createdProduct._id
 
   const userLogin = useSelector((state: AppState) => state.userLogin)
   const { userInfo } = userLogin
@@ -66,6 +61,7 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
     userInfo,
     successDelete,
     successCreate,
+    _id,
     createdProduct,
   ])
 
@@ -94,7 +90,7 @@ const ProductListScreen = ({ match }: RouteComponentProps<RouteParam>) => {
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loadingCreate && <Loader />}
-      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
+      {errorCreate && <Message variant="danger">{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
