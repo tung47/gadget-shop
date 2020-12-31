@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import { productListReducer, productDetailsReducer, productDeleteReducer } from './product'
+import { productListReducer, productDetailsReducer, productDeleteReducer, productCreateReducer } from './product'
 import { cartReducer } from './cart'
 import {
   userLoginReducer,
@@ -17,6 +17,7 @@ const createRootReducer = () =>
     productList: productListReducer,
     productDetails: productDetailsReducer,
     productDelete: productDeleteReducer,
+    productCreate: productCreateReducer,
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,

@@ -1,7 +1,13 @@
 import { ThunkAction } from 'redux-thunk'
 import { Action } from 'redux'
 
-import { ProductListState, ProductDetailsState, ProductDeleteState } from './product'
+import {
+  ProductListState,
+  ProductDetailsState,
+  ProductDeleteState,
+  ProductCreateState,
+  ProductUpdateState,
+} from './product'
 import {
   UserLoginState,
   UserRegisterState,
@@ -51,6 +57,8 @@ export type AppState = {
   productList: ProductListState
   productDetails: ProductDetailsState
   productDelete: ProductDeleteState
+  productCreate: ProductCreateState
+  productUpdate: ProductUpdateState
   cart: CartState
   userLogin: UserLoginState
   userRegister: UserRegisterState

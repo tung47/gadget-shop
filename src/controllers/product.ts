@@ -67,7 +67,8 @@ export const createProduct = asyncHandler(
       name: 'Sample name',
       price: 0,
       user: userReq._id,
-      image: '/images/sample.jpg',
+      image:
+        'https://d33v4339jhl8k0.cloudfront.net/docs/assets/5c814e0d2c7d3a0cb9325d1f/images/5c8bc20d2c7d3a154460eb97/file-1CjQ85QAme.jpg',
       brand: 'Sample brand',
       category: 'Sample category',
       countInStock: 0,

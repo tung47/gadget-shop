@@ -139,11 +139,16 @@ export type ProductUpdateResetAction = {
   type: typeof PRODUCT_UPDATE_RESET
 }
 
-export type ProductUpdateActions =
-  | ProductUpdateRequestAction
-  | ProductUpdateSuccessAction
-  | ProductUpdateFailAction
-  | ProductUpdateResetAction
+export type ProductListActions =
+  | ProductListRequestAction
+  | ProductListSuccessAction
+  | ProductListFailAction
+
+export type ProductDetailsActions =
+  | ProductDetailsRequestAction
+  | ProductDetailsSuccessAction
+  | ProductDetailsFailAction
+  | ProductDetailsResetAction
 
 export type ProductDeleteActions =
   | ProductDeleteRequestAction
@@ -156,22 +161,17 @@ export type ProductCreateActions =
   | ProductCreateFailAction
   | ProductCreateResetAction
 
-export type ProductDetailsActions =
-  | ProductDetailsRequestAction
-  | ProductDetailsSuccessAction
-  | ProductDetailsFailAction
-  | ProductDetailsResetAction
-
-export type ProductListActions =
-  | ProductListRequestAction
-  | ProductListSuccessAction
-  | ProductListFailAction
+export type ProductUpdateActions =
+  | ProductUpdateRequestAction
+  | ProductUpdateSuccessAction
+  | ProductUpdateFailAction
+  | ProductUpdateResetAction
 
 export type ProductActions =
-  | ProductDetailsActions
   | ProductListActions
-  | ProductCreateActions
+  | ProductDetailsActions
   | ProductDeleteActions
+  | ProductCreateActions
   | ProductUpdateActions
 
 // Product States
