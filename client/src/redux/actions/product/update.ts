@@ -10,7 +10,6 @@ import {
   PRODUCT_UPDATE_SUCCESS,
   PRODUCT_UPDATE_FAIL,
   PRODUCT_UPDATE_RESET,
-  AppState,
 } from '../../../types'
 import { userLogoutAction } from '../user'
 
