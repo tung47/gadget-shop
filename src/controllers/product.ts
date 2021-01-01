@@ -2,11 +2,30 @@ import { Request, Response, NextFunction } from 'express'
 import asyncHandler from 'express-async-handler'
 
 import Product from '../models/Product'
+import { UserDocument } from '../models/User'
+import { ReviewDocument } from '../models/Review'
 import ProductService from '../services/product'
 import { NotFoundError } from '../helpers/apiError'
 
 export type Payload = {
   _id: string;
+}
+
+export type UserRequestProps = {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+  isBanned: boolean;
+  matchPassword(enteredPassword: string): Promise<boolean>;
+}
+
+export type ReviewProps = {
+  name: string;
+  rating: number;
+  comment: string;
+  user: string;
 }
 
 // @desc    Fetch all products
@@ -112,6 +131,55 @@ export const updateProduct = asyncHandler(
     } else {
       res.status(404)
       throw new NotFoundError('Product not found')
+    }
+  }
+)
+
+// @desc    Review a product
+// @route   POST /api/v1/products/:id/reviews
+// @access  Private
+export const reviewProduct = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { rating, comment } = req.body as ReviewDocument
+
+    const user: UserDocument = req.user as UserDocument
+    const _id = user && user._id
+    const name = user && user.name
+    console.log(user)
+
+    const product = await Product.findById(req.params.id)
+    console.log(product)
+
+    if (product) {
+      // const alreadyReviewed = product.reviews.find(
+      //   (r) => r.user === _id
+      // )
+
+      // if (alreadyReviewed) {
+      //   res.status(400)
+      //   throw new Error('Product already reviewed')
+      // }
+
+      const review = {
+        name: name,
+        rating: Number(rating),
+        comment,
+        user: _id,
+      } as ReviewDocument
+
+      product.reviews.push(review)
+
+      product.numReviews = product.reviews.length
+
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length
+
+      await product.save()
+      res.status(201).json({ message: 'Review added' })
+    } else {
+      res.status(404)
+      throw new Error('Product not found')
     }
   }
 )

@@ -40,6 +40,11 @@ let initState: AppState = {
     success: false,
     product: null,
   },
+  productReview: {
+    loading: false,
+    error: null,
+    success: false,
+  },
   cart: {
     cartItems: cartItemsFromStorage,
   },

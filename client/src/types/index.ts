@@ -7,6 +7,7 @@ import {
   ProductDeleteState,
   ProductCreateState,
   ProductUpdateState,
+  ProductReviewState,
 } from './product'
 import {
   UserLoginState,
@@ -59,6 +60,7 @@ export type AppState = {
   productDelete: ProductDeleteState
   productCreate: ProductCreateState
   productUpdate: ProductUpdateState
+  productReview: ProductReviewState
   cart: CartState
   userLogin: UserLoginState
   userRegister: UserRegisterState
