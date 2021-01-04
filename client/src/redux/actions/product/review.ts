@@ -10,7 +10,6 @@ import {
   PRODUCT_REVIEW_FAIL,
   PRODUCT_REVIEW_RESET,
   ReviewProps,
-  UserLoginState,
 } from '../../../types'
 import { userLogoutAction } from '../user'
 
@@ -48,10 +47,8 @@ export const reviewProduct = (
     dispatch(ProductReviewRequestAction())
 
     const { userLogin } = getState()
-    const { token, _id, name } = userLogin.userInfo as UserProps
+    const { token } = userLogin.userInfo as UserProps
     
-    // const review = { name: name, rating, comment, user: _id } as ReviewProps
-
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -60,7 +57,7 @@ export const reviewProduct = (
     }
 
     await axios.post(`/api/v1/products/${productId}/reviews`, review, config)
-
+    
     dispatch(ProductReviewSuccessAction())
   } catch (error) {
     const message =

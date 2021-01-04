@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 import asyncHandler from 'express-async-handler'
 
 import Product from '../models/Product'
-import { UserDocument } from '../models/User'
 import { ReviewDocument } from '../models/Review'
 import ProductService from '../services/product'
 import { NotFoundError } from '../helpers/apiError'
@@ -14,11 +13,6 @@ export type Payload = {
 export type UserRequestProps = {
   _id: string;
   name: string;
-  email: string;
-  password: string;
-  isAdmin: boolean;
-  isBanned: boolean;
-  matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
 export type ReviewProps = {
@@ -140,31 +134,25 @@ export const updateProduct = asyncHandler(
 // @access  Private
 export const reviewProduct = asyncHandler(
   async (req: Request, res: Response) => {
-    const { rating, comment } = req.body as ReviewDocument
-
-    const user: UserDocument = req.user as UserDocument
-    const _id = user && user._id
-    const name = user && user.name
-    console.log(user)
+    const { user, rating, comment, name } = req.body as ReviewDocument
 
     const product = await Product.findById(req.params.id)
-    console.log(product)
 
     if (product) {
-      // const alreadyReviewed = product.reviews.find(
-      //   (r) => r.user === _id
-      // )
+      const alreadyReviewed = product.reviews.find(
+        (r) => r.user.toString() === user.toString()
+      )
 
-      // if (alreadyReviewed) {
-      //   res.status(400)
-      //   throw new Error('Product already reviewed')
-      // }
+      if (alreadyReviewed) {
+        res.status(400)
+        throw new Error('Product already reviewed')
+      }
 
       const review = {
         name: name,
         rating: Number(rating),
         comment,
-        user: _id,
+        user: user,
       } as ReviewDocument
 
       product.reviews.push(review)

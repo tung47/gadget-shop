@@ -63,7 +63,7 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
       // alert('Review Submitted!')
       setRating(0)
       setComment('')
-      dispatch(ProductReviewResetAction)
+      dispatch(ProductReviewResetAction())
     }
     dispatch(listProductDetails(match.params.id))
   }, [dispatch, match, successReview])
@@ -186,9 +186,10 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
               <ListGroup variant="flush">
                 {reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
-                    <strong>{review.name}</strong>
                     <Rating value={review.rating} text={``} />
-                    <p>{review.createdAt.substring(0, 10)}</p>
+                    <p>
+                      {review.createdAt.substring(0, 10)} by {review.name}{' '}
+                    </p>
                     <p>{review.comment}</p>
                   </ListGroup.Item>
                 ))}

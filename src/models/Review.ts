@@ -10,17 +10,21 @@ export type ReviewDocument = Document & {
 export const reviewSchema = new mongoose.Schema(
   {
     name: {
-      type: mongoose.Schema.Types.String,
+      type: String,
+      required: true,
       ref: 'User',
     },
     rating: {
       type: Number,
+      required: true,
     },
     comment: {
       type: String,
+      required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
+      required: true,
       ref: 'User',
     },
   },
