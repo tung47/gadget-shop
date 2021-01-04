@@ -6,6 +6,7 @@ import { ProductProps, AppState } from '../types'
 import Product from '../components/Product'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 import { listProducts } from '../redux/actions/product'
 
 const HomeScreen = () => {
@@ -20,6 +21,7 @@ const HomeScreen = () => {
 
   return (
     <>
+      <Meta />
       <h1>Lastest Products</h1>
       {loading ? (
         <Loader />

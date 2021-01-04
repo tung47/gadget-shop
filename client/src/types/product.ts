@@ -22,10 +22,18 @@ export const PRODUCT_UPDATE_SUCCESS = 'PRODUCT_UPDATE_SUCCESS'
 export const PRODUCT_UPDATE_FAIL = 'PRODUCT_UPDATE_FAIL'
 export const PRODUCT_UPDATE_RESET = 'PRODUCT_UPDATE_RESET'
 
-export type ReviewDocument = {
+export const PRODUCT_REVIEW_REQUEST = 'PRODUCT_REVIEW_REQUEST'
+export const PRODUCT_REVIEW_SUCCESS = 'PRODUCT_REVIEW_SUCCESS'
+export const PRODUCT_REVIEW_FAIL = 'PRODUCT_REVIEW_FAIL'
+export const PRODUCT_REVIEW_RESET = 'PRODUCT_REVIEW_RESET'
+
+export type ReviewProps = {
+  _id: string
   name: string
   rating: number
   comment: string
+  user: string
+  createdAt: string
 }
 
 export type ProductProps = {
@@ -35,7 +43,7 @@ export type ProductProps = {
   brand: string
   category: string
   description: string
-  reviews: ReviewDocument[]
+  reviews: ReviewProps[]
   rating: number
   numReviews: number
   price: number
@@ -98,7 +106,9 @@ export type ProductDeleteSuccessAction = {
 }
 export type ProductDeleteFailAction = {
   type: typeof PRODUCT_DELETE_FAIL
-  error: string
+  payload: {
+    error: string
+  }
 }
 
 // Product Create Actions
@@ -137,11 +147,31 @@ export type ProductUpdateResetAction = {
   type: typeof PRODUCT_UPDATE_RESET
 }
 
-export type ProductUpdateActions =
-  | ProductUpdateRequestAction
-  | ProductUpdateSuccessAction
-  | ProductUpdateFailAction
-  | ProductUpdateResetAction
+// Product Review Actions
+export type ProductReviewRequestAction = {
+  type: typeof PRODUCT_REVIEW_REQUEST
+}
+export type ProductReviewSuccessAction = {
+  type: typeof PRODUCT_REVIEW_SUCCESS
+}
+export type ProductReviewFailAction = {
+  type: typeof PRODUCT_REVIEW_FAIL
+  error: string
+}
+export type ProductReviewResetAction = {
+  type: typeof PRODUCT_REVIEW_RESET
+}
+
+export type ProductListActions =
+  | ProductListRequestAction
+  | ProductListSuccessAction
+  | ProductListFailAction
+
+export type ProductDetailsActions =
+  | ProductDetailsRequestAction
+  | ProductDetailsSuccessAction
+  | ProductDetailsFailAction
+  | ProductDetailsResetAction
 
 export type ProductDeleteActions =
   | ProductDeleteRequestAction
@@ -154,23 +184,25 @@ export type ProductCreateActions =
   | ProductCreateFailAction
   | ProductCreateResetAction
 
-export type ProductDetailsActions =
-  | ProductDetailsRequestAction
-  | ProductDetailsSuccessAction
-  | ProductDetailsFailAction
-  | ProductDetailsResetAction
+export type ProductUpdateActions =
+  | ProductUpdateRequestAction
+  | ProductUpdateSuccessAction
+  | ProductUpdateFailAction
+  | ProductUpdateResetAction
 
-export type ProductListActions =
-  | ProductListRequestAction
-  | ProductListSuccessAction
-  | ProductListFailAction
+export type ProductReviewActions =
+  | ProductReviewRequestAction
+  | ProductReviewSuccessAction
+  | ProductReviewFailAction
+  | ProductReviewResetAction
 
 export type ProductActions =
-  | ProductDetailsActions
   | ProductListActions
-  | ProductCreateActions
+  | ProductDetailsActions
   | ProductDeleteActions
+  | ProductCreateActions
   | ProductUpdateActions
+  | ProductReviewActions
 
 // Product States
 export type ProductListState = {
@@ -205,10 +237,17 @@ export type ProductUpdateState = {
   success: boolean
 }
 
+export type ProductReviewState = {
+  loading: boolean
+  error: null | string
+  success: boolean
+}
+
 export type ProductState = {
   productList: ProductListState
   productDetails: ProductDetailsState
   productDelete: ProductDeleteState
   productCreate: ProductCreateState
   productUpdate: ProductUpdateState
+  productReview: ProductReviewState
 }

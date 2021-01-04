@@ -1,5 +1,4 @@
 import Product, { ProductDocument } from '../models/Product'
-import User, { UserDocument } from '../models/User'
 
 function create(product: ProductDocument): Promise<ProductDocument> {
   return product.save()
@@ -19,6 +18,12 @@ async function getProductById(id: string): Promise<ProductDocument> {
   }
 }
 
+async function deleteProduct(
+  productId: string
+): Promise<ProductDocument | null> {
+  return Product.findByIdAndDelete(productId).exec()
+}
+
 async function update(
   productId: string,
   update: Partial<ProductDocument>
@@ -33,10 +38,6 @@ async function update(
   if (update.category) product.category = update.category
   if (update.countInStock) product.countInStock = update.countInStock
   return product.save()
-}
-
-function deleteProduct(productId: string): Promise<ProductDocument | null> {
-  return Product.findByIdAndDelete(productId).exec()
 }
 
 export default {

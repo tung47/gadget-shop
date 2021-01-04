@@ -1,8 +1,26 @@
 import { Request, Response, NextFunction } from 'express'
+import asyncHandler from 'express-async-handler'
 
 import Product from '../models/Product'
+import { ReviewDocument } from '../models/Review'
 import ProductService from '../services/product'
-import { NotFoundError, BadRequestError, AppError } from '../helpers/apiError'
+import { NotFoundError } from '../helpers/apiError'
+
+export type Payload = {
+  _id: string;
+}
+
+export type UserRequestProps = {
+  _id: string;
+  name: string;
+}
+
+export type ReviewProps = {
+  name: string;
+  rating: number;
+  comment: string;
+  user: string;
+}
 
 // @desc    Fetch all products
 // @route   GET /api/v1/products
@@ -34,94 +52,122 @@ export const getProductById = async (
   }
 }
 
-// @desc    Update a product
-// @route   PUT /api/products/:id
-// @access  Private/Admin
-export const updateProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const update = req.body
-    const productId = req.params.productId
-    const updatedProduct = await ProductService.update(productId, update)
-    res.status(201).json(updatedProduct)
-  } catch (err) {
-    next(new NotFoundError('Product not found', err))
-  }
-}
-
 // @desc    Delete a product
 // @route   DELETE /api/v1/products/:id
 // @access  Private/Admin
-export const deleteProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    await ProductService.deleteProduct(req.params.productId)
-    res.status(204).end()
-  } catch (err) {
-    next(new NotFoundError('Product not found', err))
+export const deleteProduct = asyncHandler(
+  async (req: Request, res: Response) => {
+    const product = await Product.findById(req.params.id)
+
+    if (product) {
+      await product.remove()
+      res.json({ message: 'Product removed' })
+    } else {
+      res.status(404)
+      throw new NotFoundError('Product not found')
+    }
   }
-}
+)
 
 // @desc    Create a product
 // @route   POST /api/v1/products
 // @access  Private/Admin
-export const createProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const {
-      name,
-      imageCover,
-      description,
-      duration,
-      distance,
-      price,
-    } = req.body
+export const createProduct = asyncHandler(
+  async (req: Request, res: Response) => {
+    const userReq = req.user as Payload
 
     const product = new Product({
-      name,
-      imageCover,
-      description,
-      duration,
-      distance,
-      price,
+      name: 'Sample name',
+      price: 0,
+      user: userReq._id,
+      image:
+        'https://d33v4339jhl8k0.cloudfront.net/docs/assets/5c814e0d2c7d3a0cb9325d1f/images/5c8bc20d2c7d3a154460eb97/file-1CjQ85QAme.jpg',
+      brand: 'Sample brand',
+      category: 'Sample category',
+      countInStock: 0,
+      numReviews: 0,
+      description: 'Sample description',
     })
 
-    await ProductService.create(product)
+    const createdProduct = await product.save()
+    res.status(201).json(createdProduct)
+  }
+)
 
-    res.json(product)
-  } catch (error) {
-    if (error.name === 'ValidationError') {
-      next(new BadRequestError('Invalid Request', error))
+// @desc    Update a product
+// @route   PUT /api/v1/products/:id
+// @access  Private/Admin
+export const updateProduct = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {
+      name,
+      price,
+      description,
+      image,
+      brand,
+      category,
+      countInStock,
+    } = req.body
+
+    const product = await Product.findById(req.params.id)
+
+    if (product) {
+      product.name = name
+      product.price = price
+      product.description = description
+      product.image = image
+      product.brand = brand
+      product.category = category
+      product.countInStock = countInStock
+
+      const updatedProduct = await product.save()
+      res.json(updatedProduct)
     } else {
-      next(new AppError())
+      res.status(404)
+      throw new NotFoundError('Product not found')
     }
   }
-}
+)
 
-// @desc    Create new order
-// @route   POST /api/v1/products/order
+// @desc    Review a product
+// @route   POST /api/v1/products/:id/reviews
 // @access  Private
-export const placeOrder = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { productId, userId } = req.body
-    console.log('PLACE ORDER REQ BODY: ', req.body)
-    const order = await ProductService.placeOrder(productId, userId)
-    console.log('ORDER: ', order)
-    res.json(order)
-  } catch (err) {
-    next(new NotFoundError('Product or user is not found', err))
+export const reviewProduct = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { user, rating, comment, name } = req.body as ReviewDocument
+
+    const product = await Product.findById(req.params.id)
+
+    if (product) {
+      const alreadyReviewed = product.reviews.find(
+        (r) => r.user.toString() === user.toString()
+      )
+
+      if (alreadyReviewed) {
+        res.status(400)
+        throw new Error('Product already reviewed')
+      }
+
+      const review = {
+        name: name,
+        rating: Number(rating),
+        comment,
+        user: user,
+      } as ReviewDocument
+
+      product.reviews.push(review)
+
+      product.numReviews = product.reviews.length
+
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length
+
+      await product.save()
+      res.status(201).json({ message: 'Review added' })
+    } else {
+      res.status(404)
+      throw new Error('Product not found')
+    }
   }
-}
+)

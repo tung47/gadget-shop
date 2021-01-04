@@ -4,7 +4,7 @@ import mongoose, { Document } from 'mongoose'
 import { reviewSchema, ReviewDocument } from './Review'
 
 export type ProductDocument = Document & {
-  user: any[];
+  user: mongoose.Types.ObjectId;
   name: string;
   image: string;
   brand: string;
@@ -15,7 +15,6 @@ export type ProductDocument = Document & {
   numReviews: number;
   price: number;
   countInStock: number;
-  users: mongoose.Schema.Types.ObjectId[];
 }
 
 const productSchema = new mongoose.Schema(

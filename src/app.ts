@@ -9,16 +9,23 @@ import path from 'path'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import bluebird from 'bluebird'
+import morgan from 'morgan'
 
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets'
 
 import productRouter from './routers/product'
 import userRouter from './routers/user'
+import uploadRouter from './routers/upload'
 
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 
 const app = express()
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
+
 const mongoUrl = MONGODB_URI
 
 mongoose.Promise = bluebird
@@ -52,6 +59,9 @@ app.use(express.json())
 // Use router
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/users', userRouter)
+app.use('/api/v1/upload', uploadRouter)
+
+app.use('/uploads', express.static(path.join(path.resolve(), '/uploads')))
 
 // Custom API error handler
 app.use(apiErrorHandler)
