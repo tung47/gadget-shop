@@ -22,6 +22,7 @@ import {
 import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 import {
   listProductDetails,
   reviewProduct,
@@ -97,6 +98,7 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
+          <Meta title={detailsName} />
           <Row>
             <Col md={6}>
               <Image src={image} alt={detailsName} fluid />
