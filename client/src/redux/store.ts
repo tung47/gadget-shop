@@ -10,7 +10,14 @@ const cartFromStorage = localStorage.getItem('cartItems')
 const cartItemsFromStorage = cartFromStorage ? JSON.parse(cartFromStorage) : []
 
 const userLoginFromStorage = localStorage.getItem('userLogin') || null
-const userInfoFromStorage = userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null
+const userInfoFromStorage = userLoginFromStorage
+  ? JSON.parse(userLoginFromStorage)
+  : null
+
+const addressFromStorage = localStorage.getItem('shippingAddress')
+const shippingAddressFromStorage = addressFromStorage
+  ? JSON.parse(addressFromStorage)
+  : {}
 
 let initState: AppState = {
   productList: {
@@ -47,6 +54,7 @@ let initState: AppState = {
   },
   cart: {
     cartItems: cartItemsFromStorage,
+    shippingAddress: shippingAddressFromStorage,
   },
   userLogin: {
     loading: false,
@@ -58,12 +66,12 @@ let initState: AppState = {
     error: null,
     success: false,
     userInfo: null,
-  }, 
+  },
   userDetails: {
     loading: false,
     error: null,
     user: null,
-  }, 
+  },
   userUpdate: {
     loading: false,
     error: null,
