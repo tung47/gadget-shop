@@ -9,6 +9,7 @@ import {
 
 const cartInit: CartState = {
   cartItems: [],
+  shippingAddress: null,
 }
 
 export function cartReducer(

@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import FormContainer from '../components/FormContainer'
 
 const ShippingScreen = () => {
-  // const history = useHistory()
+  const history = useHistory()
 
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
   const [postalCode, setPostalCode] = useState('')
   const [country, setCountry] = useState('')
   
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-  const submitHandler = (e : React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log({address, city, postalCode, country})
   }
