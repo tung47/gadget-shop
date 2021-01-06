@@ -4,11 +4,13 @@ import { Dispatch } from 'redux'
 import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
+  CART_SAVE_SHIPPING_ADDRESS,
   CART_RESET,
   AppState,
   AsyncAction,
   CartActions,
   ItemProps,
+  CartAddressProps,
 } from '../../../types'
 
 // Cart add item actions
@@ -70,6 +72,30 @@ export const removeFromCart = (id: string): AsyncAction => (
   dispatch(cartRemoveItem(id))
 
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
+
+// Cart save shipping address actions
+const cartSaveShippingAddress = (
+  cartAddress: CartAddressProps
+): CartActions => {
+  return {
+    type: CART_SAVE_SHIPPING_ADDRESS,
+    payload: {
+      cartAddress: cartAddress,
+    },
+  }
+}
+
+export const saveShippingAddress = (cartAddress: CartAddressProps) => (
+  dispatch: Dispatch,
+  getState: () => AppState
+) => {
+  dispatch(cartSaveShippingAddress(cartAddress))
+
+  localStorage.setItem(
+    'shippingAddress',
+    JSON.stringify(getState().cart.shippingAddress)
+  )
 }
 
 // Cart reset action

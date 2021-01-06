@@ -17,10 +17,10 @@ export type ItemProps = {
 export type ItemsProps = ItemProps[]
 
 export type CartAddressProps = {
-  address: string,
-  city: string,
-  postalCode: number, 
-  country: string,
+  address?: string,
+  city?: string,
+  postalCode?: string, 
+  country?: string,
 }
 
 // Cart Actions

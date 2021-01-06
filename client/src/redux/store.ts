@@ -17,7 +17,7 @@ const userInfoFromStorage = userLoginFromStorage
 const addressFromStorage = localStorage.getItem('shippingAddress')
 const shippingAddressFromStorage = addressFromStorage
   ? JSON.parse(addressFromStorage)
-  : {}
+  : []
 
 let initState: AppState = {
   productList: {
