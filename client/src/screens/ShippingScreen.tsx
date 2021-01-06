@@ -27,10 +27,10 @@ const ShippingScreen = () => {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = {
-      userAddress,
-      userCity,
-      userPostalCode,
-      userCountry,
+      address: userAddress,
+      city: userCity,
+      postalCode: userPostalCode,
+      country: userCountry,
     } as CartAddressProps
     dispatch(saveShippingAddress(data))
     history.push('/payment')
@@ -40,12 +40,12 @@ const ShippingScreen = () => {
     <FormContainer>
       <h1>Shipping</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="userAddress">
+        <Form.Group controlId="address">
           <Form.Label>Address</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter address"
-            value={address}
+            value={userAddress}
             required
             onChange={(e) => setUserAddress(e.target.value)}
           ></Form.Control>

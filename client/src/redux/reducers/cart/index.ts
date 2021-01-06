@@ -54,6 +54,7 @@ export function cartReducer(
       return {
         ...state,
         cartItems: [],
+        shippingAddress: null,
       }
     default:
       return state
