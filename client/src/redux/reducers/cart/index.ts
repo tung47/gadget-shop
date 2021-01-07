@@ -4,6 +4,7 @@ import {
   CartActions,
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
+  CART_SAVE_SHIPPING_ADDRESS,
   CART_RESET,
 } from '../../../types'
 
@@ -43,10 +44,17 @@ export function cartReducer(
         ...state,
         cartItems: state.cartItems.filter((x) => x.productId !== id),
       }
+    case CART_SAVE_SHIPPING_ADDRESS:
+      const { cartAddress } = action.payload
+      return {
+        ...state,
+        shippingAddress: cartAddress,
+      }
     case CART_RESET:
       return {
         ...state,
         cartItems: [],
+        shippingAddress: null,
       }
     default:
       return state

@@ -3,77 +3,91 @@ import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
+import { AppState, CartAddressProps } from '../types'
 import FormContainer from '../components/FormContainer'
+import { saveShippingAddress } from '../redux/actions/cart'
 
 const ShippingScreen = () => {
   const history = useHistory()
 
-  const [address, setAddress] = useState('')
-  const [city, setCity] = useState('')
-  const [postalCode, setPostalCode] = useState('')
-  const [country, setCountry] = useState('')
-  
+  const cart = useSelector((state: AppState) => state.cart)
+  const { shippingAddress } = cart
+  const address: any = shippingAddress && shippingAddress.address
+  const city: any = shippingAddress && shippingAddress.city
+  const postalCode: any = shippingAddress && shippingAddress.postalCode
+  const country: any = shippingAddress && shippingAddress.country
+
+  const [userAddress, setUserAddress] = useState(address)
+  const [userCity, setUserCity] = useState(city)
+  const [userPostalCode, setUserPostalCode] = useState(postalCode)
+  const [userCountry, setUserCountry] = useState(country)
+
   const dispatch = useDispatch()
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log({address, city, postalCode, country})
+    const data = {
+      address: userAddress,
+      city: userCity,
+      postalCode: userPostalCode,
+      country: userCountry,
+    } as CartAddressProps
+    dispatch(saveShippingAddress(data))
+    history.push('/payment')
   }
-
 
   return (
     <FormContainer>
       <h1>Shipping</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId='address'>
+        <Form.Group controlId="address">
           <Form.Label>Address</Form.Label>
           <Form.Control
-            type='text'
-            placeholder='Enter address'
-            value={address}
+            type="text"
+            placeholder="Enter address"
+            value={userAddress}
             required
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => setUserAddress(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlId='city'>
+        <Form.Group controlId="city">
           <Form.Label>City</Form.Label>
           <Form.Control
-            type='text'
-            placeholder='Enter city'
-            value={city}
+            type="text"
+            placeholder="Enter city"
+            value={userCity}
             required
-            onChange={(e) => setCity(e.target.value)}
+            onChange={(e) => setUserCity(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlId='postalCode'>
+        <Form.Group controlId="postalCode">
           <Form.Label>Postal Code</Form.Label>
           <Form.Control
-            type='text'
-            placeholder='Enter postal code'
-            value={postalCode}
+            type="text"
+            placeholder="Enter postal code"
+            value={userPostalCode}
             required
-            onChange={(e) => setPostalCode(e.target.value)}
+            onChange={(e) => setUserPostalCode(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlId='country'>
+        <Form.Group controlId="country">
           <Form.Label>Country</Form.Label>
           <Form.Control
-            type='text'
-            placeholder='Enter country'
-            value={country}
+            type="text"
+            placeholder="Enter country"
+            value={userCountry}
             required
-            onChange={(e) => setCountry(e.target.value)}
+            onChange={(e) => setUserCountry(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
-        <Button type='submit' variant='primary'>
+        <Button type="submit" variant="primary">
           Continue
         </Button>
       </Form>
-
     </FormContainer>
   )
 }

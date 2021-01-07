@@ -14,10 +14,10 @@ const userInfoFromStorage = userLoginFromStorage
   ? JSON.parse(userLoginFromStorage)
   : null
 
-const addressFromStorage = localStorage.getItem('shippingAddress')
+const addressFromStorage = localStorage.getItem('shippingAddress') || null
 const shippingAddressFromStorage = addressFromStorage
   ? JSON.parse(addressFromStorage)
-  : {}
+  : null
 
 let initState: AppState = {
   productList: {
