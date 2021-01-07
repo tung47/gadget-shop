@@ -11,6 +11,7 @@ import {
   CartActions,
   ItemProps,
   CartAddressProps,
+  CART_SAVE_PAYMENT_METHOD,
 } from '../../../types'
 
 // Cart add item actions
@@ -95,6 +96,28 @@ export const saveShippingAddress = (cartAddress: CartAddressProps) => (
   localStorage.setItem(
     'shippingAddress',
     JSON.stringify(getState().cart.shippingAddress)
+  )
+}
+
+// Cart save payment methods actions
+const cartSavePaymentMethods = (paymentMethod: string): CartActions => {
+  return {
+    type: CART_SAVE_PAYMENT_METHOD,
+    payload: {
+      paymentMethod: paymentMethod,
+    },
+  }
+}
+
+export const savePaymentMethod = (paymentMethod: string) => (
+  dispatch: Dispatch,
+  getState: () => AppState
+) => {
+  dispatch(cartSavePaymentMethods(paymentMethod))
+
+  localStorage.setItem(
+    'paymentMethod',
+    JSON.stringify(getState().cart.paymentMethod)
   )
 }
 
