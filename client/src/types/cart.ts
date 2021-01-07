@@ -50,6 +50,13 @@ export type CartSaveShippingAddressAction = {
   }
 }
 
+export type CartSavePaymentMethodAction = {
+  type: typeof CART_SAVE_PAYMENT_METHOD
+  payload: {
+    paymentMethod: string
+  }
+}
+
 export type CartResetAction = {
   type: typeof CART_RESET
 }
@@ -58,10 +65,12 @@ export type CartActions =
   | CartAddItemAction
   | CartRemoveItemAction
   | CartSaveShippingAddressAction
+  | CartSavePaymentMethodAction
   | CartResetAction
 
 // Cart State
 export type CartState = {
   cartItems: ItemsProps
   shippingAddress: CartAddressProps | null
+  paymentMethod: string | null
 }

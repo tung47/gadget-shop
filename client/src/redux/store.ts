@@ -55,6 +55,7 @@ let initState: AppState = {
   cart: {
     cartItems: cartItemsFromStorage,
     shippingAddress: shippingAddressFromStorage,
+    paymentMethod: null,
   },
   userLogin: {
     loading: false,

@@ -14,6 +14,7 @@ import { userRegisterResetAction } from './register'
 import { userDetailsResetAction } from './details'
 import { userUpdateResetAction } from './update'
 import { userListResetAction } from './list'
+import { userEditResetAction } from './edit'
 import { cartResetAction } from '../cart'
 
 // User Login Actions
@@ -84,10 +85,13 @@ export const logout = (): AsyncAction => async (dispatch: Dispatch) => {
   localStorage.removeItem('userInfo')
   localStorage.removeItem('error')
   localStorage.removeItem('cartItems')
+  localStorage.removeItem('shippingAddress')
+  localStorage.removeItem('paymentMethod')
   dispatch(userLogoutAction())
   dispatch(userRegisterResetAction())
   dispatch(userDetailsResetAction())
   dispatch(userUpdateResetAction())
   dispatch(userListResetAction())
+  dispatch(userEditResetAction())
   dispatch(cartResetAction())
 }
