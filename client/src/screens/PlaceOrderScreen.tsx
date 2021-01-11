@@ -3,14 +3,19 @@ import { Link, useHistory } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { AppState, ItemProps } from '../types'
+import { AppState, OrderProps, UserLoginState } from '../types'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
+import { createOrder } from '../redux/actions'
 
 const PlaceOrderScreen = () => {
   const history = useHistory()
 
   const dispatch = useDispatch()
+
+  const userLogin = useSelector((state: AppState) => state.userLogin)
+  const { userInfo } = userLogin as UserLoginState
+  const userId = userInfo && userInfo._id
 
   const cart = useSelector((state: AppState) => state.cart)
   const { shippingAddress } = cart
@@ -37,8 +42,36 @@ const PlaceOrderScreen = () => {
     ).toFixed(2)
   )
 
+  const orderItems = cart && cart.cartItems
+  const orderShippingAddress = cart && cart.shippingAddress
+  const orderPaymentMethod = cart && cart.paymentMethod
+  const orderItemsPrice = cart && cart.itemsPrice
+  const orderShippingPrice = cart && cart.shippingPrice
+  const orderTaxPrice = cart && cart.taxPrice
+  const orderTotalPrice = cart && cart.totalPrice
+
+  const orderCreate = useSelector((state: AppState) => state.orderCreate)
+  const { order, success, error } = orderCreate
+  const orderId = order && order._id
+
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${orderId}`)
+    }
+  }, [history, success, orderId])
+
   const placeOrderHandler = () => {
-    console.log('order')
+    const order = {
+      user: userId,
+      orderItems: orderItems,
+      shippingAddress: orderShippingAddress,
+      paymentMethod: orderPaymentMethod,
+      itemsPrice: orderItemsPrice,
+      shippingPrice: orderShippingPrice,
+      taxPrice: orderTaxPrice,
+      totalPrice: orderTotalPrice,
+    } as OrderProps
+    dispatch(createOrder(order))
   }
 
   return (
@@ -96,7 +129,7 @@ const PlaceOrderScreen = () => {
         </Col>
         <Col md={4}>
           <Card>
-            <ListGroup variant='flush'>
+            <ListGroup variant="flush">
               <ListGroup.Item>
                 <h2>Order Summary</h2>
               </ListGroup.Item>
@@ -124,13 +157,13 @@ const PlaceOrderScreen = () => {
                   <Col>€{cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              {/* <ListGroup.Item>
-                {error && <Message variant='danger'>{error}</Message>}
-              </ListGroup.Item> */}
+              <ListGroup.Item>
+                {error && <Message variant="danger">{error}</Message>}
+              </ListGroup.Item>
               <ListGroup.Item>
                 <Button
-                  type='button'
-                  className='btn-block'
+                  type="button"
+                  className="btn-block"
                   disabled={cart.cartItems.length === 0}
                   onClick={placeOrderHandler}
                 >

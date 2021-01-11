@@ -18,6 +18,7 @@ import {
   userDeleteReducer,
   userEditReducer,
 } from './user'
+import {orderCreateReducer} from './order'
 
 const createRootReducer = () =>
   combineReducers({
@@ -35,6 +36,7 @@ const createRootReducer = () =>
     userList: userListReducer,
     userDelete: userDeleteReducer,
     userEdit: userEditReducer,
+    orderCreate: orderCreateReducer,
   })
 
 export default createRootReducer

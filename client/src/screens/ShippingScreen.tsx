@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
-import { AppState, CartAddressProps } from '../types'
+import { AppState, ShippingAddressProps } from '../types'
 import FormContainer from '../components/FormContainer'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { saveShippingAddress } from '../redux/actions/cart'
@@ -32,7 +32,7 @@ const ShippingScreen = () => {
       city: userCity,
       postalCode: userPostalCode,
       country: userCountry,
-    } as CartAddressProps
+    } as ShippingAddressProps
     dispatch(saveShippingAddress(data))
     history.push('/payment')
   }

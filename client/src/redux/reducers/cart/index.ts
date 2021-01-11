@@ -51,10 +51,10 @@ export function cartReducer(
         cartItems: state.cartItems.filter((x) => x.productId !== id),
       }
     case CART_SAVE_SHIPPING_ADDRESS:
-      const { cartAddress } = action.payload
+      const { shippingAddress } = action.payload
       return {
         ...state,
-        shippingAddress: cartAddress,
+        shippingAddress: shippingAddress,
       }
     case CART_SAVE_PAYMENT_METHOD:
       const { paymentMethod } = action.payload

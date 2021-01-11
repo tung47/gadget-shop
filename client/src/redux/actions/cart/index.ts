@@ -10,7 +10,7 @@ import {
   AsyncAction,
   CartActions,
   ItemProps,
-  CartAddressProps,
+  ShippingAddressProps,
   CART_SAVE_PAYMENT_METHOD,
 } from '../../../types'
 
@@ -77,21 +77,21 @@ export const removeFromCart = (id: string): AsyncAction => (
 
 // Cart save shipping address actions
 const cartSaveShippingAddress = (
-  cartAddress: CartAddressProps
+  shippingAddress: ShippingAddressProps
 ): CartActions => {
   return {
     type: CART_SAVE_SHIPPING_ADDRESS,
     payload: {
-      cartAddress: cartAddress,
+      shippingAddress: shippingAddress,
     },
   }
 }
 
-export const saveShippingAddress = (cartAddress: CartAddressProps) => (
+export const saveShippingAddress = (shippingAddress: ShippingAddressProps) => (
   dispatch: Dispatch,
   getState: () => AppState
 ) => {
-  dispatch(cartSaveShippingAddress(cartAddress))
+  dispatch(cartSaveShippingAddress(shippingAddress))
 
   localStorage.setItem(
     'shippingAddress',
