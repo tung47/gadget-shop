@@ -13,6 +13,10 @@ const cartInit: CartState = {
   cartItems: [],
   shippingAddress: null,
   paymentMethod: null,
+  itemsPrice: null,
+  shippingPrice: null,
+  taxPrice: null,
+  totalPrice: null,
 }
 
 export function cartReducer(
@@ -64,6 +68,10 @@ export function cartReducer(
         cartItems: [],
         shippingAddress: null,
         paymentMethod: null,
+        itemsPrice: null,
+        shippingPrice: null,
+        taxPrice: null,
+        totalPrice: null,
       }
     default:
       return state

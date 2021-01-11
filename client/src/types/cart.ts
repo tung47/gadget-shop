@@ -73,4 +73,8 @@ export type CartState = {
   cartItems: ItemsProps
   shippingAddress: CartAddressProps | null
   paymentMethod: string | null
+  itemsPrice: number | null
+  shippingPrice: number | null
+  taxPrice: number | null
+  totalPrice: number | null
 }
