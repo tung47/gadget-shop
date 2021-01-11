@@ -1,12 +1,34 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose, { Document } from 'mongoose'
 
+type ItemProps = {
+  productId: mongoose.Types.ObjectId;
+  name: string;
+  image: string;
+  price: number;
+  countInStock: number;
+  qty: number;
+}
+
+type ShippingAddressProps = {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
+type paymentResultProps = {
+  id: string;
+  status: string;
+  updateTime: string;
+  emailAddress: string;
+}
+
 export type OrderDocument = Document & {
-  user: any[];
-  orderItems: any[];
-  shippingAddress: any[];
+  user: mongoose.Types.ObjectId;
+  orderItems: ItemProps[];
+  shippingAddress: ShippingAddressProps;
   paymentMethod: string;
-  paymentResult: any[];
+  paymentResult: paymentResultProps;
   taxPrice: number;
   shippingPrice: number;
   totalPrice: number;
@@ -29,7 +51,7 @@ const orderSchema = new mongoose.Schema(
         qty: { type: Number, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
-        product: {
+        productId: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: 'Product',

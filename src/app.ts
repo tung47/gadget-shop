@@ -15,6 +15,7 @@ import { MONGODB_URI, SESSION_SECRET } from './util/secrets'
 
 import productRouter from './routers/product'
 import userRouter from './routers/user'
+import orderRouter from './routers/order'
 import uploadRouter from './routers/upload'
 
 import apiErrorHandler from './middlewares/apiErrorHandler'
@@ -59,6 +60,7 @@ app.use(express.json())
 // Use router
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/users', userRouter)
+app.use('/api/v1/orders', orderRouter)
 app.use('/api/v1/upload', uploadRouter)
 
 app.use('/uploads', express.static(path.join(path.resolve(), '/uploads')))
