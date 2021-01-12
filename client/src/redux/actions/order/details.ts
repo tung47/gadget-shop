@@ -23,7 +23,7 @@ const orderDetailsSuccess = (order: OrderProps): OrderDetailsActions => {
   return {
     type: ORDER_DETAILS_SUCCESS,
     payload: {
-      order,
+      order: order,
     },
   }
 }
@@ -49,6 +49,7 @@ export const getOrderDetails = (orderId: string): AsyncAction => async (
 
     const config = {
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     }
