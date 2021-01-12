@@ -13,6 +13,10 @@ const cartInit: CartState = {
   cartItems: [],
   shippingAddress: null,
   paymentMethod: null,
+  itemsPrice: null,
+  shippingPrice: null,
+  taxPrice: null,
+  totalPrice: null,
 }
 
 export function cartReducer(
@@ -47,10 +51,10 @@ export function cartReducer(
         cartItems: state.cartItems.filter((x) => x.productId !== id),
       }
     case CART_SAVE_SHIPPING_ADDRESS:
-      const { cartAddress } = action.payload
+      const { shippingAddress } = action.payload
       return {
         ...state,
-        shippingAddress: cartAddress,
+        shippingAddress: shippingAddress,
       }
     case CART_SAVE_PAYMENT_METHOD:
       const { paymentMethod } = action.payload
@@ -64,6 +68,10 @@ export function cartReducer(
         cartItems: [],
         shippingAddress: null,
         paymentMethod: null,
+        itemsPrice: null,
+        shippingPrice: null,
+        taxPrice: null,
+        totalPrice: null,
       }
     default:
       return state

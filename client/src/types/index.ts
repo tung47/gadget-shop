@@ -19,10 +19,12 @@ import {
   UserEditState,
 } from './user'
 import { CartState } from './cart'
+import { OrderCreateState, OrderDetailsState } from './order'
 
 export * from './user'
 export * from './product'
 export * from './cart'
+export * from './order'
 
 // Fail Actions Types
 export const ACTION_FAIL = 'ACTION_FAIL'
@@ -69,4 +71,6 @@ export type AppState = {
   userList: UserListState
   userDelete: UserDeleteState
   userEdit: UserEditState
+  orderCreate: OrderCreateState
+  orderDetails: OrderDetailsState
 }

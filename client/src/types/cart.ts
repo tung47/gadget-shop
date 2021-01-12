@@ -16,7 +16,7 @@ export type ItemProps = {
 
 export type ItemsProps = ItemProps[]
 
-export type CartAddressProps = {
+export type ShippingAddressProps = {
   address?: string,
   city?: string,
   postalCode?: string, 
@@ -46,7 +46,7 @@ export type CartRemoveItemAction = {
 export type CartSaveShippingAddressAction = {
   type: typeof CART_SAVE_SHIPPING_ADDRESS
   payload: {
-    cartAddress: CartAddressProps
+    shippingAddress: ShippingAddressProps
   }
 }
 
@@ -71,6 +71,10 @@ export type CartActions =
 // Cart State
 export type CartState = {
   cartItems: ItemsProps
-  shippingAddress: CartAddressProps | null
+  shippingAddress: ShippingAddressProps | null
   paymentMethod: string | null
+  itemsPrice: number | null
+  shippingPrice: number | null
+  taxPrice: number | null
+  totalPrice: number | null
 }
