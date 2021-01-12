@@ -3,6 +3,7 @@ import {
   OrderCreateState,
   ORDER_CREATE_FAIL,
   ORDER_CREATE_REQUEST,
+  ORDER_CREATE_RESET,
   ORDER_CREATE_SUCCESS,
 } from '../../../types'
 
@@ -40,6 +41,14 @@ export function orderCreateReducer(
         ...state,
         loading: false,
         error: error,
+      }
+    }
+    case ORDER_CREATE_RESET: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        order: null,
       }
     }
     default:
