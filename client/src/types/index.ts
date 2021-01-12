@@ -19,7 +19,7 @@ import {
   UserEditState,
 } from './user'
 import { CartState } from './cart'
-import { OrderCreateState } from './order'
+import { OrderCreateState, OrderDetailsState } from './order'
 
 export * from './user'
 export * from './product'
@@ -72,4 +72,5 @@ export type AppState = {
   userDelete: UserDeleteState
   userEdit: UserEditState
   orderCreate: OrderCreateState
+  orderDetails: OrderDetailsState
 }

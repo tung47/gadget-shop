@@ -3,52 +3,45 @@ import { Dispatch } from 'redux'
 
 import {
   AsyncAction,
-  OrderCreateActions,
+  OrderDetailsActions,
   OrderProps,
-  ORDER_CREATE_REQUEST,
-  ORDER_CREATE_SUCCESS,
-  ORDER_CREATE_FAIL,
+  ORDER_DETAILS_REQUEST,
+  ORDER_DETAILS_SUCCESS,
+  ORDER_DETAILS_FAIL,
   UserProps,
-  ORDER_CREATE_RESET,
 } from '../../../types'
 // import { logout } from '../user/loginLogout'
 
-const orderCreateRequest = (): OrderCreateActions => {
+const orderDetailsRequest = (): OrderDetailsActions => {
   return {
-    type: ORDER_CREATE_REQUEST,
+    type: ORDER_DETAILS_REQUEST,
   }
 }
 
-const orderCreateSuccess = (order: OrderProps): OrderCreateActions => {
+const orderDetailsSuccess = (order: OrderProps): OrderDetailsActions => {
   return {
-    type: ORDER_CREATE_SUCCESS,
+    type: ORDER_DETAILS_SUCCESS,
     payload: {
       order: order,
     },
   }
 }
 
-const orderCreateFail = (error: string): OrderCreateActions => {
+const orderDetailsFail = (error: string): OrderDetailsActions => {
   return {
-    type: ORDER_CREATE_FAIL,
+    type: ORDER_DETAILS_FAIL,
     payload: {
       error: error,
     },
   }
 }
 
-export const orderCreateReset = (): OrderCreateActions => {
-  return {
-    type: ORDER_CREATE_RESET,
-  }
-}
-
-export const createOrder = (order: OrderProps): AsyncAction => async (
+export const getOrderDetails = (id: string): AsyncAction => async (
   dispatch: Dispatch,
   getState
 ) => {
   try {
-    dispatch(orderCreateRequest())
+    dispatch(orderDetailsRequest())
 
     const { userLogin } = getState()
     const { token } = userLogin.userInfo as UserProps
@@ -60,9 +53,9 @@ export const createOrder = (order: OrderProps): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.post(`/api/v1/orders`, order, config)
-
-    dispatch(orderCreateSuccess(data))
+    const { data } = await axios.get(`/api/v1/orders/${id}`, config)
+    
+    dispatch(orderDetailsSuccess(data))
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -71,6 +64,6 @@ export const createOrder = (order: OrderProps): AsyncAction => async (
     if (message === 'Not authorized, token failed') {
       // dispatch(logout())
     }
-    dispatch(orderCreateFail(message))
+    dispatch(orderDetailsFail(message))
   }
 }
