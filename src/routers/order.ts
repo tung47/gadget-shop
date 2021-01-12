@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { addOrderItems, getOrderById } from '../controllers/order'
-import { protect, admin } from '../middlewares/authMiddleware'
+import { protect } from '../middlewares/authMiddleware'
 
 const router = express.Router()
 

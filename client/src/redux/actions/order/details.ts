@@ -9,6 +9,7 @@ import {
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAIL,
   UserProps,
+  AppState,
 } from '../../../types'
 // import { logout } from '../user/loginLogout'
 
@@ -22,7 +23,7 @@ const orderDetailsSuccess = (order: OrderProps): OrderDetailsActions => {
   return {
     type: ORDER_DETAILS_SUCCESS,
     payload: {
-      order: order,
+      order,
     },
   }
 }
@@ -36,9 +37,9 @@ const orderDetailsFail = (error: string): OrderDetailsActions => {
   }
 }
 
-export const getOrderDetails = (id: string): AsyncAction => async (
+export const getOrderDetails = (orderId: string): AsyncAction => async (
   dispatch: Dispatch,
-  getState
+  getState: () => AppState
 ) => {
   try {
     dispatch(orderDetailsRequest())
@@ -48,12 +49,11 @@ export const getOrderDetails = (id: string): AsyncAction => async (
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     }
 
-    const { data } = await axios.get(`/api/v1/orders/${id}`, config)
+    const { data } = await axios.get(`/api/v1/orders/${orderId}`, config)
     
     dispatch(orderDetailsSuccess(data))
   } catch (error) {

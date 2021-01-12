@@ -48,6 +48,7 @@ export function orderCreateReducer(
         ...state,
         loading: false,
         error: null,
+        success: false,
         order: null,
       }
     }

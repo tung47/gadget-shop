@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
   AppState,
   UserLoginState,
   ItemProps,
-  OrderDetailsState,
   RouteParam,
-  OrderProps,
 } from '../types'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -26,13 +24,13 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const email = userInfo && userInfo.email
   
   const orderDetails = useSelector((state: AppState) => state.orderDetails)
-  const { order, loading, error } = orderDetails as OrderDetailsState
-
-  let itemsPrice: any = order && order.itemsPrice
-  console.log(orderId)
-
+  const { loading, error } = orderDetails
+  const order: any = orderDetails && orderDetails.order
+  
+  const itemsPrice: any = order && order.itemsPrice
   const orderItems: any = order && order.orderItems
   const id: any = order && order._id
+  
   const shippingAddress: any = order && order.shippingAddress
   const address: any = shippingAddress && shippingAddress.address
   const city: any = shippingAddress && shippingAddress.city
@@ -47,34 +45,10 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const shippingPrice: any = order && order.shippingPrice
   const taxPrice: any = order && order.taxPrice
   const totalPrice: any = order && order.totalPrice
-  // const {
-  //   isDelivered,
-  //   deliveredAt,
-  //   isPaid,
-  //   paymentMethod,
-  //   paidAt,
-  //   shippingPrice,
-  //   taxPrice,
-  //   totalPrice,
-  // } = order as OrderProps
-
-  if (!loading) {
-    //   Calculate prices
-    const addDecimals = (num: number) => {
-      return (Math.round(num * 100) / 100).toFixed(2)
-    }
-
-    itemsPrice = addDecimals(
-      orderItems.reduce(
-        (acc: number, item: ItemProps) => acc + item.price * item.qty,
-        0
-      )
-    )
-  }
-
+  
   useEffect(() => {
     dispatch(getOrderDetails(orderId))
-  }, [])
+  }, [dispatch, orderId])
 
   return loading ? (
     <Loader />
@@ -179,7 +153,7 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>$€{totalPrice}</Col>
+                  <Col>€{totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
             </ListGroup>

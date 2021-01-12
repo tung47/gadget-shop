@@ -28,6 +28,7 @@ export type OrderDocument = Document & {
   orderItems: ItemProps[];
   shippingAddress: ShippingAddressProps;
   paymentMethod: string;
+  itemsPrice: number;
   paymentResult: paymentResultProps;
   taxPrice: number;
   shippingPrice: number;
