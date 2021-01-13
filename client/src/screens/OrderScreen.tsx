@@ -23,7 +23,7 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const name = userInfo && userInfo.name
   const email = userInfo && userInfo.email
   
-  const orderDetails = useSelector((state: AppState) => state.orderDetails)
+  const orderDetails = useSelector((state: AppState) => state.orderCreate)
   const { loading, error } = orderDetails
   const order: any = orderDetails && orderDetails.order
   

@@ -7,6 +7,6 @@ const router = express.Router()
 
 // Every path we define here will get /api/v1/orders prefix
 router.route('/').post(protect, addOrderItems)
-router.route('/:id').get(protect, getOrderById)
+router.route('/:id').get(getOrderById)
 
 export default router
