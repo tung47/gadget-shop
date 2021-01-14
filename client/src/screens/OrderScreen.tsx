@@ -3,12 +3,7 @@ import { Link, RouteComponentProps } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-  AppState,
-  UserLoginState,
-  ItemProps,
-  RouteParam,
-} from '../types'
+import { AppState, UserLoginState, ItemProps, RouteParam } from '../types'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getOrderDetails } from '../redux/actions/order'
@@ -22,15 +17,15 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const { userInfo } = userLogin as UserLoginState
   const name = userInfo && userInfo.name
   const email = userInfo && userInfo.email
-  
+
   const orderDetails = useSelector((state: AppState) => state.orderCreate)
   const { loading, error } = orderDetails
   const order: any = orderDetails && orderDetails.order
-  
+
   const itemsPrice: any = order && order.itemsPrice
   const orderItems: any = order && order.orderItems
   const id: any = order && order._id
-  
+
   const shippingAddress: any = order && order.shippingAddress
   const address: any = shippingAddress && shippingAddress.address
   const city: any = shippingAddress && shippingAddress.city
@@ -45,10 +40,12 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const shippingPrice: any = order && order.shippingPrice
   const taxPrice: any = order && order.taxPrice
   const totalPrice: any = order && order.totalPrice
-  
+
   useEffect(() => {
-    dispatch(getOrderDetails(orderId))
-  }, [dispatch, orderId])
+    if (!order || id !== orderId) {
+      dispatch(getOrderDetails(orderId))
+    }
+  }, [dispatch, order, id, orderId])
 
   return loading ? (
     <Loader />
@@ -69,9 +66,8 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                 <strong>Email: </strong> <a href={`mailto:${email}`}>{email}</a>
               </p>
               <p>
-                <strong>Address:</strong>
-                {address}, {city}{' '}
-                {postalCode}, {country}
+                <strong>Address: </strong>
+                {address}, {city} {postalCode}, {country}
               </p>
               {isDelivered ? (
                 <Message variant="success">Delivered on {deliveredAt}</Message>
