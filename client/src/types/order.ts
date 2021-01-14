@@ -10,11 +10,16 @@ export const ORDER_DETAILS_REQUEST = 'ORDER_DETAILS_REQUEST'
 export const ORDER_DETAILS_SUCCESS = 'ORDER_DETAILS_SUCCESS'
 export const ORDER_DETAILS_FAIL = 'ORDER_DETAILS_FAIL'
 
+export const ORDER_PAY_REQUEST = 'ORDER_PAY_REQUEST'
+export const ORDER_PAY_SUCCESS = 'ORDER_PAY_SUCCESS'
+export const ORDER_PAY_FAIL = 'ORDER_PAY_FAIL'
+export const ORDER_PAY_RESET = 'ORDER_PAY_RESET'
+
 export type PaymentResultProps = {
   id: string
   status: string
-  updateTime: string
-  emailAddress: string
+  update_time: string
+  email_address: string
 }
 
 export type OrderProps = {
@@ -71,16 +76,42 @@ export type OrderDetailsFailAction = {
   }
 }
 
+// Order Pay Actions
+export type OrderPayRequestAction = {
+  type: typeof ORDER_PAY_REQUEST
+}
+export type OrderPaySuccessAction = {
+  type: typeof ORDER_PAY_SUCCESS
+  payload: {
+    paymentResult: PaymentResultProps
+  }
+}
+export type OrderPayFailAction = {
+  type: typeof ORDER_PAY_FAIL
+  payload: {
+    error: string
+  }
+}
+export type OrderPayResetAction = {
+  type: typeof ORDER_PAY_RESET
+}
+
 export type OrderCreateActions =
   | OrderCreateRequestAction
   | OrderCreateSuccessAction
   | OrderCreateFailAction
   | OrderCreateResetAction
 
-export type OrderDetailsActions = 
+export type OrderDetailsActions =
   | OrderDetailsRequestAction
   | OrderDetailsSuccessAction
   | OrderDetailsFailAction
+
+export type OrderPayActions =
+  | OrderPayRequestAction
+  | OrderPaySuccessAction
+  | OrderPayFailAction
+  | OrderPayResetAction
 
 // Order States
 export type OrderCreateState = {
@@ -96,7 +127,15 @@ export type OrderDetailsState = {
   order: OrderProps | null
 }
 
+export type OrderPayState = {
+  loading: boolean
+  error: string | null
+  success: boolean
+  paymentResult: PaymentResultProps | null
+}
+
 export type OrderState = {
   orderCreate: OrderCreateState
   orderDetails: OrderDetailsState
+  orderPay: OrderPayState
 }
