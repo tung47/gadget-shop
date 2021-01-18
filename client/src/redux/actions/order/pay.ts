@@ -4,7 +4,6 @@ import { Dispatch } from 'redux'
 import {
   AsyncAction,
   OrderPayActions,
-  OrderProps,
   ORDER_PAY_REQUEST,
   ORDER_PAY_SUCCESS,
   ORDER_PAY_FAIL,
