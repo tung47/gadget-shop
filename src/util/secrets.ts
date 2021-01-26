@@ -38,3 +38,5 @@ if (!MONGODB_URI) {
   }
   process.exit(1)
 }
+
+export const PAYPAL_CLIENT_ID = process.env['PAYPAL_CLIENT_ID'] as string

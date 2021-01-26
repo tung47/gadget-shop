@@ -11,7 +11,7 @@ import passport from 'passport'
 import bluebird from 'bluebird'
 import morgan from 'morgan'
 
-import { MONGODB_URI, SESSION_SECRET } from './util/secrets'
+import { MONGODB_URI, SESSION_SECRET, PAYPAL_CLIENT_ID } from './util/secrets'
 
 import productRouter from './routers/product'
 import userRouter from './routers/user'
@@ -62,6 +62,10 @@ app.use('/api/v1/products', productRouter)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/orders', orderRouter)
 app.use('/api/v1/upload', uploadRouter)
+
+app.get('/api/v1/config/paypal', (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+)
 
 app.use('/uploads', express.static(path.join(path.resolve(), '/uploads')))
 
