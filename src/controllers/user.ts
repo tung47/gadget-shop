@@ -48,7 +48,7 @@ export const authUser = asyncHandler(
 export const getUserProfile = asyncHandler(
   async (req: Request, res: Response) => {
     const userReq = req.user as Payload
-    const user = await UserService.findById(userReq._id)
+    const user = await User.findById(userReq._id)
 
     if (user) {
       res.json({

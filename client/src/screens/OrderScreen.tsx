@@ -34,8 +34,7 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const orderDetails = useSelector((state: AppState) => state.orderDetails)
   const { loading, error } = orderDetails
   const order: any = orderDetails && orderDetails.order
-  console.log(order)
-
+  
   const itemsPrice: any = order && order.itemsPrice
   const orderItems: any = order && order.orderItems
   const id: any = order && order._id

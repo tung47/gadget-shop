@@ -2,6 +2,7 @@
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 
+import { UserDocument } from '../models/User'
 import Order from '../models/Order'
 
 // @desc    Create new order
@@ -84,3 +85,12 @@ export const updateOrderToPaid = asyncHandler(
     }
   }
 )
+
+// @desc    Get logged in user orders
+// @route   GET /api/v1/orders/myorders
+// @access  Private
+export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
+  const { _id } = req.user as UserDocument
+  const orders = await Order.find({ user: _id })
+  res.json(orders)
+})

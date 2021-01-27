@@ -22,6 +22,7 @@ import {
   orderCreateReducer,
   orderDetailsReducer,
   orderPayReducer,
+  orderListMyReducer,
 } from './order'
 
 const createRootReducer = () =>
@@ -43,6 +44,7 @@ const createRootReducer = () =>
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
+    orderListMy: orderListMyReducer,
   })
 
 export default createRootReducer

@@ -15,6 +15,11 @@ export const ORDER_PAY_SUCCESS = 'ORDER_PAY_SUCCESS'
 export const ORDER_PAY_FAIL = 'ORDER_PAY_FAIL'
 export const ORDER_PAY_RESET = 'ORDER_PAY_RESET'
 
+export const ORDER_LIST_MY_REQUEST = 'ORDER_LIST_MY_REQUEST'
+export const ORDER_LIST_MY_SUCCESS = 'ORDER_LIST_MY_SUCCESS'
+export const ORDER_LIST_MY_FAIL = 'ORDER_LIST_MY_FAIL'
+export const ORDER_LIST_MY_RESET = 'ORDER_LIST_MY_RESET'
+
 export type PaymentResultProps = {
   id: string
   status: string
@@ -23,7 +28,7 @@ export type PaymentResultProps = {
 }
 
 export type OrderProps = {
-  _id?: string
+  _id: string
   user: string
   orderItems: ItemProps[]
   shippingAddress: ShippingAddressProps
@@ -33,10 +38,11 @@ export type OrderProps = {
   taxPrice: number
   shippingPrice: number
   totalPrice: number
-  isPaid?: boolean
-  paidAt?: Date
-  isDelivered?: boolean
-  deliveredAt?: Date
+  isPaid: boolean
+  paidAt: string
+  isDelivered: boolean
+  deliveredAt: string
+  createdAt: string
 }
 
 // Order Create Actions
@@ -96,6 +102,26 @@ export type OrderPayResetAction = {
   type: typeof ORDER_PAY_RESET
 }
 
+// Order List My Actions
+export type OrderListMyRequestAction = {
+  type: typeof ORDER_LIST_MY_REQUEST
+}
+export type OrderListMySuccessAction = {
+  type: typeof ORDER_LIST_MY_SUCCESS
+  payload: {
+    orders: OrderProps[]
+  }
+}
+export type OrderListMyFailAction = {
+  type: typeof ORDER_LIST_MY_FAIL
+  payload: {
+    error: string
+  }
+}
+export type OrderListMyResetAction = {
+  type: typeof ORDER_LIST_MY_RESET
+}
+
 export type OrderCreateActions =
   | OrderCreateRequestAction
   | OrderCreateSuccessAction
@@ -112,6 +138,12 @@ export type OrderPayActions =
   | OrderPaySuccessAction
   | OrderPayFailAction
   | OrderPayResetAction
+
+export type OrderListMyActions =
+  | OrderListMyRequestAction
+  | OrderListMySuccessAction
+  | OrderListMyFailAction
+  | OrderListMyResetAction
 
 // Order States
 export type OrderCreateState = {
@@ -132,6 +164,13 @@ export type OrderPayState = {
   error: string | null
   success: boolean
   paymentResult: PaymentResultProps | null
+}
+
+export type OrderListMyState = {
+  loading: boolean
+  error: string | null
+  success: boolean
+  orders: OrderProps[]
 }
 
 export type OrderState = {

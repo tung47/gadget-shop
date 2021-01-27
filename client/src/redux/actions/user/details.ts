@@ -50,7 +50,6 @@ export const getUserDetails = (userId: string): AsyncAction => async (
     dispatch(userDetailsRequestAction())
 
     const { userLogin } = getState()
-
     const { token } = userLogin.userInfo as UserProps
 
     const config = {
