@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import mongoose, { Document } from 'mongoose'
 
 type ItemProps = {
@@ -19,8 +20,8 @@ type ShippingAddressProps = {
 type paymentResultProps = {
   id: string;
   status: string;
-  updateTime: string;
-  emailAddress: string;
+  update_time: string;
+  email_address: string;
 }
 
 export type OrderDocument = Document & {
@@ -28,6 +29,7 @@ export type OrderDocument = Document & {
   orderItems: ItemProps[];
   shippingAddress: ShippingAddressProps;
   paymentMethod: string;
+  itemsPrice: number;
   paymentResult: paymentResultProps;
   taxPrice: number;
   shippingPrice: number;
@@ -76,8 +78,8 @@ const orderSchema = new mongoose.Schema(
     paymentResult: {
       id: { type: String },
       status: { type: String },
-      updateTime: { type: String },
-      emailAddress: { type: String },
+      update_time: { type: String },
+      email_address: { type: String },
     },
     taxPrice: {
       type: Number,

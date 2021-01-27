@@ -55,6 +55,7 @@ export const getUserDetails = (userId: string): AsyncAction => async (
 
     const config = {
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     }

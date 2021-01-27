@@ -1,41 +1,41 @@
 import {
-  OrderCreateActions,
-  OrderCreateState,
-  ORDER_CREATE_FAIL,
-  ORDER_CREATE_REQUEST,
-  ORDER_CREATE_RESET,
-  ORDER_CREATE_SUCCESS,
+  OrderPayActions,
+  OrderPayState,
+  ORDER_PAY_FAIL,
+  ORDER_PAY_REQUEST,
+  ORDER_PAY_RESET,
+  ORDER_PAY_SUCCESS,
 } from '../../../types'
 
-const OrderCreateInit: OrderCreateState = {
+const OrderPayInit: OrderPayState = {
   loading: false,
   error: null,
   success: false,
-  order: null,
+  paymentResult: null,
 }
 
-export function orderCreateReducer(
-  state: OrderCreateState = OrderCreateInit,
-  action: OrderCreateActions
-): OrderCreateState {
+export function orderPayReducer(
+  state: OrderPayState = OrderPayInit,
+  action: OrderPayActions
+): OrderPayState {
   switch (action.type) {
-    case ORDER_CREATE_REQUEST: {
+    case ORDER_PAY_REQUEST: {
       return {
         ...state,
         loading: true,
         error: null,
       }
     }
-    case ORDER_CREATE_SUCCESS: {
-      const { order } = action.payload
+    case ORDER_PAY_SUCCESS: {
+      const { paymentResult } = action.payload
       return {
         ...state,
         loading: false,
         success: true,
-        order: order,
+        paymentResult: paymentResult,
       }
     }
-    case ORDER_CREATE_FAIL: {
+    case ORDER_PAY_FAIL: {
       const { error } = action.payload
       return {
         ...state,
@@ -43,13 +43,13 @@ export function orderCreateReducer(
         error: error,
       }
     }
-    case ORDER_CREATE_RESET: {
+    case ORDER_PAY_RESET: {
       return {
         ...state,
         loading: false,
         error: null,
         success: false,
-        order: null,
+        paymentResult: null,
       }
     }
     default:

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 
@@ -70,8 +71,8 @@ export const updateOrderToPaid = asyncHandler(
       order.paymentResult = {
         id: req.body.id,
         status: req.body.status,
-        updateTime: req.body.updateTime,
-        emailAddress: req.body.payer.emailAddress,
+        update_time: req.body.update_time,
+        email_address: req.body.payer.email_address,
       }
 
       const updatedOrder = await order.save()

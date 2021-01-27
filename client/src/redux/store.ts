@@ -110,6 +110,12 @@ let initState: AppState = {
     error: null,
     order: null,
   },
+  orderPay: {
+    loading: false,
+    error: null,
+    success: false,
+    paymentResult: null,
+  },
 }
 
 const savedState = localStorage.getItem('state') || ''

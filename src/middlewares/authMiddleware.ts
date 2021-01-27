@@ -19,14 +19,14 @@ export type AdminPayload = {
 
 export const protect = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    let token
     const headersReq = req.headers as RequestHeadersProps
+    const token = headersReq.authorization.split(' ')[1]
     if (
       headersReq.authorization &&
       headersReq.authorization.startsWith('Bearer')
     ) {
       try {
-        token = headersReq.authorization.split(' ')[1]
+        // token = headersReq.authorization.split(' ')[1]
 
         const decoded = jwt.verify(
           token,

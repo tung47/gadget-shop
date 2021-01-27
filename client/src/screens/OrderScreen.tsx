@@ -1,22 +1,28 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { PayPalButton } from 'react-paypal-button-v2'
 import { Link, RouteComponentProps } from 'react-router-dom'
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-  AppState,
-  UserLoginState,
-  ItemProps,
-  OrderDetailsState,
-  RouteParam,
-  OrderProps,
-} from '../types'
+import { AppState, UserLoginState, ItemProps, RouteParam } from '../types'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getOrderDetails } from '../redux/actions/order'
+import {
+  getOrderDetails,
+  orderPayReset,
+  payOrder,
+} from '../redux/actions/order'
+declare global {
+  interface Window {
+    paypal: any
+  }
+}
 
 const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const orderId = match.params.id
+
+  const [sdkReady, setSdkReady] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -24,15 +30,16 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const { userInfo } = userLogin as UserLoginState
   const name = userInfo && userInfo.name
   const email = userInfo && userInfo.email
-  
+
   const orderDetails = useSelector((state: AppState) => state.orderDetails)
-  const { order, loading, error } = orderDetails as OrderDetailsState
+  const { loading, error } = orderDetails
+  const order: any = orderDetails && orderDetails.order
+  console.log(order)
 
-  let itemsPrice: any = order && order.itemsPrice
-  console.log(orderId)
-
+  const itemsPrice: any = order && order.itemsPrice
   const orderItems: any = order && order.orderItems
   const id: any = order && order._id
+
   const shippingAddress: any = order && order.shippingAddress
   const address: any = shippingAddress && shippingAddress.address
   const city: any = shippingAddress && shippingAddress.city
@@ -47,34 +54,39 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const shippingPrice: any = order && order.shippingPrice
   const taxPrice: any = order && order.taxPrice
   const totalPrice: any = order && order.totalPrice
-  // const {
-  //   isDelivered,
-  //   deliveredAt,
-  //   isPaid,
-  //   paymentMethod,
-  //   paidAt,
-  //   shippingPrice,
-  //   taxPrice,
-  //   totalPrice,
-  // } = order as OrderProps
 
-  if (!loading) {
-    //   Calculate prices
-    const addDecimals = (num: number) => {
-      return (Math.round(num * 100) / 100).toFixed(2)
-    }
-
-    itemsPrice = addDecimals(
-      orderItems.reduce(
-        (acc: number, item: ItemProps) => acc + item.price * item.qty,
-        0
-      )
-    )
-  }
+  const orderPay = useSelector((state: AppState) => state.orderPay)
+  const { loading: loadingPay, success: successPay } = orderPay
 
   useEffect(() => {
-    dispatch(getOrderDetails(orderId))
-  }, [])
+    const addPayPalScript = async () => {
+      const { data: clientId } = await axios.get('/api/v1/config/paypal')
+      const script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+      script.async = true
+      script.onload = () => {
+        setSdkReady(true)
+      }
+      document.body.appendChild(script)
+    }
+
+    if (!order || successPay || id !== orderId) {
+      dispatch(orderPayReset())
+      dispatch(getOrderDetails(orderId))
+    } else if (!isPaid) {
+      if (!window.paypal) {
+        addPayPalScript()
+      } else {
+        setSdkReady(true)
+      }
+    }
+  }, [dispatch, order, id, orderId, successPay, isPaid])
+
+  const successPaymentHandler = (paymentResult: any) => {
+    console.log(paymentResult)
+    dispatch(payOrder(orderId, paymentResult))
+  }
 
   return loading ? (
     <Loader />
@@ -95,9 +107,8 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                 <strong>Email: </strong> <a href={`mailto:${email}`}>{email}</a>
               </p>
               <p>
-                <strong>Address:</strong>
-                {address}, {city}{' '}
-                {postalCode}, {country}
+                <strong>Address: </strong>
+                {address}, {city} {postalCode}, {country}
               </p>
               {isDelivered ? (
                 <Message variant="success">Delivered on {deliveredAt}</Message>
@@ -142,7 +153,7 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                          {item.qty} x €{item.price} = €{item.qty * item.price}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -179,9 +190,22 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>$€{totalPrice}</Col>
+                  <Col>€{totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {!isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loader />}
+                  {!sdkReady ? (
+                    <Loader />
+                  ) : (
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
+                    />
+                  )}
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>

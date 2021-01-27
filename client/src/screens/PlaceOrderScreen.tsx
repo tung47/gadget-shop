@@ -71,6 +71,7 @@ const PlaceOrderScreen = () => {
       taxPrice: orderTaxPrice,
       totalPrice: orderTotalPrice,
     } as OrderProps
+    console.log(order)
     dispatch(createOrder(order))
   }
 
