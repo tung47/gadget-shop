@@ -20,6 +20,10 @@ export const ORDER_LIST_MY_SUCCESS = 'ORDER_LIST_MY_SUCCESS'
 export const ORDER_LIST_MY_FAIL = 'ORDER_LIST_MY_FAIL'
 export const ORDER_LIST_MY_RESET = 'ORDER_LIST_MY_RESET'
 
+export const ORDER_LIST_REQUEST = 'ORDER_LIST_REQUEST'
+export const ORDER_LIST_SUCCESS = 'ORDER_LIST_SUCCESS'
+export const ORDER_LIST_FAIL = 'ORDER_LIST_FAIL'
+
 export type PaymentResultProps = {
   id: string
   status: string
@@ -122,6 +126,23 @@ export type OrderListMyResetAction = {
   type: typeof ORDER_LIST_MY_RESET
 }
 
+// Order List Actions
+export type OrderListRequestAction = {
+  type: typeof ORDER_LIST_REQUEST
+}
+export type OrderListSuccessAction = {
+  type: typeof ORDER_LIST_SUCCESS
+  payload: {
+    orders: OrderProps[]
+  }
+}
+export type OrderListFailAction = {
+  type: typeof ORDER_LIST_FAIL
+  payload: {
+    error: string
+  }
+}
+
 export type OrderCreateActions =
   | OrderCreateRequestAction
   | OrderCreateSuccessAction
@@ -144,6 +165,11 @@ export type OrderListMyActions =
   | OrderListMySuccessAction
   | OrderListMyFailAction
   | OrderListMyResetAction
+
+export type OrderListActions =
+  | OrderListRequestAction
+  | OrderListSuccessAction
+  | OrderListFailAction
 
 // Order States
 export type OrderCreateState = {
@@ -173,8 +199,17 @@ export type OrderListMyState = {
   orders: OrderProps[]
 }
 
+export type OrderListState = {
+  loading: boolean
+  error: string | null
+  success: boolean
+  orders: OrderProps[]
+}
+
 export type OrderState = {
   orderCreate: OrderCreateState
   orderDetails: OrderDetailsState
   orderPay: OrderPayState
+  orderListMy: OrderListMyState
+  orderList: OrderListState
 }

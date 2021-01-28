@@ -3,52 +3,45 @@ import { Dispatch } from 'redux'
 
 import {
   AsyncAction,
-  OrderListMyActions,
+  OrderListActions,
   OrderProps,
-  ORDER_LIST_MY_REQUEST,
-  ORDER_LIST_MY_SUCCESS,
-  ORDER_LIST_MY_FAIL,
+  ORDER_LIST_REQUEST,
+  ORDER_LIST_SUCCESS,
+  ORDER_LIST_FAIL,
   UserProps,
-  ORDER_LIST_MY_RESET,
 } from '../../../types'
 // import { logout } from '../user/loginLogout'
 
-const orderListMyRequest = (): OrderListMyActions => {
+const orderListRequest = (): OrderListActions => {
   return {
-    type: ORDER_LIST_MY_REQUEST,
+    type: ORDER_LIST_REQUEST,
   }
 }
 
-const orderListMySuccess = (orders: OrderProps[]): OrderListMyActions => {
+const orderListSuccess = (orders: OrderProps[]): OrderListActions => {
   return {
-    type: ORDER_LIST_MY_SUCCESS,
+    type: ORDER_LIST_SUCCESS,
     payload: {
       orders: orders,
     },
   }
 }
 
-const orderListMyFail = (error: string): OrderListMyActions => {
+const orderListFail = (error: string): OrderListActions => {
   return {
-    type: ORDER_LIST_MY_FAIL,
+    type: ORDER_LIST_FAIL,
     payload: {
       error: error,
     },
   }
 }
 
-export const orderListMyReset = (): OrderListMyActions => {
-  return {
-    type: ORDER_LIST_MY_RESET,
-  }
-}
-
-export const listMyOrders = (): AsyncAction => async (
+export const listOrders = (): AsyncAction => async (
   dispatch: Dispatch,
   getState
 ) => {
   try {
-    dispatch(orderListMyRequest())
+    dispatch(orderListRequest())
 
     const { userLogin } = getState()
     const { token } = userLogin.userInfo as UserProps
@@ -59,9 +52,9 @@ export const listMyOrders = (): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.get(`/api/v1/orders/myorders`, config)
+    const { data } = await axios.get(`/api/v1/orders`, config)
 
-    dispatch(orderListMySuccess(data))
+    dispatch(orderListSuccess(data))
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -70,6 +63,6 @@ export const listMyOrders = (): AsyncAction => async (
     if (message === 'Not authorized, token failed') {
       // dispatch(logout())
     }
-    dispatch(orderListMyFail(message))
+    dispatch(orderListFail(message))
   }
 }

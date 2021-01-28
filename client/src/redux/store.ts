@@ -122,6 +122,12 @@ let initState: AppState = {
     success: false,
     orders: [],
   },
+  orderList: {
+    loading: false,
+    error: null,
+    success: false,
+    orders: [],
+  },
 }
 
 const savedState = localStorage.getItem('state') || ''

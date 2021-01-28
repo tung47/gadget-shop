@@ -24,6 +24,7 @@ import {
   OrderDetailsState,
   OrderPayState,
   OrderListMyState,
+  OrderListState,
 } from './order'
 
 export * from './user'
@@ -80,4 +81,5 @@ export type AppState = {
   orderDetails: OrderDetailsState
   orderPay: OrderPayState
   orderListMy: OrderListMyState
+  orderList: OrderListState
 }
