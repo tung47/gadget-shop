@@ -23,6 +23,7 @@ import {
   OrderCreateState,
   OrderDetailsState,
   OrderPayState,
+  OrderDeliverState,
   OrderListMyState,
   OrderListState,
 } from './order'
@@ -80,6 +81,7 @@ export type AppState = {
   orderCreate: OrderCreateState
   orderDetails: OrderDetailsState
   orderPay: OrderPayState
+  orderDeliver: OrderDeliverState
   orderListMy: OrderListMyState
   orderList: OrderListState
 }

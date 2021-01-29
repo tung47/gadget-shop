@@ -116,16 +116,20 @@ let initState: AppState = {
     success: false,
     paymentResult: null,
   },
-  orderListMy: {
+  orderDeliver: {
     loading: false,
     error: null,
     success: false,
+    order: null,
+  },
+  orderListMy: {
+    loading: false,
+    error: null,
     orders: [],
   },
   orderList: {
     loading: false,
     error: null,
-    success: false,
     orders: [],
   },
 }

@@ -15,6 +15,11 @@ export const ORDER_PAY_SUCCESS = 'ORDER_PAY_SUCCESS'
 export const ORDER_PAY_FAIL = 'ORDER_PAY_FAIL'
 export const ORDER_PAY_RESET = 'ORDER_PAY_RESET'
 
+export const ORDER_DELIVER_REQUEST = 'ORDER_DELIVER_REQUEST'
+export const ORDER_DELIVER_SUCCESS = 'ORDER_DELIVER_SUCCESS'
+export const ORDER_DELIVER_FAIL = 'ORDER_DELIVER_FAIL'
+export const ORDER_DELIVER_RESET = 'ORDER_DELIVER_RESET'
+
 export const ORDER_LIST_MY_REQUEST = 'ORDER_LIST_MY_REQUEST'
 export const ORDER_LIST_MY_SUCCESS = 'ORDER_LIST_MY_SUCCESS'
 export const ORDER_LIST_MY_FAIL = 'ORDER_LIST_MY_FAIL'
@@ -106,6 +111,26 @@ export type OrderPayResetAction = {
   type: typeof ORDER_PAY_RESET
 }
 
+// Order Deliver Actions
+export type OrderDeliverRequestAction = {
+  type: typeof ORDER_DELIVER_REQUEST
+}
+export type OrderDeliverSuccessAction = {
+  type: typeof ORDER_DELIVER_SUCCESS
+  payload: {
+    order: OrderProps
+  }
+}
+export type OrderDeliverFailAction = {
+  type: typeof ORDER_DELIVER_FAIL
+  payload: {
+    error: string
+  }
+}
+export type OrderDeliverResetAction = {
+  type: typeof ORDER_DELIVER_RESET
+}
+
 // Order List My Actions
 export type OrderListMyRequestAction = {
   type: typeof ORDER_LIST_MY_REQUEST
@@ -160,6 +185,12 @@ export type OrderPayActions =
   | OrderPayFailAction
   | OrderPayResetAction
 
+export type OrderDeliverActions =
+  | OrderDeliverRequestAction
+  | OrderDeliverSuccessAction
+  | OrderDeliverFailAction
+  | OrderDeliverResetAction
+
 export type OrderListMyActions =
   | OrderListMyRequestAction
   | OrderListMySuccessAction
@@ -192,17 +223,22 @@ export type OrderPayState = {
   paymentResult: PaymentResultProps | null
 }
 
-export type OrderListMyState = {
+export type OrderDeliverState = {
   loading: boolean
   error: string | null
   success: boolean
+  order: OrderProps | null
+}
+
+export type OrderListMyState = {
+  loading: boolean
+  error: string | null
   orders: OrderProps[]
 }
 
 export type OrderListState = {
   loading: boolean
   error: string | null
-  success: boolean
   orders: OrderProps[]
 }
 
@@ -210,6 +246,7 @@ export type OrderState = {
   orderCreate: OrderCreateState
   orderDetails: OrderDetailsState
   orderPay: OrderPayState
+  orderDeliver: OrderDeliverState
   orderListMy: OrderListMyState
   orderList: OrderListState
 }

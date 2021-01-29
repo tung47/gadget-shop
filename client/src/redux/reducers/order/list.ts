@@ -9,7 +9,6 @@ import {
 const OrderListInit: OrderListState = {
   loading: false,
   error: null,
-  success: false,
   orders: [],
 }
 
@@ -30,7 +29,6 @@ export function orderListReducer(
       return {
         ...state,
         loading: false,
-        success: true,
         orders: orders,
       }
     }
