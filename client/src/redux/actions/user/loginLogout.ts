@@ -16,7 +16,7 @@ import { userUpdateResetAction } from './update'
 import { userListResetAction } from './list'
 import { userEditResetAction } from './edit'
 import { cartResetAction } from '../cart'
-import {orderCreateReset} from '../order'
+import { orderCreateReset, orderListMyReset } from '../order'
 
 // User Login Actions
 const userLoginRequestAction = (): UserLoginLogoutActions => {
@@ -96,4 +96,5 @@ export const logout = (): AsyncAction => async (dispatch: Dispatch) => {
   dispatch(userEditResetAction())
   dispatch(cartResetAction())
   dispatch(orderCreateReset())
+  dispatch(orderListMyReset())
 }

@@ -2,6 +2,7 @@
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 
+import { UserDocument } from '../models/User'
 import Order from '../models/Order'
 
 // @desc    Create new order
@@ -84,3 +85,41 @@ export const updateOrderToPaid = asyncHandler(
     }
   }
 )
+
+// @desc    Update order to delivered
+// @route   GET /api/v1/orders/:id/deliver
+// @access  Private/Admin
+export const updateOrderToDelivered = asyncHandler(
+  async (req: Request, res: Response) => {
+    const order = await Order.findById(req.params.id)
+
+    if (order) {
+      order.isDelivered = true
+      order.deliveredAt = new Date(Date.now())
+
+      const updatedOrder = await order.save()
+
+      res.json(updatedOrder)
+    } else {
+      res.status(404)
+      throw new Error('Order not found')
+    }
+  }
+)
+
+// @desc    Get logged in user orders
+// @route   GET /api/v1/orders/myorders
+// @access  Private
+export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
+  const { _id } = req.user as UserDocument
+  const orders = await Order.find({ user: _id })
+  res.json(orders)
+})
+
+// @desc    Get all orders
+// @route   GET /api/v1/orders
+// @access  Private/Admin
+export const getOrders = asyncHandler(async (req: Request, res: Response) => {
+  const orders = await Order.find({}).populate('user', 'id name')
+  res.json(orders)
+})

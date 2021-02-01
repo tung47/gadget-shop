@@ -19,7 +19,14 @@ import {
   UserEditState,
 } from './user'
 import { CartState } from './cart'
-import { OrderCreateState, OrderDetailsState, OrderPayState } from './order'
+import {
+  OrderCreateState,
+  OrderDetailsState,
+  OrderPayState,
+  OrderDeliverState,
+  OrderListMyState,
+  OrderListState,
+} from './order'
 
 export * from './user'
 export * from './product'
@@ -74,4 +81,7 @@ export type AppState = {
   orderCreate: OrderCreateState
   orderDetails: OrderDetailsState
   orderPay: OrderPayState
+  orderDeliver: OrderDeliverState
+  orderListMy: OrderListMyState
+  orderList: OrderListState
 }

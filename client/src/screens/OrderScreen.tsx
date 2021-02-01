@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { Link, RouteComponentProps } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { AppState, UserLoginState, ItemProps, RouteParam } from '../types'
@@ -12,6 +13,8 @@ import {
   getOrderDetails,
   orderPayReset,
   payOrder,
+  deliverOrder,
+  orderDeliverReset,
 } from '../redux/actions/order'
 declare global {
   interface Window {
@@ -20,6 +23,7 @@ declare global {
 }
 
 const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
+  const history = useHistory()
   const orderId = match.params.id
 
   const [sdkReady, setSdkReady] = useState(false)
@@ -34,7 +38,6 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const orderDetails = useSelector((state: AppState) => state.orderDetails)
   const { loading, error } = orderDetails
   const order: any = orderDetails && orderDetails.order
-  console.log(order)
 
   const itemsPrice: any = order && order.itemsPrice
   const orderItems: any = order && order.orderItems
@@ -58,7 +61,14 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
   const orderPay = useSelector((state: AppState) => state.orderPay)
   const { loading: loadingPay, success: successPay } = orderPay
 
+  const orderDeliver = useSelector((state: AppState) => state.orderDeliver)
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver
+
   useEffect(() => {
+    if (!userInfo) {
+      history.push('/login')
+    }
+
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/v1/config/paypal')
       const script = document.createElement('script')
@@ -71,8 +81,9 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
       document.body.appendChild(script)
     }
 
-    if (!order || successPay || id !== orderId) {
+    if (!order || successPay || successDeliver || id !== orderId) {
       dispatch(orderPayReset())
+      dispatch(orderDeliverReset())
       dispatch(getOrderDetails(orderId))
     } else if (!isPaid) {
       if (!window.paypal) {
@@ -81,11 +92,25 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
         setSdkReady(true)
       }
     }
-  }, [dispatch, order, id, orderId, successPay, isPaid])
+  }, [
+    history,
+    dispatch,
+    order,
+    id,
+    orderId,
+    successPay,
+    successDeliver,
+    isPaid,
+    userInfo,
+  ])
 
   const successPaymentHandler = (paymentResult: any) => {
     console.log(paymentResult)
     dispatch(payOrder(orderId, paymentResult))
+  }
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(id))
   }
 
   return loading ? (
@@ -206,6 +231,21 @@ const OrderScreen = ({ match }: RouteComponentProps<RouteParam>) => {
                   )}
                 </ListGroup.Item>
               )}
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>
