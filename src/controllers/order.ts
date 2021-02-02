@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 
 import { UserDocument } from '../models/User'
-import Order from '../models/Order'
+import Order, { paymentResultProps } from '../models/Order'
 
 // @desc    Create new order
 // @route   POST /api/v1/orders
@@ -74,7 +74,7 @@ export const updateOrderToPaid = asyncHandler(
         status: req.body.status,
         update_time: req.body.update_time,
         email_address: req.body.payer.email_address,
-      }
+      } as paymentResultProps
 
       const updatedOrder = await order.save()
 
