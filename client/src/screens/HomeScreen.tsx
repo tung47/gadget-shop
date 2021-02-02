@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap'
 
 import { ProductProps, AppState } from '../types'
 import Product from '../components/Product'
+import ProductCarousel from '../components/ProductCarousel'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
@@ -22,6 +23,7 @@ const HomeScreen = () => {
   return (
     <>
       <Meta />
+      <ProductCarousel />
       <h1>Lastest Products</h1>
       {loading ? (
         <Loader />

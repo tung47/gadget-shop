@@ -8,6 +8,7 @@ import {
   ProductCreateState,
   ProductUpdateState,
   ProductReviewState,
+  ProductTopState,
 } from './product'
 import {
   UserLoginState,
@@ -70,6 +71,7 @@ export type AppState = {
   productCreate: ProductCreateState
   productUpdate: ProductUpdateState
   productReview: ProductReviewState
+  productTop: ProductTopState
   cart: CartState
   userLogin: UserLoginState
   userRegister: UserRegisterState

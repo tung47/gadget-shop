@@ -173,7 +173,7 @@ export const reviewProduct = asyncHandler(
 )
 
 // @desc    Get top rated products
-// @route   GET /api/products/top
+// @route   GET /api/v1/products/top
 // @access  Public
 export const getTopProducts = asyncHandler(
   async (req: Request, res: Response) => {
