@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../types'
 import Loader from './Loader'
 import Message from './Message'
+import Rating from './Rating'
 import { listTopProducts } from '../redux/actions/product'
 
 const ProductCarousel = () => {
@@ -35,7 +36,10 @@ const ProductCarousel = () => {
               <Col md={6}>
                 <Carousel.Caption className="carousel-caption">
                   <h2>{product.name}</h2>
-                  <h2>with {product.rating} star(s)</h2>
+                  <Rating
+                    value={product.rating}
+                    text={`-`}
+                  />
                   <h2>€{product.price}</h2>
                 </Carousel.Caption>
               </Col>
