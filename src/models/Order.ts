@@ -17,7 +17,7 @@ type ShippingAddressProps = {
   country: string;
 }
 
-type paymentResultProps = {
+export type paymentResultProps = {
   id: string;
   status: string;
   update_time: string;
