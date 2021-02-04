@@ -29,17 +29,15 @@ const ProductCarousel = () => {
         <Carousel.Item key={product._id}>
           <Link to={`/product/${product._id}`}>
             <Row>
-              <Col md={6}>
+              <Col md={1}></Col>
+              <Col md={5}>
                 <Image src={product.image} alt={product.name} fluid />
               </Col>
 
               <Col md={6}>
                 <Carousel.Caption className="carousel-caption">
                   <h2>{product.name}</h2>
-                  <Rating
-                    value={product.rating}
-                    text={`-`}
-                  />
+                  <Rating value={product.rating} text={`-`} />
                   <h2>€{product.price}</h2>
                 </Carousel.Caption>
               </Col>
