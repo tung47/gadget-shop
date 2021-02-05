@@ -27,14 +27,26 @@ export type ReviewProps = {
 // @access  Public
 export const getProducts = async (
   req: Request,
-  res: Response,
-  next: NextFunction
+  res: Response
+  // next: NextFunction
 ) => {
-  try {
-    res.json(await ProductService.getProducts())
-  } catch (error) {
-    next(new NotFoundError('Products not found', error))
-  }
+  // try {
+  //   res.json(await ProductService.getProducts())
+  // } catch (error) {
+  //   next(new NotFoundError('Products not found', error))
+  // }
+  const keyword: any = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
+    : {}
+
+  const products = await Product.find({ ...keyword })
+
+  res.json(products)
 }
 
 // @desc    Fetch single product

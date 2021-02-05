@@ -33,11 +33,13 @@ const productListFail = (error: string): ProductListActions => {
   }
 }
 
-export const listProducts = (): AsyncAction => async (dispatch: Dispatch) => {
+export const listProducts = (keyword = ''): AsyncAction => async (
+  dispatch: Dispatch
+) => {
   try {
     dispatch(productListRequest())
 
-    const { data } = await axios.get(`/api/v1/products`)
+    const { data } = await axios.get(`/api/v1/products?keyword=${keyword}`)
 
     dispatch(productListSuccess(data))
   } catch (error) {

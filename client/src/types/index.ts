@@ -39,6 +39,7 @@ export const ACTION_FAIL = 'ACTION_FAIL'
 
 export type RouteParam = {
   id: string
+  keyword: string
 }
 
 export type MessageProps = {
