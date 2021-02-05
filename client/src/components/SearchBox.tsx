@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 
-const SearchBox = () => {
-  const history = useHistory()
-  
+const SearchBox = ({history}: any) => {
   const [keyword, setKeyword] = useState('')
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,9 +20,9 @@ const SearchBox = () => {
         name='q'
         onChange={(e) => setKeyword(e.target.value)}
         placeholder='Search'
-        className='mr-sm-2 ml-sm-5'
+        className='mr-sm-2'
       ></Form.Control>
-      <Button type='submit' variant='outline-success' className='p-2'>
+      <Button type='submit' variant='outline-light' className='p-2'>
         Search
       </Button>
     </Form>
