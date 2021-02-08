@@ -52,6 +52,11 @@ let initState: AppState = {
     error: null,
     success: false,
   },
+  productTop: {
+    loading: false,
+    error: null,
+    products: [],
+  },
   cart: {
     cartItems: cartItemsFromStorage,
     shippingAddress: shippingAddressFromStorage,

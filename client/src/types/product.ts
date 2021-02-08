@@ -27,6 +27,10 @@ export const PRODUCT_REVIEW_SUCCESS = 'PRODUCT_REVIEW_SUCCESS'
 export const PRODUCT_REVIEW_FAIL = 'PRODUCT_REVIEW_FAIL'
 export const PRODUCT_REVIEW_RESET = 'PRODUCT_REVIEW_RESET'
 
+export const PRODUCT_TOP_REQUEST = 'PRODUCT_TOP_REQUEST'
+export const PRODUCT_TOP_SUCCESS = 'PRODUCT_TOP_SUCCESS'
+export const PRODUCT_TOP_FAIL = 'PRODUCT_TOP_FAIL'
+
 export type ReviewProps = {
   _id: string
   name: string
@@ -162,6 +166,21 @@ export type ProductReviewResetAction = {
   type: typeof PRODUCT_REVIEW_RESET
 }
 
+// Product Top Actions
+export type ProductTopRequestAction = {
+  type: typeof PRODUCT_TOP_REQUEST
+}
+export type ProductTopSuccessAction = {
+  type: typeof PRODUCT_TOP_SUCCESS
+  payload: {
+    products: ProductProps[]
+  }
+}
+export type ProductTopFailAction = {
+  type: typeof PRODUCT_TOP_FAIL
+  error: string
+}
+
 export type ProductListActions =
   | ProductListRequestAction
   | ProductListSuccessAction
@@ -196,6 +215,11 @@ export type ProductReviewActions =
   | ProductReviewFailAction
   | ProductReviewResetAction
 
+export type ProductTopActions =
+  | ProductTopRequestAction
+  | ProductTopSuccessAction
+  | ProductTopFailAction
+
 export type ProductActions =
   | ProductListActions
   | ProductDetailsActions
@@ -203,6 +227,7 @@ export type ProductActions =
   | ProductCreateActions
   | ProductUpdateActions
   | ProductReviewActions
+  | ProductTopActions
 
 // Product States
 export type ProductListState = {
@@ -243,6 +268,12 @@ export type ProductReviewState = {
   success: boolean
 }
 
+export type ProductTopState = {
+  loading: boolean
+  error: null | string
+  products: ProductProps[]
+}
+
 export type ProductState = {
   productList: ProductListState
   productDetails: ProductDetailsState
@@ -250,4 +281,5 @@ export type ProductState = {
   productCreate: ProductCreateState
   productUpdate: ProductUpdateState
   productReview: ProductReviewState
+  productTop: ProductTopState
 }

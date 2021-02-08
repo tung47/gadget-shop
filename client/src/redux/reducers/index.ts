@@ -7,6 +7,7 @@ import {
   productCreateReducer,
   productUpdateReducer,
   productReviewReducer,
+  productTopReducer,
 } from './product'
 import { cartReducer } from './cart'
 import {
@@ -35,6 +36,7 @@ const createRootReducer = () =>
     productCreate: productCreateReducer,
     productUpdate: productUpdateReducer,
     productReview: productReviewReducer,
+    productTop: productTopReducer,
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
