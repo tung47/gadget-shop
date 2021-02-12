@@ -46,6 +46,8 @@ mongoose
     process.exit(1)
   })
 
+app.get('/', (req, res) => res.send('Hello from Express!'))
+
 // Express configuration
 app.set('port', process.env.PORT || 5000)
 
