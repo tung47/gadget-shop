@@ -12,6 +12,7 @@
   },
   "author": "Bowden Kelly",
   "license": "MIT",
+  "main": "dist/server.js",
   "scripts": {
     "postinstall": "npm run build-ts",
     "start": "npm run serve",

@@ -49,7 +49,10 @@ mongoose
 app.get('/', (req, res) => res.send('Hello from Express!'))
 
 // Express configuration
-app.set('port', process.env.PORT || 5000)
+// app.set('port', process.env.PORT || 5000)
+app.listen(process.env.PORT || 5000, () => {
+  console.log('You are connected!')
+})
 
 // Use common 3rd-party middlewares
 app.use(compression())
