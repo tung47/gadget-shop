@@ -40,7 +40,7 @@ export const listProducts = (keyword = ''): AsyncAction => async (
   try {
     dispatch(productListRequest())
 
-    const { data } = await axios.get(`${BASE}/api/v1/products?keyword=${keyword}`)
+    const { data } = await axios.get(`/api/v1/products?keyword=${keyword}`)
 
     dispatch(productListSuccess(data))
   } catch (error) {

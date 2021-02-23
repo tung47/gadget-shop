@@ -9,6 +9,7 @@ import {
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
 } from '../../../types'
+import { BASE } from '../../../api'
 
 // Product List Actions
 const productTopRequest = (): ProductTopActions => {
@@ -33,11 +34,14 @@ const productTopFail = (error: string): ProductTopActions => {
   }
 }
 
-export const listTopProducts = (): AsyncAction => async (dispatch: Dispatch) => {
+export const listTopProducts = (): AsyncAction => async (
+  dispatch: Dispatch
+) => {
   try {
     dispatch(productTopRequest())
 
     const { data } = await axios.get(`/api/v1/products/top`)
+    console.log('API DATA', data)
 
     dispatch(productTopSuccess(data))
   } catch (error) {
