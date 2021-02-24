@@ -9,7 +9,7 @@ import {
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
 } from '../../../types'
-import { BASE } from "../../../api";
+import { BASE } from '../../../api'
 
 // Product List Actions
 const productListRequest = (): ProductListActions => {
@@ -40,7 +40,10 @@ export const listProducts = (keyword = ''): AsyncAction => async (
   try {
     dispatch(productListRequest())
 
-    const { data } = await axios.get(`/api/v1/products?keyword=${keyword}`)
+    const { data } = await axios.get(
+      `${BASE}/api/v1/products?keyword=${keyword}`
+    )
+    console.log("data", data)
 
     dispatch(productListSuccess(data))
   } catch (error) {

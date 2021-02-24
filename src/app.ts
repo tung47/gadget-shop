@@ -10,6 +10,7 @@ import mongoose from 'mongoose'
 import passport from 'passport'
 import bluebird from 'bluebird'
 import morgan from 'morgan'
+import cors from 'cors'
 
 import { MONGODB_URI, SESSION_SECRET, PAYPAL_CLIENT_ID } from './util/secrets'
 
@@ -22,6 +23,8 @@ import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 
 const app = express()
+
+app.use(cors())
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
