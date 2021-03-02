@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
 
+import { apiURL } from '../../../api'
 import {
   AsyncAction,
   OrderDeliverActions,
@@ -61,7 +62,7 @@ export const deliverOrder = (orderId: string): AsyncAction => async (
     }
 
     const { data } = await axios.put(
-      `/api/v1/orders/${orderId}/deliver`,
+      `${apiURL}/api/v1/orders/${orderId}/deliver`,
       {},
       config
     )

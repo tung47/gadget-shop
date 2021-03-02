@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
 
+import { apiURL } from '../../../api'
 import {
   AsyncAction,
   OrderCreateActions,
@@ -60,7 +61,7 @@ export const createOrder = (order: OrderProps): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.post(`/api/v1/orders`, order, config)
+    const { data } = await axios.post(`${apiURL}/api/v1/orders`, order, config)
 
     dispatch(orderCreateSuccess(data))
   } catch (error) {

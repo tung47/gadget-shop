@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 
+import { apiURL } from '../../../api'
 import {
   UserProps,
   AsyncAction,
@@ -64,7 +65,11 @@ export const updateUser = (user: UserProps): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.put(`/api/v1/users/profile`, user, config)
+    const { data } = await axios.put(
+      `${apiURL}/api/v1/users/profile`,
+      user,
+      config
+    )
 
     dispatch(userUpdateSuccessAction(data))
   } catch (error) {

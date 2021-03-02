@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 
+import { apiURL } from '../../../api'
 import {
   UserProps,
   AsyncAction,
@@ -65,7 +66,7 @@ export const editUser = (user: UserProps): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.put(`/api/v1/users/${user._id}`, user, config)
+    const { data } = await axios.put(`${apiURL}/api/v1/users/${user._id}`, user, config)
 
     dispatch(userEditSuccessAction(data))
 

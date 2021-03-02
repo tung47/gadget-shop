@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 
+import { apiURL } from '../../../api'
 import {
   UserProps,
   AsyncAction,
@@ -48,7 +49,7 @@ export const reviewProduct = (
 
     const { userLogin } = getState()
     const { token } = userLogin.userInfo as UserProps
-    
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -56,8 +57,12 @@ export const reviewProduct = (
       },
     }
 
-    await axios.post(`/api/v1/products/${productId}/reviews`, review, config)
-    
+    await axios.post(
+      `${apiURL}/api/v1/products/${productId}/reviews`,
+      review,
+      config
+    )
+
     dispatch(ProductReviewSuccessAction())
   } catch (error) {
     const message =

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
 
+import { apiURL } from '../../../api'
 import {
   AsyncAction,
   ProductProps,
@@ -9,7 +10,6 @@ import {
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
 } from '../../../types'
-import { BASE } from '../../../api'
 
 // Product List Actions
 const productTopRequest = (): ProductTopActions => {
@@ -40,7 +40,7 @@ export const listTopProducts = (): AsyncAction => async (
   try {
     dispatch(productTopRequest())
 
-    const { data } = await axios.get(`${BASE}/api/v1/products/top`)
+    const { data } = await axios.get(`${apiURL}/api/v1/products/top`)
     console.log('API DATA', data)
 
     dispatch(productTopSuccess(data))

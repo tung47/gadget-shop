@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 
+import { apiURL } from '../../../api'
 import {
   UserProps,
   AsyncAction,
@@ -56,7 +57,7 @@ export const login = (email: string, password: string): AsyncAction => async (
     }
 
     const { data } = await axios.post(
-      '/api/v1/users/login',
+      `${apiURL}/api/v1/users/login`,
       { email, password },
       config
     )

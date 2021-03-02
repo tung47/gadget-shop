@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 
+import { apiURL } from '../../../api'
 import {
   UserProps,
   AsyncAction,
@@ -20,7 +21,9 @@ const userDetailsRequestAction = (): UserDetailsActions => {
   }
 }
 
-export const userDetailsSuccessAction = (user: UserProps): UserDetailsActions => {
+export const userDetailsSuccessAction = (
+  user: UserProps
+): UserDetailsActions => {
   return {
     type: USER_DETAILS_SUCCESS,
     payload: {
@@ -59,7 +62,7 @@ export const getUserDetails = (userId: string): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.get(`/api/v1/users/${userId}`, config)
+    const { data } = await axios.get(`${apiURL}/api/v1/users/${userId}`, config)
 
     dispatch(userDetailsSuccessAction(data))
   } catch (error) {

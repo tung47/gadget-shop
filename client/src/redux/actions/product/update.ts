@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 
+import { apiURL } from '../../../api'
 import {
   ProductProps,
   UserProps,
@@ -62,7 +63,7 @@ export const updateProduct = (product: ProductProps): AsyncAction => async (
     }
 
     const { data } = await axios.put(
-      `/api/v1/products/${product._id}`,
+      `${apiURL}/api/v1/products/${product._id}`,
       product,
       config
     )

@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 
+import { apiURL } from '../../../api'
 import {
   UserProps,
   AsyncAction,
@@ -46,7 +47,7 @@ export const deleteUser = (id: string): AsyncAction => async (
       },
     }
 
-    await axios.delete(`/api/v1/users/${id}`, config)
+    await axios.delete(`${apiURL}/api/v1/users/${id}`, config)
 
     dispatch(userDeleteSuccessAction())
   } catch (error) {

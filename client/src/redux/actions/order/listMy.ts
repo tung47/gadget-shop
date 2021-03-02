@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
 
+import { apiURL } from '../../../api'
 import {
   AsyncAction,
   OrderListMyActions,
@@ -59,7 +60,7 @@ export const listMyOrders = (): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.get(`/api/v1/orders/myorders`, config)
+    const { data } = await axios.get(`${apiURL}/api/v1/orders/myorders`, config)
 
     dispatch(orderListMySuccess(data))
   } catch (error) {

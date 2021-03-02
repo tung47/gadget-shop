@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
 
+import { apiURL } from '../../../api'
 import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
@@ -40,7 +41,7 @@ export const addToCart = (id: string, qty: number): AsyncAction => async (
   dispatch: Dispatch,
   getState: () => AppState
 ) => {
-  const { data } = await axios.get(`/api/v1/products/${id}`)
+  const { data } = await axios.get(`${apiURL}/api/v1/products/${id}`)
 
   dispatch(
     cartAddItem({

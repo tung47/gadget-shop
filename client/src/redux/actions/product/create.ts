@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
 
+import { apiURL } from '../../../api'
 import {
   AsyncAction,
   ProductCreateActions,
@@ -56,7 +57,7 @@ export const createProduct = (): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.post(`/api/v1/products/`, {}, config)
+    const { data } = await axios.post(`${apiURL}/api/v1/products/`, {}, config)
 
     dispatch(productCreateSuccess(data))
   } catch (error) {

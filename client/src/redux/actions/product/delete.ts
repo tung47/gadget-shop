@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 
+import { apiURL } from '../../../api'
 import {
   UserProps,
   AsyncAction,
@@ -28,7 +29,7 @@ const ProductDeleteFailAction = (error: string): ProductDeleteActions => {
     type: PRODUCT_DELETE_FAIL,
     payload: {
       error: error,
-    }
+    },
   }
 }
 
@@ -48,7 +49,7 @@ export const deleteProduct = (id: string): AsyncAction => async (
       },
     }
 
-    await axios.delete(`/api/v1/products/${id}`, config)
+    await axios.delete(`${apiURL}/api/v1/products/${id}`, config)
 
     dispatch(ProductDeleteSuccessAction())
   } catch (error) {

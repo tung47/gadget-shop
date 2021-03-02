@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import axios from 'axios'
 
+import { apiURL } from '../../../api'
 import {
   UserProps,
   AsyncAction,
@@ -49,7 +50,9 @@ export const listUsers = (): AsyncAction => async (
   try {
     dispatch(userListRequestAction())
 
-    const { userLogin: {userInfo} } = getState()
+    const {
+      userLogin: { userInfo },
+    } = getState()
 
     if (!userInfo) {
       throw new Error('401: Login to continue')
@@ -63,7 +66,7 @@ export const listUsers = (): AsyncAction => async (
       },
     }
 
-    const { data } = await axios.get(`/api/v1/users/`, config)
+    const { data } = await axios.get(`${apiURL}/api/v1/users/`, config)
 
     dispatch(userListSuccessAction(data))
   } catch (error) {
