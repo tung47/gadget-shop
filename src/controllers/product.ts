@@ -52,17 +52,27 @@ export const getProducts = async (
 // @desc    Fetch single product
 // @route   GET /api/v1/products/:id
 // @access  Public
-export const getProductById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    res.json(await ProductService.getProductById(req.params.id))
-  } catch (error) {
-    next(new NotFoundError('Product not found', error))
+// export const getProductById = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     res.json(await ProductService.getProductById(req.params.id))
+//   } catch (error) {
+//     next(new NotFoundError('Product not found', error))
+//   }
+// }
+export const getProductById = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id)
+
+  if (product) {
+    res.json(product)
+  } else {
+    res.status(404)
+    throw new Error('Product not found')
   }
-}
+})
 
 // @desc    Delete a product
 // @route   DELETE /api/v1/products/:id
