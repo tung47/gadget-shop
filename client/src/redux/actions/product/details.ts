@@ -49,8 +49,7 @@ export const listProductDetails = (id: string): AsyncAction => async (
     dispatch(productDetailsRequest())
 
     const { data } = await axios.get(`${apiURL}/api/v1/products/${id}`)
-    console.log(apiURL)
-
+    
     dispatch(productDetailsSuccess(data))
   } catch (error) {
     dispatch(
