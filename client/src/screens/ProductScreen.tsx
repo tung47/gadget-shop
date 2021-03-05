@@ -49,7 +49,7 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
     reviews,
     price,
     countInStock,
-  } = detailsProduct as ProductProps
+  } = detailsProduct as any
 
   const userLogin = useSelector((state: AppState) => state.userLogin)
   const { userInfo } = userLogin as UserLoginState
@@ -186,7 +186,7 @@ const ProductScreen = ({ match }: RouteComponentProps<RouteParam>) => {
               <h2>Reviews</h2>
               {reviews.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant="flush">
-                {reviews.map((review) => (
+                {reviews.map((review: any) => (
                   <ListGroup.Item key={review._id}>
                     <Rating value={review.rating} text={``} />
                     <p>
