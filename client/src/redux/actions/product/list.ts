@@ -44,8 +44,7 @@ export const listProducts = (keyword = ''): AsyncAction => async (
     const { data } = await axios.get(
       `${apiURL}/api/v1/products?keyword=${keyword}`
     )
-    console.log("data", data)
-
+    
     dispatch(productListSuccess(data))
   } catch (error) {
     dispatch(

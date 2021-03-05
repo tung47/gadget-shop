@@ -41,8 +41,7 @@ export const listTopProducts = (): AsyncAction => async (
     dispatch(productTopRequest())
 
     const { data } = await axios.get(`${apiURL}/api/v1/products/top`)
-    console.log('API DATA', data)
-
+    
     dispatch(productTopSuccess(data))
   } catch (error) {
     dispatch(
